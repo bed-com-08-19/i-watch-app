@@ -1,14 +1,14 @@
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
+import img from "../../../../public/logo.png"
 
-function SubjectCard({ name, image, subject_id }) {
+function VideoCards({ name, image, subject_id }) {
   return (
-   // <Link href={/subjects/${subject_id}}>
       <div className="mt-6 hover:cursor-pointer shadow-xl bg-white rounded-md mx-auto max-w-[220px] md:max-w-[200px] ">
         <div>
           <Image
-            src={image}
+            src={img}
             height={200}
             width={220}
             alt="subject image"
@@ -21,7 +21,7 @@ function SubjectCard({ name, image, subject_id }) {
             <p className="font-bold text-green-700 text-md">{name}</p>
           </div>
           <small className="text-sm mt-1 md:mt-3 text-gray-700 md:text-sm">
-            Start learning
+            Start watching
           </small>
         </div>
       </div>
@@ -29,4 +29,4 @@ function SubjectCard({ name, image, subject_id }) {
   );
 }
 
-export default SubjectCard;
+export default VideoCards;
