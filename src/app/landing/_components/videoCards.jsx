@@ -3,29 +3,18 @@ import Link from "next/link";
 import React from "react";
 import img from "../../../../public/logo.png"
 
-function VideoCards({ name, image, subject_id }) {
+function VideoCards() {
   return (
-      <div className="mt-6 hover:cursor-pointer shadow-xl bg-white rounded-md mx-auto max-w-[220px] md:max-w-[200px] ">
-        <div>
-          <Image
-            src={img}
-            height={200}
-            width={220}
-            alt="subject image"
-            className="rounded-md object-contain md:h-54 md:w-84 rounded-b-none"
-          />
-        </div>
-
-        <div className="mt-2  px-1">
-          <div className="flex flex-row space-x-5">
-            <p className="font-bold text-green-700 text-md">{name}</p>
-          </div>
-          <small className="text-sm mt-1 md:mt-3 text-gray-700 md:text-sm">
-            Start watching
-          </small>
-        </div>
-      </div>
-   // </Link>
+    <video width="320" height="240" controls preload="none">
+    <source src="/path/to/video.mp4" type="video/mp4" />
+    <track
+      src="/path/to/captions.vtt"
+      kind="subtitles"
+      srcLang="en"
+      label="English"
+    />
+    Your browser does not support the video tag.
+  </video>
   );
 }
 
