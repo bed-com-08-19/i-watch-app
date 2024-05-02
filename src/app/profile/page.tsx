@@ -3,16 +3,28 @@ import Image from "next/image";
 import { FaRegEye } from "react-icons/fa";
 import { FaDollarSign } from "react-icons/fa";
 import { SlLike } from "react-icons/sl";
+import "../globals.css"
+
+
 
 const Profile = () => {
+  
     const videos = [
         { id: 1, src: "/video1.jpg", alt: "Video 1" },
         { id: 2, src: "/video2.jpg", alt: "Video 2" },
         { id: 3, src: "/video3.jpeg", alt: "Video 3" },
-        { id: 3, src: "/video4.jpeg", alt: "Video 4" },
+        { id: 4, src: "/video4.jpeg", alt: "Video 4" },
+        { id: 5, src: "/video4.jpeg", alt: "Video 5" },
+        { id: 6, src: "/video4.jpeg", alt: "Video 6" },
+        { id: 7, src: "/video4.jpeg", alt: "Video 7" },
+        { id: 8, src: "/video4.jpeg", alt: "Video 8" },
+        { id: 9, src: "/video4.jpeg", alt: "Video 9" },
+        { id: 10, src: "/video4.jpeg", alt: "Video 10" },
+        { id: 11, src: "/video4.jpeg", alt: "Video 11" },
       ];
       return (
         <main className="flex flex-col items-center justify-between p-4">
+          <section className="w-full sticky top-0 z-10 section1">
           {/* Profile Header */}
           <div className="flex items-center justify-center w-full max-w-5xl p-4">
             <div className="flex items-center">
@@ -43,8 +55,10 @@ const Profile = () => {
            {/* Divider */}
            <hr className="w-full max-w-5xl border-t-0.5 border-gray-300 my-2" />
     
+          </section>
+
           {/* User Videos */}
-          <div className="grid grid-cols-3 sm:grid-cols-4 gap-4 w-full max-w-5xl p-4">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 w-full max-w-5xl p-4">
           
             {videos.map((video) => (
               <div key={video.id} className="relative h-48 sm:h-64">
