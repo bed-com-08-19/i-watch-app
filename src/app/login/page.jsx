@@ -3,6 +3,10 @@ export default function RegisterPage() {
     <div className="bg-black text-white min-h-screen flex justify-center items-center">
       <div className="bg-black bg-opacity-70 px-10 py-16 rounded-md w-full max-w-md">
         <h2 className="text-4xl mb-8 font-semibold text-center">
+        <p className="font-sans font-bold text-3xl text-600 ">
+          <span className="text-white-600">i</span>
+          <span className="text-red-800">WATCH</span>
+        </p><br />
           Sign In to your Account
         </h2>
         <form className="flex flex-col gap-4">

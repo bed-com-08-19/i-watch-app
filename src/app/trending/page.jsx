@@ -1,9 +1,8 @@
 import Head from 'next/head';
-import Header from './_components/Header';
-import Footer from './_components/Footer';
+import Header from '../landing/_components/Header';
+import Footer from '../landing/_components/Footer';
 
-
-export default function Home() {
+export default function trending() {
   const videos = [
     { id: 1, src: "/video1.jpg", alt: "Video 1" },
         { id: 2, src: "/video2.jpg", alt: "Video 2" },
