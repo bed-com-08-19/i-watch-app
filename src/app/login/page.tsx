@@ -55,17 +55,14 @@ export default function RegisterPage() {
         setButtonDisabled(true);
     }
 }, [credentials, loading]);
+
   return (
     <div className="bg-black text-white min-h-screen flex justify-center items-center">
       <div className="bg-black bg-opacity-70 px-10 py-16 rounded-md w-full max-w-md">
         <h2 className="text-4xl mb-8 font-semibold text-center">
-        <p className="font-sans font-bold text-3xl text-600 ">
-          <span className="text-white-600">i</span>
-          <span className="text-red-800">WATCH</span>
-        </p><br />
           Sign In to your Account
         </h2>
-        <form className="flex flex-col gap-4">
+        <form className="flex flex-col gap-4" onSubmit={onLogin}>
           <div className="flex flex-col">
             <label htmlFor="email" className="text-sm mb-1">
               Email
@@ -74,6 +71,10 @@ export default function RegisterPage() {
               type="email"
               id="email"
               placeholder="Email"
+              value={credentials.email}
+              onChange={(e) =>
+                setCredentials({ ...credentials, email: e.target.value })
+              }
               className="px-4 py-2 rounded-md bg-gray-800 border border-gray-700 focus:outline-none focus:border-red-500"
               required
             />
@@ -86,25 +87,34 @@ export default function RegisterPage() {
               type="password"
               id="password"
               placeholder="Password"
+              value={credentials.password}
+                onChange={(e) =>
+                  setCredentials({ ...credentials, password: e.target.value })
+                }
               className="px-4 py-2 rounded-md bg-gray-800 border border-gray-700 focus:outline-none focus:border-red-500"
               required
             />
           </div>
           <div className="flex flex-col">
-            <button
-              type="submit"
-              className="bg-red-500 text-white py-2 rounded-md hover:bg-red-600 focus:outline-none focus:bg-red-600"
-            >
-              Sign In
-            </button>
+          <button
+                type="submit"
+                className={`w-full px-4 py-3 font-bold text-white rounded-md ${
+                  buttonDisabled
+                    ? "bg-gray-400 cursor-not-allowed"
+                    : "bg-red-500 hover:bg-red-600"
+                } focus:outline-none focus:shadow-outline-indigo focus:border-indigo-700`}
+                disabled={buttonDisabled || loading}
+              >
+                {loading ? "Processing..." : "Sign In"}
+              </button>
           </div>
           <div className="text-sm text-center">
-            <p>
-              Don't have an account?{' '}
-              <a href="/register" className="text-red-500 underline">
-                Register in now.
-              </a>
-            </p>
+          <p className="tc-grey t-center">
+            Don't have an account?{" "}
+            <Link className="link font-bold" href={`/register`}>
+              Sign Up
+            </Link>
+          </p>
           </div>
         </form>
       </div>
