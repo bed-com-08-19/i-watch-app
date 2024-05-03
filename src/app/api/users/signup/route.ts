@@ -17,9 +17,10 @@ export async function POST(request: NextRequest) {
       return NextResponse.json(
         { error: "User Already Exists" }, // Consider using consistent error messages ("Exists" vs "Exist")
         { status: 400 }
+
       );
     }
-
+    
     // hash password
     const salt = await bcryptjs.genSalt(10);
     const hashedPassword = await bcryptjs.hash(password, salt);

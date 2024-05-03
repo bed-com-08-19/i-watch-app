@@ -59,6 +59,13 @@ export default function RegisterPage() {
   return (
     <div className="bg-black text-white min-h-screen flex justify-center items-center">
       <div className="bg-black bg-opacity-70 px-10 py-16 rounded-md w-full max-w-md">
+    
+        {/* logo */}
+        <p className="font-bold text-3xl text-red-600 hidden sm:block text-center">
+          <span className="text-white">i</span>
+          <span className="text">WATCH</span>
+        </p>
+
         <h2 className="text-4xl mb-8 font-semibold text-center">
           Sign In to your Account
         </h2>
