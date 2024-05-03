@@ -1,4 +1,60 @@
+"use client"
+import Link from "next/link";
+import axios from "axios"
+import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
+import React, { useState, useEffect } from "react";
+
 export default function RegisterPage() {
+  const router = useRouter();
+  const [credentials, setCredentials] = useState({
+    email: "",
+    password: "",
+  });
+
+  const [buttonDisabled, setButtonDisabled] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  const onLogin = async (e) => {
+    e.preventDefault();
+    try {
+      setLoading(true);
+      // Make a request to your server to handle login
+      const response = await axios.post("/api/users/login", credentials);
+      console.log("User logged in successfully:", response.data);
+
+      // Redirect based on user role
+      switch (response.data.user.role) {
+        case "admin":
+          router.push("/admin");
+          break;
+        case "creator":
+          router.push("/creator");
+          break;
+        case "user":
+          router.push("/profile");
+          break;
+        default:
+          break;
+      }
+
+      toast.success("Login success");
+    } catch (error: any) {
+      console.error("Error logging in:", error);
+      // Handle errors (e.g., display error messages to the user)
+      toast.error(error.response.data.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    if(credentials.email.length > 0 && credentials.password.length > 0) {
+        setButtonDisabled(false);
+    } else{
+        setButtonDisabled(true);
+    }
+}, [credentials, loading]);
   return (
     <div className="bg-black text-white min-h-screen flex justify-center items-center">
       <div className="bg-black bg-opacity-70 px-10 py-16 rounded-md w-full max-w-md">
