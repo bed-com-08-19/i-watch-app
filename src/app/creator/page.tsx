@@ -3,6 +3,8 @@ import React, { useState } from "react";
 import axios from "axios";
 import Link from "next/link";
 import { toast } from "react-hot-toast";
+import Header from './_components/Header';
+import Footer from './_components/Footer';
 
 export default function StudentProfile({ params }: any) {
   const [data, setData] = useState("nothing");
@@ -28,21 +30,41 @@ export default function StudentProfile({ params }: any) {
     }
   };
 
-  return (
-    <div className="flex flex-col items-center justify-center min-h-screen py-2">
-      <h1>This is a Content creator's</h1>
-      <hr />
-      <p className="text-4xl">
-        Profile page
-        <span className="p-2 ml-2 rounded bg-orange-500 text-black">{params.id}</span>
-      </p>
+  const videos = [
+    { id: 1, src: "/video1.jpg", alt: "Video 1" },
+        { id: 2, src: "/video2.jpg", alt: "Video 2" },
+        { id: 3, src: "/video3.jpeg", alt: "Video 3" },
+        { id: 3, src: "/video4.jpeg", alt: "Video 4" },
+  ];
 
-      {/* Logout Button */}
-      <Link href="/login" onClick={logout}>
-        <button className="bg-red-500 mt-4 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
-          Logout
-        </button>
-      </Link>
+  return (
+    <div>
+    
+    <div>
+      <Header />
+    </div>
+  
+    <div>
+   
+    <main className="flex flex-col items-center justify-between p-4">
+            {/* User Videos */}
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 w-full max-w-5xl p-4">
+  
+              {videos.map((video) => (
+                <div key={video.id} className="relative h-48 sm:h-64">
+                  <video
+                    className="object-cover w-full h-full"
+                    src={video.src}
+                    controls
+  
+                  />
+                </div>
+  
+              ))}
+            </div>   
+    </main>
+      <Footer />
+      </div>
     </div>
   );
 }
