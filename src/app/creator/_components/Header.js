@@ -56,7 +56,7 @@ const Header = () => {
 
       {/* Logout Button */}
       <Link href="/login" onClick={logout}>
-        <button className="bg-red-500 mt-4 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+        <button className="hidden md:block bg-red-500 mt-4 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
           Logout
         </button>
       </Link>
