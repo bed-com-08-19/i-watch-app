@@ -8,7 +8,7 @@ connect();
 export async function POST(request: NextRequest) {
   try {
     const reqBody = await request.json();
-    const { email, password } = reqBody;
+    const { email, username ,password } = reqBody;
     console.log(reqBody);
 
     // check if the user exists or not
@@ -28,6 +28,7 @@ export async function POST(request: NextRequest) {
     // create the new user
     const newUser = new User({
       email,
+      username,
       password: hashedPassword,
     });
 

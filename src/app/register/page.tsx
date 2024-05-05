@@ -10,7 +10,7 @@ export default function RegisterPage() {
   const router = useRouter();
 
   const [user, setUser] = useState({
-    // username: "",
+    username: "",
     email: "",
     password: "",
   });
@@ -36,7 +36,7 @@ export default function RegisterPage() {
     if (
       user.email.length > 0 &&
       user.password.length > 0 &&
-      // user.username.length > 0 &&
+      user.username.length > 0 &&
       !loading
     ) {
       setButtonDisabled(false);
@@ -67,6 +67,20 @@ export default function RegisterPage() {
               placeholder="Email"
               value={user.email}
               onChange={(e) => setUser({ ...user, email: e.target.value })}
+              className="px-4 py-2 rounded-md bg-gray-800 border border-gray-700 focus:outline-none focus:border-red-500"
+              required
+            />
+          </div>
+          <div className="flex flex-col">
+            <label htmlFor="email" className="text-sm mb-1">
+              Username
+            </label>
+            <input
+              type="text"
+              id="username"
+              placeholder="full name"
+              value={user.username}
+              onChange={(e) => setUser({ ...user, username: e.target.value })}
               className="px-4 py-2 rounded-md bg-gray-800 border border-gray-700 focus:outline-none focus:border-red-500"
               required
             />
