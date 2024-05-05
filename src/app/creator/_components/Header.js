@@ -1,4 +1,5 @@
 // Header.js
+import { toast } from "react-hot-toast";
 import Link from "next/link";
 const Header = () => {
   const logout = async () => {

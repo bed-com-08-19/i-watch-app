@@ -4,6 +4,8 @@ import Link from "next/link";
 import React, { useState } from "react";
 import { toast } from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import Header from './_components/Header';
+import Footer from './_components/Footer';
 
 export default function ProfilePage() {
   const router = useRouter();
@@ -25,8 +27,15 @@ export default function ProfilePage() {
     setData(res.data.data._id);
   };
 
+  const videos = [
+    { id: 1, src: "/video1.jpg", alt: "Video 1" },
+        { id: 2, src: "/video2.jpg", alt: "Video 2" },
+        { id: 3, src: "/video3.jpeg", alt: "Video 3" },
+        { id: 3, src: "/video4.jpeg", alt: "Video 4" },
+  ];
+
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen py-2">
+    /*<div className="flex flex-col items-center justify-center min-h-screen py-2">
       <h1>Profile</h1>
       <hr />
       <p>Profile page</p>
@@ -51,6 +60,36 @@ export default function ProfilePage() {
       >
         GetUser Details
       </button>
+    </div>*/
+
+    <div>
+    
+    <div>
+      <Header />
     </div>
+  
+    <div>
+   
+    <main className="flex flex-col items-center justify-between p-4">
+            {/* User Videos */}
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 w-full max-w-5xl p-4">
+  
+              {videos.map((video) => (
+                <div key={video.id} className="relative h-48 sm:h-64">
+                  <video
+                    className="object-cover w-full h-full"
+                    src={video.src}
+                    controls
+  
+                  />
+                </div>
+  
+              ))}
+            </div>   
+    </main>
+      <Footer />
+      </div>
+    </div> 
+
   );
 }

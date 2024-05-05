@@ -1,5 +1,6 @@
 // Header.js
 //<img className="h-8" src= {logo} alt="Logo" />
+import { toast } from "react-hot-toast";
 const Header = () => {
     return (
       <header className="bg-black py-2 px-4 sm:px-6 lg:px-8">
