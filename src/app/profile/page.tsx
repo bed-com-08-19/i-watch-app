@@ -24,7 +24,7 @@ export default function ProfilePage() {
   const getUserDetails = async () => {
     const res = await axios.get("/api/users/me");
     console.log(res.data);
-    setData(res.data.data._id);
+    setData(res.data.username);
   };
 
   const videos = [
@@ -35,7 +35,7 @@ export default function ProfilePage() {
   ];
 
   return (
-    /*<div className="flex flex-col items-center justify-center min-h-screen py-2">
+    <div className="flex flex-col items-center justify-center min-h-screen py-2">
       <h1>Profile</h1>
       <hr />
       <p>Profile page</p>
@@ -60,9 +60,9 @@ export default function ProfilePage() {
       >
         GetUser Details
       </button>
-    </div>*/
+    </div>
 
-    <div>
+    /*<div>
     
     <div>
       <Header />
@@ -71,7 +71,7 @@ export default function ProfilePage() {
     <div>
    
     <main className="flex flex-col items-center justify-between p-4">
-            {/* User Videos */}
+            
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 w-full max-w-5xl p-4">
   
               {videos.map((video) => (
@@ -89,7 +89,7 @@ export default function ProfilePage() {
     </main>
       <Footer />
       </div>
-    </div> 
+    </div> */
 
   );
 }
