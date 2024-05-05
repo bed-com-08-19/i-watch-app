@@ -24,7 +24,7 @@ const Header = () => {
   const getUserDetails = async () => {
     try {
       const res = await axios.get("/api/users/me");
-      setUsername(res.data.username); // Update the state with the username
+      setUsername(res.data.data.username); // Update the state with the username
     } catch (error) {
       console.error(error.message);
       toast.error(error.message);
