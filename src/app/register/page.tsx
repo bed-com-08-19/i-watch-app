@@ -3,11 +3,11 @@ import Image from "next/image";
 import Link from "next/link";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { useRouter } from "next/navigation";
+import { redirect } from "next/navigation";
 import toast from "react-hot-toast";
 
 export default function RegisterPage() {
-  const router = useRouter();
+  //const router = useRouter();
 
   const [user, setUser] = useState({
     username: "",
@@ -23,7 +23,8 @@ export default function RegisterPage() {
       const response = await axios.post("/api/users/signup", user);
       console.log("Signup success", response.data);
       toast.success("Sign up successful!");
-      router.push("/login"); // Ensure this route exists
+      redirect("/login"); // Ensure this route exists
+
     } catch (error: any) {
       console.error("Signup failed", error.message);
       toast.error(error.message);
