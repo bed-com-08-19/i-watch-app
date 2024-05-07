@@ -1,52 +1,72 @@
-import React from 'react';
+// pages/index.js
+"use client"
 import Head from 'next/head';
- // You'll need to create a Layout component for your application
-import { useRouter } from 'next/router';
+import Image from 'next/image';
+import React, { useState, useEffect } from "react";
+import axios from "axios"; // Import axios for making HTTP requests
+import { toast } from "react-hot-toast";
+import Link from "next/link";
 
-const UserDashboard = () => {
-  
-  
-  // Fetch user data using router.query.userId or any other method you prefer
-  
+export default function Home() {
+
+  const [username, setUsername] = useState("null"); // State to store the username
+
+  useEffect(() => {
+    getUserDetails(); // Fetch user details when the component mounts
+  }, []);
+
+  const logout = async () => {
+   
+      await axios.get("/api/users/logout");
+      toast.success("Logout successful");
+    
+  };
+
+  const getUserDetails = async () => {
+    
+      const res = await axios.get("/api/users/me");
+      setUsername(res.data.data.username); // Update the state with the username
+    
+  };
   return (
-    <div>
+    <div className="bg-gray-50 min-h-screen">
       <Head>
-        <title>User Dashboard | TikTok</title>
-        <meta name="description" content="User Dashboard page for TikTok" />
-        <link rel="icon" href="/favicon.ico" />
+        <title>Iwatch Profile</title>
+        <meta name="description" content="TikTok Profile Page" />
       </Head>
 
-      {/* Your dashboard content */}
-      <div className="max-w-4xl mx-auto px-4 py-8">
-        <h1 className="text-3xl font-bold mb-4">User Dashboard</h1>
-        
-        {/* User information */}
-        <div className="bg-white rounded-lg shadow-md p-6 mb-8">
-          {/* Render user profile information here */}
-          <h2 className="text-xl font-semibold mb-2">User Profile</h2>
-          {/* Example: */}
-          <p>User Name: John Doe</p>
-          <p>Email: john@example.com</p>
-          {/* Add more user details as needed */}
-        </div>
-
-        {/* User's videos */}
-        <div className="bg-white rounded-lg shadow-md p-6">
-          {/* Render user's videos here */}
-          <h2 className="text-xl font-semibold mb-4">Your Videos</h2>
-          {/* Example: */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-            {/* Render user's videos */}
-            <div className="bg-gray-200 p-4 rounded-md">
-              <img src="/example_video1.jpg" alt="Video 1" className="w-full h-auto rounded-md" />
-              <p className="text-sm mt-2">Video Title 1</p>
+      <main className="p-4">
+        <div className="max-w-md mx-auto bg-black rounded-lg overflow-hidden shadow-lg my-2">
+          <div className="bg-cover bg-center h-56 p-4 flex items-end justify-between">
+            {/* Background image */}
+            <Image src="/profile-bg.jpg" alt="Profile background" layout="fill" objectFit="cover" />
+          </div>
+          <div className="p-4">
+            <div className="flex justify-center">
+              {/* Profile image */}
+              <Image src="/profile-pic.jpg" alt="Profile" width={70} height={70} className="rounded-full" />
             </div>
-            {/* Add more video cards for each video */}
+            <div className="text-center mt-2">
+              <p className="text-lg font-semibold">{username}</p>
+              <p className="text-sm text-gray-600">Bio goes here...</p>
+            </div>
+            <div className="flex justify-around mt-4">
+              <div className="text-center">
+                <p className="text-lg font-semibold">150</p>
+                <p className="text-sm text-gray-600">Following</p>
+              </div>
+              <div className="text-center">
+                <p className="text-lg font-semibold">2.5M</p>
+                <p className="text-sm text-gray-600">Followers</p>
+              </div>
+              <div className="text-center">
+                <p className="text-lg font-semibold">10.8M</p>
+                <p className="text-sm text-gray-600">Likes</p>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
+      </main>
     </div>
   );
-};
-
-export default UserDashboard;
+}
