@@ -50,13 +50,15 @@ const Header = () => {
         {/* User profile */}
         <div className="flex items-center text-[10px] sm:text-sm md:text-lg">
           <img className="h-10 w-10 rounded-full" src="#" alt="User Profile" />
-          <span className="text-white ml-2 hidden md:block">{username}</span>
+          <Link className="link font-bold" href={`../creator/dashboard`}>
+            <span className="text-white ml-2 hidden md:block">{username}</span>
+          </Link>
         </div>
         
 
       {/* Logout Button */}
       <Link href="/login" onClick={logout}>
-        <button className="hidden md:block bg-red-500 mt-4 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+        <button className="bg-red-500 mt-4 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
           Logout
         </button>
       </Link>
