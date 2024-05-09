@@ -5,7 +5,7 @@ import Image from 'next/image';
 import React, { useState, useEffect } from "react";
 import axios from "axios"; // Import axios for making HTTP requests
 import { toast } from "react-hot-toast";
-import Link from "next/link";
+import Settings from "../_components/Settings"
 
 export default function Home() {
 
@@ -29,18 +29,17 @@ export default function Home() {
     
   };
   return (
-    <div className="bg-gray-50 min-h-screen">
+    <div className='' >
+      <div>
+
+       <Settings  />
+      </div>
       <Head>
         <title>Iwatch Profile</title>
-        <meta name="description" content="TikTok Profile Page" />
+        <meta name="description" content="iwatch Profile Page" />
       </Head>
-
-      <main className="p-4">
-        <div className="max-w-md mx-auto bg-black rounded-lg overflow-hidden shadow-lg my-2">
-          <div className="bg-cover bg-center h-56 p-4 flex items-end justify-between">
-            {/* Background image */}
-            <Image src="/profile-bg.jpg" alt="Profile background" layout="fill" objectFit="cover" />
-          </div>
+      <main className="mt-4">
+        <div className="max-w-md mx-auto bg-white rounded-lg overflow-hidden shadow-lg my-2">
           <div className="p-4">
             <div className="flex justify-center">
               {/* Profile image */}
@@ -53,20 +52,24 @@ export default function Home() {
             <div className="flex justify-around mt-4">
               <div className="text-center">
                 <p className="text-lg font-semibold">150</p>
-                <p className="text-sm text-gray-600">Following</p>
+                <p className="text-sm text-gray-600">Account balance</p>
               </div>
               <div className="text-center">
                 <p className="text-lg font-semibold">2.5M</p>
-                <p className="text-sm text-gray-600">Followers</p>
+                <p className="text-sm text-gray-600">videos</p>
               </div>
               <div className="text-center">
                 <p className="text-lg font-semibold">10.8M</p>
                 <p className="text-sm text-gray-600">Likes</p>
               </div>
+              <div>
+                
+              </div>
             </div>
           </div>
         </div>
       </main>
+     
     </div>
   );
 }
