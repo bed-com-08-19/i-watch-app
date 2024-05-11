@@ -85,7 +85,7 @@ const Sidebar = async () => {
       <div className="flex items-center gap-2 mb-10">
         <Image
           className="rounded-full object-cover"
-          src={"/profile.png"}
+          src={"/profile.jpg"}
           alt=""
           width="50"
           height="50"
