@@ -1,14 +1,15 @@
 import { cards } from "../lib/data";
-import Card from "../ui/dashboard/card/card";
-import Chart from "../ui/dashboard/chart/chart";
-import Rightbar from "../ui/dashboard/rightbar/rightbar";
-import Transactions from "../ui/dashboard/transactions/transactions";
+import Card from "./card/card";
+import Chart from "./chart/chart";
+import Rightbar from "./rightbar/rightbar";
+import styles from "./dashboard.module.css";
+import Transactions from "./transactions/transactions";
 
 const Dashboard = () => {
   return (
-    <div className="flex g-2 mt-2">
-      <div className="flex flex-3 flex-col g-2">
-        <div className="flex g-2 justify-between">
+    <div className={styles.wrapper}>
+      <div className={styles.main}>
+        <div className={styles.cards}>
           {cards.map((item) => (
             <Card item={item} key={item.id} />
           ))}
@@ -16,7 +17,7 @@ const Dashboard = () => {
         <Transactions />
         <Chart />
       </div>
-      <div className="flex-1">
+      <div className={styles.side}>
         <Rightbar />
       </div>
     </div>
