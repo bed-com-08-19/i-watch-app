@@ -21,27 +21,22 @@ const menuItems = [
     list: [
       {
         title: "Dashboard",
-        path: "/dashboard",
+        path: "/users/admin/dashboard",
         icon: <MdDashboard />,
       },
       {
         title: "Users",
-        path: "/dashboard/users",
+        path: "/users/admin/dashboard/users",
         icon: <MdSupervisedUserCircle />,
       },
-      // {
-      //   title: "Products",
-      //   path: "/dashboard/products",
-      //   icon: <MdShoppingBag />,
-      // },
       {
         title: "Transactions",
-        path: "/dashboard/transactions",
+        path: "/users/admin/dashboard/transactions",
         icon: <MdAttachMoney />,
       },
       {
         title: "Customers",
-        path: "/dashboard/customers",
+        path: "/users/admin/dashboard/customers",
         icon: <MdPeople />,
       },
     ],
