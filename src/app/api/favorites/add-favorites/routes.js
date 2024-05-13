@@ -12,7 +12,7 @@ export async function POST(req) {
 
     const isFavoriteAlreadyExists = await Favorites.find({
       uid: data.uid,
-      movieID: data.movieID,
+      videoID: data.movieID,
       accountID: data.accountID,
     });
     if (isFavoriteAlreadyExists && isFavoriteAlreadyExists.length > 0) {
