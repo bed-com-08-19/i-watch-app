@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useClient } from 'next/data-client';
 import Pagination from "../pagination/pagination";
 import Search from "../search/search";
 import styles from "./users.module.css";
@@ -6,17 +6,23 @@ import Image from "next/image";
 import Link from "next/link";
 import axios from "axios";
 
+
 const UsersPage = ({ searchParams }) => {
+
+  useClient();
+
+
   const [users, setUsers] = useState([]);
   const [count, setCount] = useState(0);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+
   useEffect(() => {
     const fetchUsers = async () => {
       try {
         setLoading(true);
-        const response = await axios.get("/api/get-all-users", {
+        const response = await axios.get("/api/users", {
           params: {
             q: searchParams?.q || "",
             page: searchParams?.page || 1,
@@ -36,12 +42,13 @@ const UsersPage = ({ searchParams }) => {
 
   const handleDeleteUser = async (userId) => {
     try {
-      await axios.delete(`/api/users/delete-user/${userId}`);
+      await axios.delete(`/api/users/${userId}`);
       setUsers(users.filter((user) => user._id !== userId));
     } catch (error) {
       setError(error.message);
     }
   };
+
 
   return (
     <div className={styles.container}>
@@ -110,5 +117,6 @@ const UsersPage = ({ searchParams }) => {
     </div>
   );
 };
+
 
 export default UsersPage;
