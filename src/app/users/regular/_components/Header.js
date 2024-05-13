@@ -2,10 +2,34 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { toast } from "react-hot-toast";
 import Link from "next/link";
+import { loadStripe } from "@stripe/stripe-js";
+
+const stripePromise = loadStripe("your_publishable_stripe_key");
 
 const Header = () => {
   const [username, setUsername] = useState("null");
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [showUploadForm, setShowUploadForm] = useState(false);
+  const handleSubscribe = async () => {
+    const response = await fetch("/api/create-subscription", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    const session = await response.json();
+
+    const stripe = await stripePromise;
+    const { error } = await stripe.redirectToCheckout({
+      sessionId: session.id,
+    });
+
+    if (error) {
+      console.error(error.message);
+    }
+  };
+
 
   useEffect(() => {
     getUserDetails();
@@ -32,6 +56,8 @@ const Header = () => {
   };
 
   const toggleDropdown = () => setDropdownOpen(!dropdownOpen);
+  
+  const toggleUploadForm = () => setShowUploadForm(!showUploadForm);
 
   return (
     <header className="bg-black py-2 px-4 sm:px-6 lg:px-8">
@@ -55,13 +81,13 @@ const Header = () => {
             onClick={toggleDropdown}
             className="bg-red-500 mt-4 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none"
           >
-            { username }
+            {username}
           </button>
           {dropdownOpen && (
             <div className="absolute right-0 mt-2 w-48 bg-black rounded-md shadow-lg z-20">
-              <a href="./creator/dashboard" className="block px-4 py-2 text-sm text-white hover:bg-gray-800" >subscribe</a>
-              <a href="./creator/dashboard" className="block px-4 py-2 text-sm text-white hover:bg-gray-800" >profile</a>
-              <a href="#" className="block px-4 py-2 text-sm text-white hover:bg-gray-800" onClick={logout}>Logout</a>
+              <a href="#" className="block px-4 py-2 text-sm text-white hover:bg-red-800" onClick={handleSubscribe}>subscribe</a>
+              <a href="./creator/dashboard" className="block px-4 py-2 text-sm text-white hover:bg-gray-800" >Profile</a>
+              <a href="../auth/signin" className="block px-4 py-2 text-sm text-white hover:bg-gray-800" onClick={logout}>Logout</a>
             </div>
           )}
         </div>
@@ -71,3 +97,4 @@ const Header = () => {
 };
 
 export default Header;
+ 

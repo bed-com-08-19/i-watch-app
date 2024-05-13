@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import Link from "next/link";
 import { toast } from "react-hot-toast";
-import Header from '../../../components/Header';
+import Header from './_components/Header';
 import Footer from '../../../components/Footer';
 
 export default function StudentProfile({ params }: any) {
