@@ -1,12 +1,12 @@
-import connectToDB from "@/database";
-import Favorites from "@/models/Favorite";
+import connect from '../../../../dbConfig';
+import Favorites from '../../../../models';
 import { NextResponse } from "next/server";
 
 export const dynamic = "force-dynamic";
 
 export async function GET(req) {
   try {
-    await connectToDB();
+    await connect();
 
     const { searchParams } = new URL(req.url);
     const id = searchParams.get("id");

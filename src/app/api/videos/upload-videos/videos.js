@@ -1,14 +1,14 @@
 import connect from '../../../../dbConfig';
-import Category from '../../../../models';
+import Video from '../../../../models';
 
 export default async function handler(req, res) {
   if (req.method === 'POST') {
-    const { name } = req.body;
+    const { title, description, url, creator } = req.body;
 
     try {
       await connect();
-      const category = await Category.create({ name });
-      res.status(201).json({ success: true, data: category });
+      const video = await Video.create({ title, description, url, creator });
+      res.status(201).json({ success: true, data: video });
     } catch (error) {
       res.status(400).json({ success: false, error: error.message });
     }
