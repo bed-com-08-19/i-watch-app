@@ -1,5 +1,6 @@
-// ./src/models/userModel.js
 const mongoose = require("mongoose");
+
+const { Schema } = mongoose;
 
 const userSchema = new mongoose.Schema({
    username: {
@@ -17,15 +18,18 @@ const userSchema = new mongoose.Schema({
   },
   role: {
     type: String,
-    enum: ["user", "admin", "creator"], // Add your desired roles here
-    default: "user", // Set a default role if no role is provided
+    enum: ["user", "admin", "creator"],
+    default: "user",
   },
   isVerified: {
     type: Boolean,
     default: false,
-  }
+  },
+  favoriteVideos: [{ type: Schema.Types.ObjectId, ref: 'Video' }],
+  preferredCategories: [{ type: String }],
+  createdAt: { type: Date, default: Date.now },
 });
 
-const User = mongoose.models.users || mongoose.model("users", userSchema);
+const User = mongoose.models.users || mongoose.model("user", userSchema);
 
 module.exports = User;
