@@ -1,16 +1,47 @@
-// import { deleteUser } from "@/app/lib/actions";
-// import { fetchUsers } from "@/app/lib/data";
+import { useState, useEffect } from "react";
 import Pagination from "../pagination/pagination";
 import Search from "../search/search";
 import styles from "./users.module.css";
 import Image from "next/image";
 import Link from "next/link";
+import axios from "axios";
 
-const UsersPage = async ({ searchParams }) => {
-  const q = searchParams?.q || "";
-  const page = searchParams?.page || 1;
-  // const { count, users } = await fetchUsers(q, page);
-  const count = 5;
+const UsersPage = ({ searchParams }) => {
+  const [users, setUsers] = useState([]);
+  const [count, setCount] = useState(0);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        setLoading(true);
+        const response = await axios.get("/api/get-all-users", {
+          params: {
+            q: searchParams?.q || "",
+            page: searchParams?.page || 1,
+          },
+        });
+        setUsers(response.data.data);
+        setCount(response.data.count);
+        setLoading(false);
+      } catch (error) {
+        setError(error.message);
+        setLoading(false);
+      }
+    };
+
+    fetchUsers();
+  }, [searchParams]);
+
+  const handleDeleteUser = async (userId) => {
+    try {
+      await axios.delete(`/api/users/delete-user/${userId}`);
+      setUsers(users.filter((user) => user._id !== userId));
+    } catch (error) {
+      setError(error.message);
+    }
+  };
 
   return (
     <div className={styles.container}>
@@ -20,55 +51,61 @@ const UsersPage = async ({ searchParams }) => {
           <button className={styles.addButton}>Add New</button>
         </Link>
       </div>
-      <table className={styles.table}>
-        <thead>
-          <tr>
-            <td>Name</td>
-            <td>Email</td>
-            <td>Created At</td>
-            <td>Role</td>
-            <td>Status</td>
-            <td>Action</td>
-          </tr>
-        </thead>
-        <tbody>
-          {/* {users.map((user) => (
-            <tr key={user.id}>
-              <td>
-                <div className={styles.user}>
-                  <Image
-                    src={user.img || "/noavatar.png"}
-                    alt=""
-                    width={40}
-                    height={40}
-                    className={styles.userImage}
-                  />
-                  {user.username}
-                </div>
-              </td>
-              <td>{user.email}</td>
-              <td>{user.createdAt?.toString().slice(4, 16)}</td>
-              <td>{user.isAdmin ? "Admin" : "Client"}</td>
-              <td>{user.isActive ? "active" : "passive"}</td>
-              <td>
-                <div className={styles.buttons}>
-                  <Link href={`/dashboard/users/${user.id}`}>
-                    <button className={`${styles.button} ${styles.view}`}>
-                      View
-                    </button>
-                  </Link>
-                  <form action={deleteUser}>
-                    <input type="hidden" name="id" value={(user.id)} />
-                    <button className={`${styles.button} ${styles.delete}`}>
+      {loading ? (
+        <div>Loading...</div>
+      ) : error ? (
+        <div>Error: {error}</div>
+      ) : (
+        <table className={styles.table}>
+          <thead>
+            <tr>
+              <td>Name</td>
+              <td>Email</td>
+              <td>Created At</td>
+              <td>Role</td>
+              <td>Status</td>
+              <td>Action</td>
+            </tr>
+          </thead>
+          <tbody>
+            {users.map((user) => (
+              <tr key={user._id}>
+                <td>
+                  <div className={styles.user}>
+                    <Image
+                      src={user.img || "/noavatar.png"}
+                      alt=""
+                      width={40}
+                      height={40}
+                      className={styles.userImage}
+                    />
+                    {user.username}
+                  </div>
+                </td>
+                <td>{user.email}</td>
+                <td>{new Date(user.createdAt).toDateString()}</td>
+                <td>{user.role === 'creator' ? "Creator" : "User"}</td>
+                <td>{user.isActive ? "Active" : "Inactive"}</td>
+                <td>
+                  <div className={styles.buttons}>
+                    <Link href={`/dashboard/users/${user._id}`}>
+                      <button className={`${styles.button} ${styles.view}`}>
+                        View
+                      </button>
+                    </Link>
+                    <button
+                      className={`${styles.button} ${styles.delete}`}
+                      onClick={() => handleDeleteUser(user._id)}
+                    >
                       Delete
                     </button>
-                  </form>
-                </div>
-              </td>
-            </tr>
-          ))} */}
-        </tbody>
-      </table>
+                  </div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )}
       <Pagination count={count} />
     </div>
   );

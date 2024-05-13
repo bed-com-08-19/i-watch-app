@@ -4,7 +4,7 @@ import Link from "next/link";
 import React, { useState } from "react";
 import { toast } from "react-hot-toast";
 import { useRouter } from "next/navigation";
-import Header from '../../../components/Header';
+import Header from './_components/Header';
 import Footer from '../../../components/Footer';
 
 export default function regularUser() {
