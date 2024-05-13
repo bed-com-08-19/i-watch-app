@@ -26,7 +26,7 @@ const userSchema = new mongoose.Schema({
     default: false,
   },
   favoriteVideos: [{ type: Schema.Types.ObjectId, ref: 'Video' }],
-  imgUrl: {type: String, default: 0},
+  img: {type: String, default: 0},
   preferredCategories: [{ type: String }],
   balance: { type: Number, default: 0 },
   createdAt: { type: Date, default: Date.now },
