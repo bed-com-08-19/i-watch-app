@@ -1,12 +1,12 @@
-import connectToDatabase from '../../lib/db';
-import Category from '../../lib/models/Category';
+import connect from '../../../../dbConfig';
+import Category from '../../../../models';
 
 export default async function handler(req, res) {
   if (req.method === 'POST') {
     const { name } = req.body;
 
     try {
-      await connectToDatabase();
+      await connect();
       const category = await Category.create({ name });
       res.status(201).json({ success: true, data: category });
     } catch (error) {

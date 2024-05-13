@@ -1,11 +1,11 @@
-import connectToDatabase from '../../lib/db';
-import Video from '../../lib/models/Video';
+import connect from '../../../../dbConfig';
+import Video from '../../../../models';
 import Transaction from '../../lib/models/Transaction';
 
 export default async function handler(req, res) {
   if (req.method === 'POST') {
     try {
-      await connectToDatabase();
+      await connect();
       const videos = await Video.find({});
       for (const video of videos) {
         const earnings = video.views * 0.01; // Adjust earning calculation as needed

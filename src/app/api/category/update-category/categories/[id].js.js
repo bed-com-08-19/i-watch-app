@@ -1,7 +1,5 @@
-// src/pages/api/categories/[id].js
-
-import connectToDatabase from '../../../lib/db';
-import Category from '../../../lib/models/Category';
+import connect from '../../../../dbConfig';
+import Category from '../../../../models';
 
 export default async function handler(req, res) {
   const { method } = req;
@@ -9,7 +7,7 @@ export default async function handler(req, res) {
 
   if (method === 'DELETE') {
     try {
-      await connectToDatabase();
+      await connect();
       const deletedCategory = await Category.findByIdAndDelete(id);
       if (!deletedCategory) {
         return res.status(404).json({ success: false, message: 'Category not found' });

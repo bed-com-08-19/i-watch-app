@@ -15,7 +15,7 @@ export async function POST(request: NextRequest) {
     const user = await User.findOne({ email });
     if (user) {
       return NextResponse.json(
-        { error: "User Already Exists" }, // Consider using consistent error messages ("Exists" vs "Exist")
+        { error: "User Already Exists" },
         { status: 400 }
 
       );

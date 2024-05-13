@@ -1,10 +1,10 @@
-import connectToDatabase from '../../lib/db';
-import Category from '../../lib/models/Category';
+import connect from '../../../../dbConfig';
+import Category from '../../../../models';
 
 export default async function handler(req, res) {
   if (req.method === 'GET') {
     try {
-      await connectToDatabase();
+      await connect();
       const categories = await Category.find({});
       res.status(200).json({ success: true, data: categories });
     } catch (error) {
