@@ -78,8 +78,21 @@ const menuItems = [
   },
 ];
 
+
 const Sidebar = async () => {
+  
+
+  
   // const { user } = await auth();
+  const getUserDetails = async () => {
+    try {
+      const res = await axios.get("/api/users/me");
+      setUsername(res.data.data.username); // Update the state with the username
+    } catch (error) {
+      console.error(error.message);
+      toast.error(error.message);
+    }
+  };
   return (
     <div className="sticky top-10">
       <div className="flex items-center gap-2 mb-10">
@@ -91,7 +104,7 @@ const Sidebar = async () => {
           height="50"
         />
         <div className="flex flex-col">
-          <span className="font-medium">Chrisprog</span>
+          <span className="font-medium"> null </span>
           <span className="text-xs text-gray-500">Administrator</span>
         </div>
       </div>

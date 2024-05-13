@@ -31,8 +31,6 @@ export default function Home() {
   return (
     <div className='' >
       <div>
-
-       <Settings  />
       </div>
       <Head>
         <title>Iwatch Profile</title>
@@ -63,6 +61,11 @@ export default function Home() {
                 <p className="text-sm text-gray-600">Likes</p>
               </div>
               <div>
+              <button className="bg-red-600 hover:bg-red-700 text-white px-8 py-3 rounded-full font-semibold">
+          <a href="/login">
+            subscribe
+          </a>
+          </button>
                 
               </div>
             </div>

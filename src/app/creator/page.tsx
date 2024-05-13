@@ -34,7 +34,11 @@ export default function StudentProfile({ params }: any) {
     { id: 1, src: "/video1.jpg", alt: "Video 1" },
         { id: 2, src: "/video2.jpg", alt: "Video 2" },
         { id: 3, src: "/video3.jpeg", alt: "Video 3" },
-        { id: 3, src: "/video4.jpeg", alt: "Video 4" },
+        { id: 4, src: "/video4.jpeg", alt: "Video 4" },
+        { id: 5, src: "/video1.jpg", alt: "Video 5" },
+        { id: 6, src: "/video2.jpg", alt: "Video 6" },
+        { id: 7, src: "/video3.jpeg", alt: "Video 7" },
+        { id: 8, src: "/video4.jpeg", alt: "Video 8" },
   ];
 
   return (
