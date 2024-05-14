@@ -25,7 +25,7 @@ const Transactions = () => {
                   height={40}
                   className={styles.userImage}
                 />
-                Chris Prog
+                Wisdom Bishop
               </div>
             </td>
             <td>
@@ -46,7 +46,7 @@ const Transactions = () => {
                   height={40}
                   className={styles.userImage}
                 />
-                Chris Prog
+                Prow Immanuel
               </div>
             </td>
             <td>
@@ -65,7 +65,7 @@ const Transactions = () => {
                   height={40}
                   className={styles.userImage}
                 />
-                Chris Prog
+                Chris Naff
               </div>
             </td>
             <td>

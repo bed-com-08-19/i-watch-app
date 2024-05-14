@@ -76,9 +76,7 @@ const menuItems = [
 
 const Sidebar = async () => {
   
-  useEffect(() => {
-    getUserDetails();
-  }, []);
+  
   
   // const { user } = await auth();
   const getUserDetails = async () => {
@@ -101,7 +99,7 @@ const Sidebar = async () => {
           height="50"
         /> */}
         <div className="flex flex-col">
-          <span className="font-medium"> {username}</span>
+          <span className="font-medium"> username</span>
           <span className="text-xs text-gray-500">Administrator</span>
         </div>
       </div>

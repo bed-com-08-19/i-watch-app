@@ -73,7 +73,7 @@ export const cards = [
   {
     id: 2,
     title: "Views",
-    number: 8.236,
+    number: 2236,
     change: -2,
   },
   {

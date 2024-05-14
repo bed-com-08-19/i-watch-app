@@ -3,7 +3,7 @@ import styles from "./footer.module.css";
 const Footer = () => {
   return (
     <div className={styles.container}>
-      <div className={styles.logo}>Chrisprog</div>
+      <div className={styles.logo}>iwatch</div>
       <div className={styles.text}>© All rights reserved.</div>
     </div>
   );

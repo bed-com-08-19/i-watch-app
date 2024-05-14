@@ -55,12 +55,24 @@ const Header = () => {
             onClick={toggleDropdown}
             className="bg-red-500 mt-4 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none"
           >
-            { username }
+             { username
+             
+             
+             
+             
+             
+             
+             
+             
+             
+             
+             
+             }
           </button>
           {dropdownOpen && (
             <div className="absolute right-0 mt-2 w-48 bg-black rounded-md shadow-lg z-20">
               <a href="./admin/dashboard" className="block px-4 py-2 text-sm text-white hover:bg-gray-800" >Dashboard</a>
-              <a href="#" className="block px-4 py-2 text-sm text-white hover:bg-gray-800" onClick={logout}>Logout</a>
+              <a href="/auth/signin" className="block px-4 py-2 text-sm text-white hover:bg-gray-800" onClick={logout}>Logout</a>
             </div>
           )}
         </div>
