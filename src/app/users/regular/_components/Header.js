@@ -4,7 +4,7 @@ import { toast } from "react-hot-toast";
 import Link from "next/link";
 import { loadStripe } from "@stripe/stripe-js";
 
-const stripePromise = loadStripe("your_publishable_stripe_key");
+const stripePromise = loadStripe("pk_test_51KYbbiLNL4vBEK12HMK33o1pBuKHPTmg9MhUOLIWTFpHjCZTe6y4YGE5TvoURztVtPn7CIOlHuRv5ElbFBRulamp00zyHRtsWk");
 
 const Header = () => {
   const [username, setUsername] = useState("null");
