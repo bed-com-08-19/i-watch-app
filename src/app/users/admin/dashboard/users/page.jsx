@@ -20,12 +20,13 @@ const UsersPage = ({ searchParams }) => {
     const fetchUsers = async () => {
       try {
         setLoading(true);
-        const response = await axios.get("/api/users/get-all-users/index", {
+        const response = await axios.get("/api/users/get-all-users", {
           params: {
             q: searchParams?.q || "",
             page: searchParams?.page || 1,
           },
         });
+        
         setUsers(response.data.data);
         setCount(response.data.count);
         setLoading(false);
@@ -40,12 +41,13 @@ const UsersPage = ({ searchParams }) => {
 
   const handleDeleteUser = async (userId) => {
     try {
-      await axios.delete(`/api/users/${userId}`);
+      await axios.delete(`/api/users/delete-user/${userId}`);
       setUsers(users.filter((user) => user._id !== userId));
     } catch (error) {
       setError(error.message);
     }
   };
+  
 
 
   return (
