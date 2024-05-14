@@ -1,5 +1,6 @@
 import { connect } from "@/dbConfig/dbConfig";
-import User from '../../../../models';
+// import User from '../../../../models';
+import User from "@/models/userModel"
 
 export default async function handler(req, res) {
   if (req.method === 'GET') {
