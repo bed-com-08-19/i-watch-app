@@ -93,13 +93,13 @@ const Sidebar = async () => {
   return (
     <div className="sticky top-10">
       <div className="flex items-center gap-2 mb-10">
-        <Image
+        {/* <Image
           className="rounded-full object-cover"
-          src={"/profile.jpg"}
+          src={""}
           alt=""
           width="50"
           height="50"
-        />
+        /> */}
         <div className="flex flex-col">
           <span className="font-medium"> {username}</span>
           <span className="text-xs text-gray-500">Administrator</span>

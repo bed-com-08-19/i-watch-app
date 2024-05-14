@@ -1,4 +1,5 @@
-import { useClient } from 'next/data-client';
+"use client"
+import { useState, useEffect } from "react";
 import Pagination from "../pagination/pagination";
 import Search from "../search/search";
 import styles from "./users.module.css";
@@ -8,9 +9,6 @@ import axios from "axios";
 
 
 const UsersPage = ({ searchParams }) => {
-
-  useClient();
-
 
   const [users, setUsers] = useState([]);
   const [count, setCount] = useState(0);
@@ -22,7 +20,7 @@ const UsersPage = ({ searchParams }) => {
     const fetchUsers = async () => {
       try {
         setLoading(true);
-        const response = await axios.get("/api/users", {
+        const response = await axios.get("/api/users/get-all-users/index", {
           params: {
             q: searchParams?.q || "",
             page: searchParams?.page || 1,
@@ -80,7 +78,7 @@ const UsersPage = ({ searchParams }) => {
                 <td>
                   <div className={styles.user}>
                     <Image
-                      src={user.img || "/noavatar.png"}
+                      src={user.img}
                       alt=""
                       width={40}
                       height={40}
