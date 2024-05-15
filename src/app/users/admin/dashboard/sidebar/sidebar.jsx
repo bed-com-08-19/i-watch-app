@@ -1,20 +1,19 @@
-import Image from "next/image";
+"use client"
+import { useEffect, useState } from "react";
 import MenuLink from "./menuLink/menuLink";
 import styles from "./sidebar.module.css";
 import {
   MdDashboard,
   MdSupervisedUserCircle,
-  MdShoppingBag,
   MdAttachMoney,
-  MdWork,
-  MdAnalytics,
   MdPeople,
   MdOutlineSettings,
   MdHelpCenter,
   MdLogout,
 } from "react-icons/md";
-// import { auth, signOut } from "@/app/auth";
+import axios from "axios";
 
+// Define the menu items
 const menuItems = [
   {
     title: "Pages",
@@ -42,21 +41,6 @@ const menuItems = [
     ],
   },
   {
-    title: "Analytics",
-    list: [
-      {
-        title: "Revenue",
-        path: "/dashboard/revenue",
-        icon: <MdWork />,
-      },
-      {
-        title: "Reports",
-        path: "/dashboard/reports",
-        icon: <MdAnalytics />,
-      },
-    ],
-  },
-  {
     title: "User",
     list: [
       {
@@ -76,7 +60,9 @@ const menuItems = [
 
 const Sidebar = async () => {
   
-  
+  useEffect(() => {
+    getUserDetails();
+  }, []);
   
   // const { user } = await auth();
   const getUserDetails = async () => {
@@ -99,14 +85,14 @@ const Sidebar = async () => {
           height="50"
         /> */}
         <div className="flex flex-col">
-          <span className="font-medium"> username</span>
+          <span className="font-medium"> {username}</span>
           <span className="text-xs text-gray-500">Administrator</span>
         </div>
       </div>
-      <ul className="list-none">
+      <ul className={styles.menu}>
         {menuItems.map((cat) => (
           <li key={cat.title}>
-            <span className="text-gray-500 font-bold text-sm my-2">{cat.title}</span>
+            <span className={styles.categoryTitle}>{cat.title}</span>
             {cat.list.map((item) => (
               <MenuLink item={item} key={item.title} />
             ))}
@@ -115,11 +101,11 @@ const Sidebar = async () => {
       </ul>
       <form
         action={async () => {
-          "use server";
+          // Handle logout action
           await signOut();
         }}
       >
-        <button className="p-2 my-1 flex items-center gap-2 cursor-pointer rounded-lg bg-none border-none text-white w-full hover:bg-gray-700">
+        <button className={styles.logoutButton}>
           <MdLogout />
           Logout
         </button>

@@ -2,7 +2,8 @@ const mongoose = require("mongoose");
 
 const { Schema } = mongoose;
 
-const userSchema = new Schema({
+
+const userSchema = new mongoose.Schema({
   username: {
     type: String,
     required: [true, "Please provide a username"],
@@ -32,7 +33,8 @@ const userSchema = new Schema({
   createdAt: { type: Date, default: Date.now },
 });
 
-// Define the User model if it's not already defined
-const User = mongoose.models.User || mongoose.model("User", userSchema);
 
-module.exports = User;
+
+const UserModel = mongoose.models.User || mongoose.model("User", userSchema);
+
+module.exports = UserModel;
