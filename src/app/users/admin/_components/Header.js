@@ -46,33 +46,29 @@ const Header = () => {
         
         {/* Navigation links */}
         <nav className="md:flex space-x-4 text-sm md:text-lg">
-          <Link href="/landing">
-            <a className="text-white hover:text-gray-300 transition duration-300">HOME</a>
-          </Link>
-          <Link href="#">
-            <a className="text-white hover:text-gray-300 transition duration-300">TRENDING</a>
-          </Link>
-          <Link href="#">
-            <a className="text-white hover:text-gray-300 transition duration-300">RECOMMENDED</a>
-          </Link>
+          <a href="./admin" className="text-white hover:text-gray-300 transition duration-300">HOME</a>
+          <a href="./admin/trending" className="text-white hover:text-gray-300 transition duration-300">TRENDING</a>
+          <a href="./admin/recommended" className="text-white hover:text-gray-300 transition duration-300">RECOMMENDED</a>
         </nav>
 
         {/* User profile dropdown */}
         <div className="relative">
-          <button
+        <button
             onClick={toggleDropdown}
-            className="bg-red-500 mt-4 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none"
-            aria-expanded={dropdownOpen}
-            aria-haspopup="true"
+            className="mt-4 focus:outline-none"
           >
-             { username || "Login" }
+            <img
+              src=""
+              alt={username}
+              className="w-10 h-10 rounded-full cursor-pointer"
+            />
           </button>
           {dropdownOpen && (
             <div className="absolute right-0 mt-2 w-48 bg-black rounded-md shadow-lg z-20">
               <Link href="/admin/dashboard">
                 <a className="block px-4 py-2 text-sm text-white hover:bg-gray-800">Dashboard</a>
               </Link>
-              <button onClick={logout} className="block px-4 py-2 text-sm text-white hover:bg-gray-800 focus:outline-none">Logout</button>
+              <button onClick={logout} className="block px-4 py-2 text-sm text-white bg-red-500 hover:bg-red-800 focus:outline-none">Logout</button>
             </div>
           )}
         </div>

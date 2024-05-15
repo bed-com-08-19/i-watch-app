@@ -70,24 +70,29 @@ const Header = () => {
         
         {/* Navigation links */}
         <nav className="md:flex space-x-4 text-sm md:text-lg">
-          <a href="/landing" className="text-white hover:text-gray-300 transition duration-300">HOME</a>
-          <a href="#" className="text-white hover:text-gray-300 transition duration-300">TRENDING</a>
-          <a href="#" className="text-white hover:text-gray-300 transition duration-300">RECOMMENDED</a>
+          <Link href="./regular" className="text-white hover:text-gray-300 hover:border-red-500 border-b-2 transition duration-300">HOME</Link>
+          <Link href="./regular/trending" className="text-white hover:text-gray-300 hover:border-red-500 border-b-2 transition duration-300">TRENDING</Link>
+          <Link href="./regular/recommended" className="text-white hover:text-gray-300 hover:border-red-500 border-b-2 transition duration-300">RECOMMENDED</Link>
         </nav>
 
-        {/* User profile dropdown */}
+        {/* User profile dropdown */} 
         <div className="relative">
-          <button
+          
+        <button
             onClick={toggleDropdown}
-            className="bg-red-500 mt-4 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none"
+            className="mt-4 focus:outline-none"
           >
-            {username}
+            <img
+              src=""
+              alt={username}
+              className="w-10 h-10 rounded-full cursor-pointer"
+            />
           </button>
           {dropdownOpen && (
             <div className="absolute right-0 mt-2 w-48 bg-black rounded-md shadow-lg z-20">
-              <a href="#" className="block px-4 py-2 text-sm text-white hover:bg-red-800" onClick={handleSubscribe}>subscribe</a>
+              <a href="#" className="block px-4 py-2 text-sm text-white hover:bg-gray-800" onClick={handleSubscribe}>subscribe</a>
               <a href="./creator/dashboard" className="block px-4 py-2 text-sm text-white hover:bg-gray-800" >Profile</a>
-              <a href="../auth/signin" className="block px-4 py-2 text-sm text-white hover:bg-gray-800" onClick={logout}>Logout</a>
+              <a href="../auth/signin" className="block px-4 py-2 text-sm text-whitebg-red-500 hover:bg-red-800" onClick={logout}>Logout</a>
             </div>
           )}
         </div>

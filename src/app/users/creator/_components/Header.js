@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { toast } from "react-hot-toast";
 import Link from "next/link";
+import image from "next/image"
 
 const Header = () => {
   const [username, setUsername] = useState("null");
@@ -47,24 +48,28 @@ const Header = () => {
         
         {/* Navigation links */}
         <nav className="md:flex space-x-4 text-sm md:text-lg">
-          <a href="/landing" className="text-white hover:text-gray-300 transition duration-300">HOME</a>
-          <a href="#" className="text-white hover:text-gray-300 transition duration-300">TRENDING</a>
-          <a href="#" className="text-white hover:text-gray-300 transition duration-300">RECOMMENDED</a>
+          <a href="./creator" className="text-white hover:text-gray-300 transition duration-300">HOME</a>
+          <a href="./creator/trending" className="text-white hover:text-gray-300 transition duration-300">TRENDING</a>
+          <a href="./creator/recommended" className="text-white hover:text-gray-300 transition duration-300">RECOMMENDED</a>
         </nav>
 
         {/* User profile dropdown */}
         <div className="relative">
           <button
             onClick={toggleDropdown}
-            className="bg-red-500 mt-4 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none"
+            className="mt-4 focus:outline-none"
           >
-            {username}
+            <img
+              src=""
+              alt={username}
+              className="w-10 h-10 rounded-full cursor-pointer"
+            />
           </button>
           {dropdownOpen && (
             <div className="absolute right-0 mt-2 w-48 bg-black rounded-md shadow-lg z-20">
               <a href="#" className="block px-4 py-2 text-sm text-white hover:bg-gray-800" onClick={toggleUploadForm}>Upload</a>
               <a href="./creator/dashboard" className="block px-4 py-2 text-sm text-white hover:bg-gray-800" >Profile</a>
-              <a href="../auth/signin" className="block px-4 py-2 text-sm text-white hover:bg-gray-800" onClick={logout}>Logout</a>
+              <a href="../auth/signin" className="block px-4 py-2 text-sm text-white bg-red-500 hover:bg-red-800" onClick={logout}>Logout</a>
             </div>
           )}
         </div>
@@ -88,8 +93,8 @@ const Header = () => {
                   <input type="text" id="description" name="video label" placeholder="give a video description e.g. title" className="mt-1 p-2 block w-full border border-gray-300 rounded-md" />
                 </div>
                 <div className="flex justify-end">
-                  <button type="button" className="mr-2 px-4 py-2 text-white bg-gray-500 hover:bg-gray-600 rounded-lg" onClick={toggleUploadForm}>Cancel</button>
-                  <button type="submit" className="px-4 py-2 text-white bg-red-500 hover:bg-red-600 rounded-lg">Upload</button>
+                  <button type="button" className="mr-2 px-4 py-2 text-white bg-red-500 hover:bg-red-600 rounded-lg" onClick={toggleUploadForm}>Cancel</button>
+                  <button type="submit" className="px-4 py-2 text-white bg-green-500 hover:bg-green-600 rounded-lg">Upload</button>
                 </div>
               </form>
             </div>
