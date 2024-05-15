@@ -4,7 +4,7 @@ import { toast } from "react-hot-toast";
 import Link from "next/link";
 
 const Header = () => {
-  const [username, setUsername] = useState("null");
+  const [username, setUsername] = useState(null);
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
   useEffect(() => {
@@ -15,6 +15,8 @@ const Header = () => {
     try {
       await axios.get("/api/users/logout");
       toast.success("Logout successful");
+      // Redirect to login page after logout
+      window.location.href = "/auth/signin";
     } catch (error) {
       console.error(error.message);
       toast.error("Failed to logout");
@@ -44,9 +46,15 @@ const Header = () => {
         
         {/* Navigation links */}
         <nav className="md:flex space-x-4 text-sm md:text-lg">
-          <a href="/landing" className="text-white hover:text-gray-300 transition duration-300">HOME</a>
-          <a href="#" className="text-white hover:text-gray-300 transition duration-300">TRENDING</a>
-          <a href="#" className="text-white hover:text-gray-300 transition duration-300">RECOMMENDED</a>
+          <Link href="/landing">
+            <a className="text-white hover:text-gray-300 transition duration-300">HOME</a>
+          </Link>
+          <Link href="#">
+            <a className="text-white hover:text-gray-300 transition duration-300">TRENDING</a>
+          </Link>
+          <Link href="#">
+            <a className="text-white hover:text-gray-300 transition duration-300">RECOMMENDED</a>
+          </Link>
         </nav>
 
         {/* User profile dropdown */}
@@ -54,25 +62,17 @@ const Header = () => {
           <button
             onClick={toggleDropdown}
             className="bg-red-500 mt-4 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none"
+            aria-expanded={dropdownOpen}
+            aria-haspopup="true"
           >
-             { username
-             
-             
-             
-             
-             
-             
-             
-             
-             
-             
-             
-             }
+             { username || "Login" }
           </button>
           {dropdownOpen && (
             <div className="absolute right-0 mt-2 w-48 bg-black rounded-md shadow-lg z-20">
-              <a href="./admin/dashboard" className="block px-4 py-2 text-sm text-white hover:bg-gray-800" >Dashboard</a>
-              <a href="/auth/signin" className="block px-4 py-2 text-sm text-white hover:bg-gray-800" onClick={logout}>Logout</a>
+              <Link href="/admin/dashboard">
+                <a className="block px-4 py-2 text-sm text-white hover:bg-gray-800">Dashboard</a>
+              </Link>
+              <button onClick={logout} className="block px-4 py-2 text-sm text-white hover:bg-gray-800 focus:outline-none">Logout</button>
             </div>
           )}
         </div>
