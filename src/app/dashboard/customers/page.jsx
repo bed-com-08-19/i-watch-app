@@ -15,11 +15,10 @@ const Customers = () =>{
         <table className={styles.table}>
           <thead>
             <tr>
-              <td>Name</td>
+              <td>Company Name</td>
               <td>Email</td>
               <td>Created At</td>
-              <td>Role</td>
-              <td>Status</td>
+              <td>No. of Ads</td>
               <td>Action</td>
             </tr>
           </thead>

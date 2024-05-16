@@ -1,5 +1,6 @@
 import Image from "next/image";
 import MenuLink from "./menuLink/menuLink";
+import {users} from "../../lib/data";
 import styles from "./sidebar.module.css";
 import {
   MdDashboard,
@@ -85,14 +86,14 @@ const Sidebar = async () => {
       <div className="flex items-center gap-2 mb-10">
         <Image
           className="rounded-full object-cover"
-          src={"/profile.jpg"}
+          src={users.image || "/noavatar.png"}
           alt=""
           width="50"
           height="50"
         />
         <div className="flex flex-col">
-          <span className="font-medium">Chrisprog</span>
-          <span className="text-xs text-gray-500">Administrator</span>
+          <span className="font-medium">{users.name}</span>
+          <span className="text-xs text-gray-500">{users.role}</span>
         </div>
       </div>
       <ul className="list-none">

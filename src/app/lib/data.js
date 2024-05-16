@@ -95,6 +95,14 @@ export const user =
     image: "/profile.jpg"
   }
 
+  export const users = 
+  {
+    id:1,
+    name: "Chrisprog",
+    role: "Administrator",
+    image: "/profile.jpg"
+  }
+
 
 export const videos = [
   { id: 1, src: "/video1.mp4", alt: "Video 1" },
