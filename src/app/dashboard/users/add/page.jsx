@@ -1,5 +1,7 @@
 import { addUser } from "@/app/lib/actions";
-import styles from "./users/addUser/addUser.module.css";
+// import styles from "../users.module.css";
+// import styles from "../singleUser/singleUser.module.css";
+import styles from "../addUser/addUser.module.css";
 
 const AddUserPage = () => {
   return (
@@ -31,7 +33,7 @@ const AddUserPage = () => {
         <textarea
           name="address"
           id="address"
-          rows="16"
+          rows="10"
           placeholder="Address"
         ></textarea>
         <button type="submit">Submit</button>

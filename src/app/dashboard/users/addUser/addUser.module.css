@@ -1,8 +1,8 @@
 .container {
   background-color: var(--bgSoft);
-  padding: 20px;
+  padding: 10px;
   border-radius: 10px;
-  margin-top: 20px;
+  margin-top: 10px;
 }
 
 .form {
@@ -14,12 +14,12 @@
 .form input,
 .form textarea,
 .form select {
-  padding: 30px;
+  padding: 10px;
   background-color: var(--bg);
   color: var(--text);
   border: 2px solid #2e374a;
   border-radius: 5px;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
 }
 
 .form input, .form select {
@@ -32,7 +32,7 @@
 
 .form button{
   width: 100%;
-  padding: 30px;
+  padding: 10px;
   background-color: teal;
   color: var(--text);
   border: none;

@@ -22,7 +22,7 @@ const Navbar = () => {
         <div className={styles.icons}>
           <MdOutlineChat size={20} />
           <MdNotifications size={20} />
-          <MdPublic size={20} />
+          {/* <MdPublic size={20} /> */}
         </div>
       </div>
     </div>

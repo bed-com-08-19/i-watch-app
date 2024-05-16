@@ -67,19 +67,45 @@ export const cards = [
   {
     id: 1,
     title: "Total Users",
-    number: 10.928,
+    number: 10928,
     change: 12,
   },
   {
     id: 2,
     title: "Views",
-    number: 8.236,
+    number: 8236,
     change: -2,
   },
   {
     id: 3,
     title: "Revenue",
-    number: 6.642,
+    number: 6642,
     change: 18,
   },
+];
+
+export const user = 
+  {
+    id:1,
+    name: "Chrisprog",
+    bio: "Frontend developer",
+    balance: 100,
+    views: "20k",
+    likes: "5k",
+    image: "/profile.jpg"
+  }
+
+
+export const videos = [
+  { id: 1, src: "/video1.mp4", alt: "Video 1" },
+  { id: 2, src: "/video2.jpg", alt: "Video 2" },
+  { id: 3, src: "/video3.jpeg", alt: "Video 3" },
+  { id: 4, src: "/video4.jpeg", alt: "Video 4" },
+  { id: 5, src: "/video4.jpeg", alt: "Video 5" },
+  { id: 6, src: "/video4.jpeg", alt: "Video 6" },
+  { id: 7, src: "/video4.jpeg", alt: "Video 7" },
+  { id: 8, src: "/video4.jpeg", alt: "Video 8" },
+  { id: 9, src: "/video4.jpeg", alt: "Video 9" },
+  { id: 10, src: "/video4.jpeg", alt: "Video 10" },
+  { id: 11, src: "/video4.jpeg", alt: "Video 11" },
 ];

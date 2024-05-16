@@ -6,25 +6,24 @@ import { SlLike } from "react-icons/sl";
 import { FiUpload } from "react-icons/fi";
 import { BiMoneyWithdraw } from "react-icons/bi";
 import { CiSettings } from "react-icons/ci";
+import { user, videos} from "../lib/data";
 import "../globals.css"
 
 
 
 const Profile = () => {
-
-  const videos = [
-    { id: 1, src: "/video1.mp4", alt: "Video 1" },
-    { id: 2, src: "/video2.jpg", alt: "Video 2" },
-    { id: 3, src: "/video3.jpeg", alt: "Video 3" },
-    { id: 4, src: "/video4.jpeg", alt: "Video 4" },
-    { id: 5, src: "/video4.jpeg", alt: "Video 5" },
-    { id: 6, src: "/video4.jpeg", alt: "Video 6" },
-    { id: 7, src: "/video4.jpeg", alt: "Video 7" },
-    { id: 8, src: "/video4.jpeg", alt: "Video 8" },
-    { id: 9, src: "/video4.jpeg", alt: "Video 9" },
-    { id: 10, src: "/video4.jpeg", alt: "Video 10" },
-    { id: 11, src: "/video4.jpeg", alt: "Video 11" },
-  ];
+  // const user = 
+  //   {
+  //     id:1,
+  //     name: "Chrisprog",
+  //     bio: "Frontend developer",
+  //     balance: 100,
+  //     views: "20k",
+  //     likes: "5k",
+  //     image: "/profile.jpg"
+  //   }
+  
+  
   return (
     <main className="flex items-center justify-between pt-4 pr-4">
 
@@ -40,7 +39,7 @@ const Profile = () => {
           <CiSettings />
         </div>
       </section>
-      
+
       <section className="">
         <section className="w-full sticky top-0 z-10 section1">
           {/* Profile Header */}
@@ -48,7 +47,7 @@ const Profile = () => {
             <div className="flex items-center">
               <div className="relative h-16 w-16 sm:h-20 sm:w-20 rounded-full overflow-hidden">
                 <Image
-                  src="/Profile.jpg"
+                  src={user.image || "/noavatar.png"}
                   alt="Profile Picture"
                   layout="fill"
                   objectFit="cover"
@@ -56,8 +55,8 @@ const Profile = () => {
                 />
               </div>
               <div className="ml-4 text-white">
-                <h1 className="text-xl font-semibold">Chrisprog</h1>
-                <p className="text-sm text-gray-500">Fontend developer</p>
+                <h1 className="text-xl font-semibold">{user.name}</h1>
+                <p className="text-sm text-gray-500">{user.bio}</p>
               </div>
             </div>
 
@@ -65,9 +64,9 @@ const Profile = () => {
 
           {/* Money and Views */}
           <div className="flex w-full items-center justify-center font-bold  p-2 text-center text-white">
-            <div className="m-4 flex flex-col"><p> 100</p><p className="text-sm text-gray-500 font-thin">Balance</p></div>
-            <div className="m-4 flex flex-col"><p> 5k</p><p className="text-sm text-gray-500 font-thin">Views</p></div>
-            <div className="m-4 flex flex-col"><p> 2k</p><p className="text-sm text-gray-500 font-thin">Likes</p></div>
+            <div className="m-4 flex flex-col"><p>MK{user.balance}</p><p className="text-sm text-gray-500 font-thin">Balance</p></div>
+            <div className="m-4 flex flex-col"><p>{user.views}</p><p className="text-sm text-gray-500 font-thin">Views</p></div>
+            <div className="m-4 flex flex-col"><p>{user.likes}</p><p className="text-sm text-gray-500 font-thin">Likes</p></div>
           </div>
 
           {/* Divider */}

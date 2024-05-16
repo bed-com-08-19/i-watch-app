@@ -3,7 +3,7 @@ import Card from "./card/card";
 import Chart from "./chart/chart";
 import Rightbar from "./rightbar/rightbar";
 import styles from "./dashboard.module.css";
-import Transactions from "./transactions/transactions";
+import Transactions from "./transactions/page";
 
 const Dashboard = () => {
   return (
