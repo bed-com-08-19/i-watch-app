@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { toast } from "react-hot-toast";
-import Link from "next/link";
 import { loadStripe } from "@stripe/stripe-js";
 
 const stripePromise = loadStripe("pk_test_51KYbbiLNL4vBEK12HMK33o1pBuKHPTmg9MhUOLIWTFpHjCZTe6y4YGE5TvoURztVtPn7CIOlHuRv5ElbFBRulamp00zyHRtsWk");
@@ -70,9 +69,9 @@ const Header = () => {
         
         {/* Navigation links */}
         <nav className="md:flex space-x-4 text-sm md:text-lg">
-          <Link href="./regular" className="text-white hover:text-gray-300 hover:border-red-500 border-b-2 transition duration-300">HOME</Link>
-          <Link href="./regular/trending" className="text-white hover:text-gray-300 hover:border-red-500 border-b-2 transition duration-300">TRENDING</Link>
-          <Link href="./regular/recommended" className="text-white hover:text-gray-300 hover:border-red-500 border-b-2 transition duration-300">RECOMMENDED</Link>
+          <a href="/users/regular" className="text-white hover:text-gray-300 hover:border-red-500 border-b-2 transition duration-300">HOME</a>
+          <a href="/users/regular/trending" className="text-white hover:text-gray-300 hover:border-red-500 border-b-2 transition duration-300">TRENDING</a>
+          <a href="/users/regular/recommended" className="text-white hover:text-gray-300 hover:border-red-500 border-b-2 transition duration-300">RECOMMENDED</a>
         </nav>
 
         {/* User profile dropdown */} 
@@ -91,8 +90,8 @@ const Header = () => {
           {dropdownOpen && (
             <div className="absolute right-0 mt-2 w-48 bg-black rounded-md shadow-lg z-20">
               <a href="#" className="block px-4 py-2 text-sm text-white hover:bg-gray-800" onClick={handleSubscribe}>subscribe</a>
-              <a href="./creator/dashboard" className="block px-4 py-2 text-sm text-white hover:bg-gray-800" >Profile</a>
-              <a href="../auth/signin" className="block px-4 py-2 text-sm text-whitebg-red-500 hover:bg-red-800" onClick={logout}>Logout</a>
+              <a href="/users/regular/dashboard" className="block px-4 py-2 text-sm text-white hover:bg-gray-800" >Profile</a>
+              <a href="/auth/signin" className="block px-4 py-2 text-sm text-whitebg-red-500 hover:bg-red-800" onClick={logout}>Logout</a>
             </div>
           )}
         </div>
