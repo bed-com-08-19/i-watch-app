@@ -46,26 +46,25 @@ const Header = () => {
         
         {/* Navigation links */}
         <nav className="md:flex space-x-4 text-sm md:text-lg">
-          <a href="./admin" className="text-white hover:text-gray-300 transition duration-300">HOME</a>
-          <a href="./admin/trending" className="text-white hover:text-gray-300 transition duration-300">TRENDING</a>
-          <a href="./admin/recommended" className="text-white hover:text-gray-300 transition duration-300">RECOMMENDED</a>
+          <Link href="./admin" legacyBehavior>
+            <a className="text-white hover:text-gray-300 transition duration-300">HOME</a>
+          </Link>
+          <Link href="./admin/trending" legacyBehavior>
+            <a className="text-white hover:text-gray-300 transition duration-300">TRENDING</a>
+          </Link>
+          <Link href="./admin/recommended" legacyBehavior>
+            <a className="text-white hover:text-gray-300 transition duration-300">RECOMMENDED</a>
+          </Link>
         </nav>
 
         {/* User profile dropdown */}
         <div className="relative">
-        <button
-            onClick={toggleDropdown}
-            className="mt-4 focus:outline-none"
-          >
-            <img
-              src=""
-              alt={username}
-              className="w-10 h-10 rounded-full cursor-pointer"
-            />
+          <button onClick={toggleDropdown} className="mt-4 focus:outline-none">
+            <img src="" alt={username} className="w-10 h-10 rounded-full cursor-pointer" />
           </button>
           {dropdownOpen && (
             <div className="absolute right-0 mt-2 w-48 bg-black rounded-md shadow-lg z-20">
-              <Link href="/admin/dashboard">
+              <Link href="/admin/dashboard" legacyBehavior>
                 <a className="block px-4 py-2 text-sm text-white hover:bg-gray-800">Dashboard</a>
               </Link>
               <button onClick={logout} className="block px-4 py-2 text-sm text-white bg-red-500 hover:bg-red-800 focus:outline-none">Logout</button>
