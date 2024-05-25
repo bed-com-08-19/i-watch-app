@@ -15,7 +15,6 @@ const Header = () => {
     try {
       await axios.get("/api/users/logout");
       toast.success("Logout successful");
-      // Redirect to login page after logout
       window.location.href = "/auth/signin";
     } catch (error) {
       console.error(error.message);
@@ -38,33 +37,30 @@ const Header = () => {
   return (
     <header className="bg-black py-2 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto flex justify-between items-center">
-        {/* iwatch logo */}
         <p className="font-sans font-bold text-3xl text-white hidden md:block">
           <span>i</span>
           <span className="text-red-800">WATCH</span>
         </p>
-        
-        {/* Navigation links */}
+
         <nav className="md:flex space-x-4 text-sm md:text-lg">
-          <Link href="./admin" legacyBehavior>
+          <Link href="/users/admin" legacyBehavior>
             <a className="text-white hover:text-gray-300 transition duration-300">HOME</a>
           </Link>
-          <Link href="./admin/trending" legacyBehavior>
+          <Link href="/users/admin/trending" legacyBehavior>
             <a className="text-white hover:text-gray-300 transition duration-300">TRENDING</a>
           </Link>
-          <Link href="./admin/recommended" legacyBehavior>
+          <Link href="/users/admin/recommended" legacyBehavior>
             <a className="text-white hover:text-gray-300 transition duration-300">RECOMMENDED</a>
           </Link>
         </nav>
 
-        {/* User profile dropdown */}
         <div className="relative">
           <button onClick={toggleDropdown} className="mt-4 focus:outline-none">
             <img src="" alt={username} className="w-10 h-10 rounded-full cursor-pointer" />
           </button>
           {dropdownOpen && (
             <div className="absolute right-0 mt-2 w-48 bg-black rounded-md shadow-lg z-20">
-              <Link href="/admin/dashboard" legacyBehavior>
+              <Link href="/users/admin/dashboard" legacyBehavior>
                 <a className="block px-4 py-2 text-sm text-white hover:bg-gray-800">Dashboard</a>
               </Link>
               <button onClick={logout} className="block px-4 py-2 text-sm text-white bg-red-500 hover:bg-red-800 focus:outline-none">Logout</button>
