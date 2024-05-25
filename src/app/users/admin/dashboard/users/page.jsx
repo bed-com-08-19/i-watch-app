@@ -1,4 +1,3 @@
-"use client"
 import { useState, useEffect } from "react";
 import Pagination from "../pagination/pagination";
 import Search from "../search/search";
@@ -14,35 +13,34 @@ const UsersPage = ({ searchParams }) => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        setLoading(true);
-        const response = await axios.get("/api/users/getusers", {
-          params: {
-            q: searchParams?.q || "",
-            page: searchParams?.page || 1,
-          },
-        });
-
+    setLoading(true);
+    axios
+      .get("/api/users/getusers", {
+        params: {
+          q: searchParams?.q || "",
+          page: searchParams?.page || 1,
+        },
+      })
+      .then((response) => {
         setUsers(response.data.data);
         setCount(response.data.count);
         setLoading(false);
-      } catch (error) {
+      })
+      .catch((error) => {
         setError(error.message);
         setLoading(false);
-      }
-    };
-
-    fetchUsers();
+      });
   }, [searchParams]);
 
-  const handleDeleteUser = async (userId) => {
-    try {
-      await axios.delete(`/api/users/delete-user/${userId}`);
-      setUsers(users.filter((user) => user._id !== userId));
-    } catch (error) {
-      setError(error.message);
-    }
+  const handleDeleteUser = (userId) => {
+    axios
+      .delete(`/api/users/delete-user/${userId}`)
+      .then(() => {
+        setUsers(users.filter((user) => user._id !== userId));
+      })
+      .catch((error) => {
+        setError(error.message);
+      });
   };
 
   return (
@@ -75,7 +73,7 @@ const UsersPage = ({ searchParams }) => {
                 <td>
                   <div className={styles.user}>
                     <Image
-                      src={user.img || "/default-avatar.png"} // Ensure there's a default image if user.img is undefined
+                      src={user.img || "/default-avatar.png"}
                       alt={user.username}
                       width={40}
                       height={40}
