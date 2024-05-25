@@ -7,26 +7,23 @@ import Image from "next/image";
 import Link from "next/link";
 import axios from "axios";
 
-
 const UsersPage = ({ searchParams }) => {
-
   const [users, setUsers] = useState([]);
   const [count, setCount] = useState(0);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-
   useEffect(() => {
     const fetchUsers = async () => {
       try {
         setLoading(true);
-        const response = await axios.get("/api/users/get-all-users", {
+        const response = await axios.get("/api/users/getusers", {
           params: {
             q: searchParams?.q || "",
             page: searchParams?.page || 1,
           },
         });
-        
+
         setUsers(response.data.data);
         setCount(response.data.count);
         setLoading(false);
@@ -47,8 +44,6 @@ const UsersPage = ({ searchParams }) => {
       setError(error.message);
     }
   };
-  
-
 
   return (
     <div className={styles.container}>
@@ -80,8 +75,8 @@ const UsersPage = ({ searchParams }) => {
                 <td>
                   <div className={styles.user}>
                     <Image
-                      src={user.img}
-                      alt=""
+                      src={user.img || "/default-avatar.png"} // Ensure there's a default image if user.img is undefined
+                      alt={user.username}
                       width={40}
                       height={40}
                       className={styles.userImage}
@@ -117,6 +112,5 @@ const UsersPage = ({ searchParams }) => {
     </div>
   );
 };
-
 
 export default UsersPage;
