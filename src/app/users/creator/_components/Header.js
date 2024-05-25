@@ -1,11 +1,7 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
+import React, { useState } from "react";
 import { toast } from "react-hot-toast";
-<<<<<<< Updated upstream
-import Link from "next/link";
-import image from "next/image"
-=======
->>>>>>> Stashed changes
+import { getStorage, ref, uploadBytes } from 'firebase/storage';
+import { storage } from "./../../../../firebase";
 
 const Header = () => {
   const [username, setUsername] = useState("null");
@@ -14,9 +10,10 @@ const Header = () => {
   const [videoFile, setVideoFile] = useState(null);
   const [description, setDescription] = useState("");
 
-  useEffect(() => {
-    getUserDetails();
-  }, []);
+  // Function to handle file change
+  const handleFileChange = (event) => {
+    setVideoFile(event.target.files[0]);
+  };
 
   const logout = async () => {
     try {
@@ -28,28 +25,12 @@ const Header = () => {
     }
   };
 
-  const getUserDetails = async () => {
-    try {
-      const res = await axios.get("/api/users/me");
-      setUsername(res.data.data.username);
-    } catch (error) {
-      console.error(error.message);
-      toast.error("Failed to fetch user details");
-    }
-  };
-
-  const toggleDropdown = () => setDropdownOpen(!dropdownOpen);
-  
-  const toggleUploadForm = () => setShowUploadForm(!showUploadForm);
-
-  const handleFileChange = (event) => {
-    setVideoFile(event.target.files[0]);
-  };
-
+  // Function to handle description change
   const handleDescriptionChange = (event) => {
     setDescription(event.target.value);
   };
 
+  // Function to handle form submission
   const handleSubmit = async (event) => {
     event.preventDefault();
 
@@ -58,25 +39,33 @@ const Header = () => {
       return;
     }
 
-    const formData = new FormData();
-    formData.append("title", videoFile.name);
-    formData.append("description", description);
-    formData.append("creator", username);
-    formData.append("video", videoFile);
-
     try {
-      await axios.post("/api/videos/uploadvideos/videos", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
+      // Create a storage reference with a unique filename
+      const storageRef = ref(storage, `videos/${videoFile.name}`);
+
+      // Upload the file to Firebase Storage
+      const snapshot = await uploadBytes(storageRef, videoFile);
+
+      // Get the download URL of the uploaded file
+      const downloadUrl = await snapshot.ref.getDownloadURL();
+
+      // Perform any further actions with the download URL as needed
+      // For example, display the video or store the URL in a database
+
+      // Reset form fields and state
+      setVideoFile(null);
+      setDescription("");
+      setShowUploadForm(false);
+
       toast.success("Video uploaded successfully");
-      toggleUploadForm();
     } catch (error) {
       console.error(error.message);
       toast.error("Failed to upload video");
     }
   };
+
+  // Function to toggle upload form visibility
+  const toggleUploadForm = () => setShowUploadForm(!showUploadForm);
 
   return (
     <header className="bg-black py-2 px-4 sm:px-6 lg:px-8">
@@ -97,7 +86,7 @@ const Header = () => {
         {/* User profile dropdown */}
         <div className="relative">
           <button
-            onClick={toggleDropdown}
+            onClick={() => setDropdownOpen(!dropdownOpen)}
             className="mt-4 focus:outline-none"
           >
             <img
@@ -114,35 +103,8 @@ const Header = () => {
             </div>
           )}
         </div>
-<<<<<<< Updated upstream
-
-        {/* Upload Form */}
-        {showUploadForm && (
-          <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-75 flex items-center justify-center z-50">
-            <div className="bg-white p-6 rounded-lg">
-              <h2 className="text-lg font-semibold mb-4">Upload Video</h2>
-              <form>
-                <div className="mb-4">
-                  <label htmlFor="video" className="block text-sm font-medium text-gray-700">
-                    Upload Video File
-                  </label>
-                  <input type="file" id="video" name="video" className="mt-1 p-2 block w-full border border-gray-300 rounded-md" />
-                </div>
-                <div className="mb-4">
-                  <label htmlFor="video" className="block text-sm font-medium text-gray-700">
-                    video description
-                  </label>
-                  <input type="text" id="description" name="video label" placeholder="give a video description e.g. title" className="mt-1 p-2 block w-full border border-gray-300 rounded-md" />
-                </div>
-                <div className="flex justify-end">
-                  <button type="button" className="mr-2 px-4 py-2 text-white bg-red-500 hover:bg-red-600 rounded-lg" onClick={toggleUploadForm}>Cancel</button>
-                  <button type="submit" className="px-4 py-2 text-white bg-green-500 hover:bg-green-600 rounded-lg">Upload</button>
-                </div>
-              </form>
-            </div>
-=======
         </div>
-      
+        
       {/* Upload Form */}
       {showUploadForm && (
         <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-75 flex items-center justify-center z-50">
@@ -166,7 +128,6 @@ const Header = () => {
                 <button type="submit" className="px-4 py-2 text-white bg-red-500 hover:bg-red-600 rounded-lg">Upload</button>
               </div>
             </form>
->>>>>>> Stashed changes
           </div>
         </div>
       )}
