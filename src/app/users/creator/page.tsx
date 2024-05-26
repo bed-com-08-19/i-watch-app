@@ -44,7 +44,7 @@ const StudentProfile: React.FC = () => {
 
   const fetchVideos = async () => {
     try {
-      const response = await axios.get("/api/videos/get-all-videos");
+      const response = await axios.get("/api/videos/getallvideos");
       setVideos(response.data.data);
       setLoading(false);
     } catch (error: any) {
