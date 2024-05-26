@@ -8,12 +8,11 @@ const storage = getStorage();
 export default async function handler(req, res) {
   if (req.method === 'POST') {
     const { title, description, creator } = req.body;
-    const file = req.file; // Assuming you're using middleware to handle file uploads
+    const file = req.file;
 
     if (!file) {
       return res.status(400).json({ success: false, error: 'No file uploaded' });
     }
-
     try {
       await connect();
 
