@@ -91,7 +91,7 @@ const Header = () => {
             <div className="absolute right-0 mt-2 w-48 bg-black rounded-md shadow-lg z-20">
               <a href="#" className="block px-4 py-2 text-sm text-white hover:bg-gray-800" onClick={handleSubscribe}>subscribe</a>
               <a href="/users/regular/dashboard" className="block px-4 py-2 text-sm text-white hover:bg-gray-800" >Profile</a>
-              <a href="/auth/signin" className="block px-4 py-2 text-sm text-whitebg-red-500 hover:bg-red-800" onClick={logout}>Logout</a>
+              <a href="/auth/signin" className="block px-4 py-2 text-sm text-white bg-red-500 hover:bg-red-800" onClick={logout}>Logout</a>
             </div>
           )}
         </div>

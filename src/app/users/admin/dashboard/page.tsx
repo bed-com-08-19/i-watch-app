@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { collection, addDoc, getDocs, query, where } from "firebase/firestore";
-import { storage, db } from "../firebaseConfig"; // Adjust the path
+//import { storage, db } from "../firebaseConfig"; // Adjust the path
 import { toast } from "react-hot-toast";
 import axios from "axios";
 

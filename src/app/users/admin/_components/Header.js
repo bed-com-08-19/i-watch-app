@@ -46,9 +46,9 @@ const Header = () => {
         
         {/* Navigation links */}
         <nav className="md:flex space-x-4 text-sm md:text-lg">
-          <a href="/users/creator" className="text-white hover:text-gray-300 hover:border-red-500 border-b-2 transition duration-300" aria-current="page">HOME</a>
-          <a href="/users/creator/trending" className="text-white hover:text-gray-300 hover:border-red-500 border-b-2 transition duration-300">TRENDING</a>
-          <a href="/users/creator/recommended" className="text-white hover:text-gray-300 hover:border-red-500 border-b-2 transition duration-300">RECOMMENDED</a>
+          <a href="/users/admin" className="text-white hover:text-gray-300 hover:border-red-500 border-b-2 transition duration-300" aria-current="page">HOME</a>
+          <a href="/users/admin/trending" className="text-white hover:text-gray-300 hover:border-red-500 border-b-2 transition duration-300">TRENDING</a>
+          <a href="/users/admin/recommended" className="text-white hover:text-gray-300 hover:border-red-500 border-b-2 transition duration-300">RECOMMENDED</a>
         </nav>
 
 

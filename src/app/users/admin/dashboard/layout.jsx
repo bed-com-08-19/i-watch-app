@@ -1,8 +1,9 @@
 
-import Navbar from "./navbar/navbar";
-import Footer from "./footer/footer";
+import Navbar from "../../../../components/Navbar";
 import Sidebar from "./sidebar/sidebar";
 import styles from "./dashboard.module.css";
+import Loader from "../../../components/Loader";
+
 
 const Layout = ({ children }) => {
   return (
@@ -12,7 +13,7 @@ const Layout = ({ children }) => {
       </div>
       <div className={styles.content}>
         <Navbar />
-        {children}
+        {loading ? <Loader /> : children}
         <Footer />
       </div>
     </div>

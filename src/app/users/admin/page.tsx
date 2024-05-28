@@ -5,6 +5,7 @@ import Link from "next/link";
 import { toast } from "react-hot-toast";
 import Header from "./_components/Header";
 import Footer from "../../../components/Footer";
+import Loader from "../../../components/Loader";
 
 interface Video {
   _id: string;
@@ -36,7 +37,7 @@ const UserProfile: React.FC = ({ params }: any) => {
     fetchVideos();
   }, []);
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) return <div><Loader/></div>;
   if (error) return <div>Error: {error}</div>;
 
   return (

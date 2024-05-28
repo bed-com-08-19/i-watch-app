@@ -1,9 +1,10 @@
 "use client"
 import Link from "next/link";
-import axios from "axios"
+import axios from "axios";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import React, { useState, useEffect } from "react";
+import Loader from "../../../components/Loader";
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -39,27 +40,29 @@ export default function RegisterPage() {
       }
 
       toast.success("Login success");
-    } catch (error: any) {
+    } catch (error) {
       console.error("Error logging in:", error);
       // Handle errors (e.g., display error messages to the user)
-      toast.error(error.response.data.message);
+      const errorMessage = error.response?.data?.message || "An error occurred during login.";
+      toast.error(errorMessage);
     } finally {
       setLoading(false);
     }
   };
 
   useEffect(() => {
-    if(credentials.email.length > 0 && credentials.password.length > 0) {
-        setButtonDisabled(false);
-    } else{
-        setButtonDisabled(true);
+    if (credentials.email.length > 0 && credentials.password.length > 0) {
+      setButtonDisabled(false);
+    } else {
+      setButtonDisabled(true);
     }
-}, [credentials, loading]);
+  }, [credentials]);
 
   return (
     <div className="bg-black text-white min-h-screen flex justify-center items-center">
+      {loading && <Loader />}
       <div className="bg-black bg-opacity-70 px-10 py-16 rounded-md w-full max-w-md">
-    
+
         {/* logo */}
         <p className="font-bold text-3xl text-red-600 hidden sm:block text-center">
           <span className="text-white">i</span>
@@ -95,33 +98,33 @@ export default function RegisterPage() {
               id="password"
               placeholder="Password"
               value={credentials.password}
-                onChange={(e) =>
-                  setCredentials({ ...credentials, password: e.target.value })
-                }
+              onChange={(e) =>
+                setCredentials({ ...credentials, password: e.target.value })
+              }
               className="px-4 py-2 rounded-md bg-gray-800 border border-gray-700 focus:outline-none focus:border-red-500"
               required
             />
           </div>
           <div className="flex flex-col">
-          <button
-                type="submit"
-                className={`w-full px-4 py-3 font-bold text-white rounded-md ${
-                  buttonDisabled
-                    ? "bg-gray-400 cursor-not-allowed"
-                    : "bg-red-500 hover:bg-red-600"
-                } focus:outline-none focus:shadow-outline-indigo focus:border-indigo-700`}
-                disabled={buttonDisabled || loading}
-              >
-                {loading ? "Processing..." : "Sign In"}
-              </button>
+            <button
+              type="submit"
+              className={`w-full px-4 py-3 font-bold text-white rounded-md ${
+                buttonDisabled
+                  ? "bg-gray-400 cursor-not-allowed"
+                  : "bg-red-500 hover:bg-red-600"
+              } focus:outline-none focus:shadow-outline-indigo focus:border-indigo-700`}
+              disabled={buttonDisabled || loading}
+            >
+              {loading ? "Processing..." : "Sign In"}
+            </button>
           </div>
           <div className="text-sm text-center">
-          <p className="tc-grey t-center">
-            Don't have an account?{" "}
-            <Link className="link font-bold" href={`/auth/signup`}>
-              Sign Up
-            </Link>
-          </p>
+            <p className="tc-grey t-center">
+              Don't have an account?{" "}
+              <Link className="link font-bold" href={`/auth/signup`}>
+                Sign Up
+              </Link>
+            </p>
           </div>
         </form>
       </div>

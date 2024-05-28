@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { toast } from "react-hot-toast";
 import Header from '../_components/Header';
 import Footer from '../../../../components/Footer';
+import Loader from '../../../../components/Loader';
 
 export default function userProfile({ params }: any) {
   const [data, setData] = useState("nothing");

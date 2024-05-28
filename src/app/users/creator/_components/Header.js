@@ -126,7 +126,7 @@ const Header = () => {
                     type="file"
                     id="video"
                     name="video"
-                    className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                    className="mt-1 p-2 block w-full border border-gray-300 rounded-md text-black"
                     onChange={handleFileChange}
                   />
                 </div>
@@ -139,7 +139,7 @@ const Header = () => {
                     id="description"
                     name="description"
                     placeholder="Give a video description e.g. title"
-                    className="mt-1 p-2 block w-full border border-gray-300 rounded-md"
+                    className="mt-1 p-2 block w-full border border-gray-300 rounded-md text-black"
                     value={description}
                     onChange={handleDescriptionChange}
                   />
