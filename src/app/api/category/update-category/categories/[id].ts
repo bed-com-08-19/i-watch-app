@@ -1,7 +1,15 @@
-import connect from '../../../../dbConfig';
-import Category from '../../../../models';
+import type { NextApiRequest, NextApiResponse } from 'next';
+import connect from '@/dbConfig/dbConfig';
+import Category from '@/models/Category';
 
-export default async function handler(req, res) {
+type ResponseData = {
+  success: boolean;
+  data?: any;
+  error?: string;
+  message?: string;
+};
+
+export default async function handler(req: NextApiRequest, res: NextApiResponse<ResponseData>) {
   const { method } = req;
   const { id } = req.query;
 
@@ -13,7 +21,7 @@ export default async function handler(req, res) {
         return res.status(404).json({ success: false, message: 'Category not found' });
       }
       res.status(200).json({ success: true, message: 'Category deleted successfully' });
-    } catch (error) {
+    } catch (error: any) {
       res.status(400).json({ success: false, error: error.message });
     }
   } else {
