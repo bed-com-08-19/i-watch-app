@@ -1,5 +1,5 @@
-import connect from "/@dbConfig/dbConfig";
-import Category from "/@models/Category";
+import {connect} from '@/dbConfig/dbConfig';
+import Category from '@/models/category';
 import type { NextApiRequest, NextApiResponse } from 'next';
 
 

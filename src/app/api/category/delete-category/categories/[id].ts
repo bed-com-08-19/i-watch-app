@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import connect from "/@dbConfig/dbConfig";
-import Category from "/@models/Category";
+import {connect} from '@/dbConfig/dbConfig';
+import Category from '@/models/category';
 
 type ResponseData = {
   success: boolean;

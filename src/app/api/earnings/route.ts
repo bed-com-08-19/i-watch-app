@@ -1,7 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import connect from '../../../../dbConfig';
-import Video from '../../../../models';
-import Transaction from '../../lib/models/Transaction';
+import {connect} from '@/dbConfig/dbConfig';
+import Video from '@/models/videoModel';
+import Transaction from '@/models/Transaction';
 
 type ResponseData = {
   success: boolean;
