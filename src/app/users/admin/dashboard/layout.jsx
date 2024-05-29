@@ -1,23 +1,21 @@
+import Navbar from "./navbar/navbar"
+import Footer from "./footer/footer"
+import Sidebar from "./sidebar/sidebar"
+import styles from "./dashboard.module.css"
 
-import Navbar from "../../../../components/Navbar";
-import Sidebar from "./sidebar/sidebar";
-import styles from "./dashboard.module.css";
-import Loader from "../../../components/Loader";
-
-
-const Layout = ({ children }) => {
+const Layout = ({children}) => {
   return (
     <div className={styles.container}>
       <div className={styles.menu}>
-        <Sidebar />
+        <Sidebar/>
       </div>
       <div className={styles.content}>
-        <Navbar />
-        {loading ? <Loader /> : children}
-        <Footer />
+        <Navbar/>
+        {children}
+        <Footer/>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Layout;
+export default Layout
