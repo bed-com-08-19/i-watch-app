@@ -1,7 +1,20 @@
 import Image from "next/image";
 import styles from "./transactions.module.css";
+import { transactions } from "../../lib/data";
 
 const Transactions = () => {
+  const getStatusClass = (status) => {
+    switch (status) {
+      case "Pending":
+        return styles.pending;
+      case "Done":
+        return styles.done;
+      case "Cancelled":
+        return styles.cancelled;
+      default:
+        return "";
+    }
+  };
   return (
     <div className={styles.container}>
       <h2 className={styles.title}>Latest Transactions</h2>
@@ -15,88 +28,29 @@ const Transactions = () => {
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>
-              <div className={styles.user}>
-                <Image
-                  src="/noavatar.png"
-                  alt=""
-                  width={40}
-                  height={40}
-                  className={styles.userImage}
-                />
-                Chris Prog
-              </div>
-            </td>
-            <td>
-              <span className={`${styles.status} ${styles.pending}`}>
-                Pending
-              </span>
-            </td>
-            <td>14.02.2024</td>
-            <td>$3.200</td>
-          </tr>
-          <tr>
-            <td>
-              <div className={styles.user}>
-                <Image
-                  src="/noavatar.png"
-                  alt=""
-                  width={40}
-                  height={40}
-                  className={styles.userImage}
-                />
-                Chris Prog
-              </div>
-            </td>
-            <td>
-              <span className={`${styles.status} ${styles.done}`}>Done</span>
-            </td>
-            <td>14.02.2024</td>
-            <td>$3.200</td>
-          </tr>
-          <tr>
-            <td>
-              <div className={styles.user}>
-                <Image
-                  src="/noavatar.png"
-                  alt=""
-                  width={40}
-                  height={40}
-                  className={styles.userImage}
-                />
-                Chris Prog
-              </div>
-            </td>
-            <td>
-              <span className={`${styles.status} ${styles.cancelled}`}>
-                Cancelled
-              </span>
-            </td>
-            <td>14.02.2024</td>
-            <td>$3.200</td>
-          </tr>
-          <tr>
-            <td>
-              <div className={styles.user}>
-                <Image
-                  src="/noavatar.png"
-                  alt=""
-                  width={40}
-                  height={40}
-                  className={styles.userImage}
-                />
-                Chris Prog
-              </div>
-            </td>
-            <td>
-              <span className={`${styles.status} ${styles.pending}`}>
-                Pending
-              </span>
-            </td>
-            <td>14.02.2024</td>
-            <td>$3.200</td>
-          </tr>
+          {transactions.map((transaction) => (
+            <tr key={transaction.id}>
+              <td>
+                <div className={styles.user}>
+                  <Image
+                    src={transaction.image || "/noavatar.png"}
+                    alt="profile pic"
+                    width={40}
+                    height={40}
+                    className={styles.userImage}
+                  />
+                  {transaction.name}
+                </div>
+              </td>
+              <td>
+                <span className={`${styles.status} ${getStatusClass(transaction.status)}`}>
+                  {transaction.status}
+                </span>
+              </td>
+              <td>{transaction.date}</td>
+              <td>${transaction.amount}</td>
+            </tr>
+          ))}
         </tbody>
       </table>
     </div>

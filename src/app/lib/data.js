@@ -117,3 +117,38 @@ export const videos = [
   { id: 10, src: "/video4.jpeg", alt: "Video 10" },
   { id: 11, src: "/video4.jpeg", alt: "Video 11" },
 ];
+
+export const transactions = [
+  {
+    id:1,
+    name:"Chris prog",
+    status:"Pending",
+    date:"14.02.2024",
+    amount:3.200,
+    image:""
+  },
+  {
+    id:2,
+    name:"Flora Jossam",
+    status:"Done",
+    date:"16.02.2024",
+    amount:20.000,
+    image:""
+  },
+  {
+    id:3,
+    name:"Mary Malenga",
+    status:"Cancelled",
+    date:"19.02.2024",
+    amount:5.000,
+    image:""
+  },
+  {
+    id:4,
+    name:"John Banda",
+    status:"Pending",
+    date:"26.02.2024",
+    amount:2.300,
+    image:""
+  },
+];

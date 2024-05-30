@@ -7,8 +7,8 @@ const Customers = () =>{
     return(
         <div className={styles.container}>
         <div className={styles.top}>
-          {/* <Search placeholder="Search for a user..." /> */}
-          <Link href="/dashboard/users/add">
+          {/* <Search placeholder="Search for a customer..." /> */}
+          <Link href="/dashboard/customers/add">
             <button className={styles.addButton}>Add New</button>
           </Link>
         </div>
@@ -23,33 +23,33 @@ const Customers = () =>{
             </tr>
           </thead>
           <tbody>
-            {/* {users.map((user) => (
-              <tr key={user.id}>
+            {/* {custumers.map((customer) => (
+              <tr key={customer.id}>
                 <td>
-                  <div className={styles.user}>
+                  <div className={styles.customer}>
                     <Image
-                      src={user.img || "/noavatar.png"}
+                      src={customer.img || "/noavatar.png"}
                       alt=""
                       width={40}
                       height={40}
-                      className={styles.userImage}
+                      className={styles.customerImage}
                     />
-                    {user.username}
+                    {customer.customername}
                   </div>
                 </td>
-                <td>{user.email}</td>
-                <td>{user.createdAt?.toString().slice(4, 16)}</td>
-                <td>{user.isAdmin ? "Admin" : "Client"}</td>
-                <td>{user.isActive ? "active" : "passive"}</td>
+                <td>{customer.email}</td>
+                <td>{customer.createdAt?.toString().slice(4, 16)}</td>
+                <td>{customer.isAdmin ? "Admin" : "Client"}</td>
+                <td>{customer.isActive ? "active" : "passive"}</td>
                 <td>
                   <div className={styles.buttons}>
-                    <Link href={`/dashboard/users/${user.id}`}>
+                    <Link href={`/dashboard/custumers/${customer.id}`}>
                       <button className={`${styles.button} ${styles.view}`}>
                         View
                       </button>
                     </Link>
-                    <form action={deleteUser}>
-                      <input type="hidden" name="id" value={(user.id)} />
+                    <form action={deletecustomer}>
+                      <input type="hidden" name="id" value={(customer.id)} />
                       <button className={`${styles.button} ${styles.delete}`}>
                         Delete
                       </button>

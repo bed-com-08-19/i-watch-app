@@ -6,6 +6,7 @@ import { SlLike } from "react-icons/sl";
 import { FiUpload } from "react-icons/fi";
 import { BiMoneyWithdraw } from "react-icons/bi";
 import { CiSettings } from "react-icons/ci";
+import { FiLogOut } from "react-icons/fi";
 import { user, videos} from "../lib/data";
 import "../globals.css"
 
@@ -25,21 +26,7 @@ const Profile = () => {
   
   
   return (
-    <main className="flex items-center justify-between pt-4 pr-4">
-
-      {/* side bar navigation */}
-      <section className=" sticky flex-1 flex flex-col -mt-80 top-1/2 transform -translate-y-1/2">
-        <div className="p-2 flex items-center gap-2 rounded-lg hover:bg-gray-700 active:bg-gray-700">
-          <FiUpload />
-        </div>
-        <div className="p-2 flex items-center gap-2 rounded-lg hover:bg-gray-700 active:bg-gray-700">
-          <BiMoneyWithdraw />
-        </div>
-        <div className="p-2 flex items-center gap-2 rounded-lg hover:bg-gray-700 active:bg-gray-700">
-          <CiSettings />
-        </div>
-      </section>
-
+    <main className="flex items-center justify-between">
       <section className="">
         <section className="w-full sticky top-0 z-10 section1">
           {/* Profile Header */}
