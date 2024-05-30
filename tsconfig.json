@@ -21,6 +21,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/app/landing/page.tsx", "src/app/profile/dashboard/_components/dashbord.js", "src/components/Settings.js", "src/firebase.js", "src/app/users/admin/_components/Photos.js", "src/app/users/creator/_components/photos.jsx", "src/app/users/regular/_components/ProfileHeader.js"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/app/landing/page.tsx", "src/app/profile/dashboard/_components/dashbord.js", "src/components/Settings.js", "src/firebase.js", "src/app/users/admin/_components/Photos.js", "src/app/users/creator/_components/photos.jsx", "src/app/users/regular/_components/ProfileHeader.js", "src/app/api/videos/uploadvideos/videos.js"],
   "exclude": ["node_modules"]
 }
