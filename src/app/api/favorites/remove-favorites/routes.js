@@ -1,5 +1,5 @@
-import connect from '../../../../dbConfig';
-import Favorites from '../../../../models';
+import {connect} from '@/dbConfig/dbConfig';
+import Favorites from '@/models/Favorites';
 import { NextResponse } from "next/server";
 
 export const dynamic = "force-dynamic";

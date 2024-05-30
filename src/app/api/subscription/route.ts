@@ -1,10 +1,10 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import connect from '@/dbConfig/dbConfig';
+import {connect} from '@/dbConfig/dbConfig';
 import User from '@/models/userModel';
 
 type ResponseData = {
   success: boolean;
-  data?: User;
+  data?: any;
   error?: string;
   message?: string;
 };
