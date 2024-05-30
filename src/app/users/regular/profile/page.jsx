@@ -181,7 +181,7 @@ const Profile = () => {
           <FiUpload />
         </div>
         <div className="p-2 flex items-center gap-2 rounded-lg hover:bg-gray-700 active:bg-gray-700">
-          <BiMoneyWithdraw />
+          <a href="/users/regular/transaction" ><BiMoneyWithdraw /></a>
         </div>
         <div className="p-2 flex items-center gap-2 rounded-lg hover:bg-gray-700 active:bg-gray-700">
           <CiSettings />
@@ -228,7 +228,7 @@ const Profile = () => {
           <div className="flex w-full items-center justify-center font-bold p-2 text-center text-white">
             <div className="m-4 flex flex-col">
               <p>MK{user.balance}</p>
-              <p className="text-sm text-gray-500 font-thin">Balance</p>
+              <a href="/users/regular/transaction" className="text-sm text-gray-500 font-thin">Balance</a>
             </div>
             <div className="m-4 flex flex-col">
               <p>{user.views}</p>
