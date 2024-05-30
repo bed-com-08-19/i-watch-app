@@ -26,6 +26,7 @@ const Profile = () => {
 
   useEffect(() => {
     getUserDetails();
+    getUserBalance();
   }, []);
 
   const logout = async () => {
@@ -46,6 +47,18 @@ const Profile = () => {
     } catch (error) {
       console.error(error.message);
       toast.error("Failed to fetch user details");
+    }
+  };
+
+  const getUserBalance = async () => {
+    try {
+      const res = await axios.get("/api/balance/getBalance", {
+        params: { userId: user._id },
+      });
+      setUser((prevUser) => ({ ...prevUser, balance: res.data.data.balance }));
+    } catch (error) {
+      console.error(error.message);
+      toast.error("Failed to fetch user balance");
     }
   };
 
@@ -89,7 +102,7 @@ const Profile = () => {
     formData.append("video", videoFile);
 
     try {
-      await axios.post("/api/videos/uploadvideos/videos", formData, {
+      await axios.post("/api/videos/uploadvideos", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
@@ -181,7 +194,7 @@ const Profile = () => {
           <FiUpload />
         </div>
         <div className="p-2 flex items-center gap-2 rounded-lg hover:bg-gray-700 active:bg-gray-700">
-          <a href="/users/creator/transaction" ><BiMoneyWithdraw /></a>
+          <a href="/users/creator/transaction"><BiMoneyWithdraw /></a>
         </div>
         <div className="p-2 flex items-center gap-2 rounded-lg hover:bg-gray-700 active:bg-gray-700">
           <CiSettings />
