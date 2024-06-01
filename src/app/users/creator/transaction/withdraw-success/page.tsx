@@ -1,9 +1,9 @@
 "use client";
 
 import React from 'react';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation'; // Correct import
 
-function WithdrawSuccess() {
+function Page() {
   const router = useRouter();
 
   const handleBackToHome = () => {
@@ -26,4 +26,4 @@ function WithdrawSuccess() {
   );
 }
 
-export default WithdrawSuccess;
+export default Page;

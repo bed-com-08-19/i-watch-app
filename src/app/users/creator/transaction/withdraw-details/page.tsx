@@ -1,10 +1,10 @@
 "use client";
 
 import React, { useState } from 'react';
-import { useRouter } from 'next/router';
-import { useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation'; // Correct import
+import { useSearchParams } from 'next/navigation'; // Correct import
 
-function WithdrawDetails() {
+function Page() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const method = searchParams.get('method') || 'mobile';
@@ -47,4 +47,4 @@ function WithdrawDetails() {
   );
 }
 
-export default WithdrawDetails;
+export default Page;

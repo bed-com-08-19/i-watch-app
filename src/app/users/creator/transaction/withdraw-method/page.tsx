@@ -1,16 +1,13 @@
 "use client";
 
 import React from 'react';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation'; // Correct import
 
-function WithdrawMethod() {
+function Page() {
   const router = useRouter();
 
   const handleMethodSelect = (method: string) => {
-    router.push({
-      pathname: '/users/creator/transaction/withdraw-details',
-      query: { method }
-    });
+    router.push(`/users/creator/transaction/withdraw-details?method=${method}`);
   };
 
   return (
@@ -34,4 +31,4 @@ function WithdrawMethod() {
   );
 }
 
-export default WithdrawMethod;
+export default Page;
