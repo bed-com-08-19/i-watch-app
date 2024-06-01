@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from 'react';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation'; // Correct import
 import { FiHome } from "react-icons/fi";
 import { BiArrowBack } from "react-icons/bi";
 
