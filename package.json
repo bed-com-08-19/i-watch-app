@@ -9,6 +9,10 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@mux/mux-player": "^2.7.0",
+    "@mux/mux-player-react": "^2.7.0",
+    "@mux/mux-uploader": "^1.0.0-beta.18",
+    "@mux/mux-uploader-react": "^1.0.0-beta.18",
     "@stripe/react-stripe-js": "^2.7.1",
     "@stripe/stripe-js": "^3.4.1",
     "axios": "^1.6.8",
