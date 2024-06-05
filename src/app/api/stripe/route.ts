@@ -1,12 +1,12 @@
-import { NextApiRequest, NextApiResponse } from 'next';
+import { NextRequest, NextResponse } from 'next/server';
 import Stripe from 'stripe';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string, {
-  apiVersion: '2022-11-15',
-} as unknown as Stripe.StripeConfig);
+  
+});
 
-export async function POST(req: NextApiRequest, res: NextApiResponse) {
-  const { amount } = req.body;
+export async function POST(req: NextRequest) {
+  const { amount } = await req.json();
 
   try {
     const paymentIntent = await stripe.paymentIntents.create({
@@ -15,8 +15,8 @@ export async function POST(req: NextApiRequest, res: NextApiResponse) {
       payment_method_types: ['card'],
     });
 
-    res.status(200).json({ clientSecret: paymentIntent.client_secret });
-  } catch (error) {
-    res.status(500).json({ error: (error as Error).message });
+    return NextResponse.json({ clientSecret: paymentIntent.client_secret }, { status: 200 });
+  } catch (error: any) {
+    return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }
