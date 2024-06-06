@@ -1,68 +1,37 @@
-"use client";
-import React, { useState, useEffect } from "react";
-import axios from "axios";
-import Link from "next/link";
-import { toast } from "react-hot-toast";
-import Header from "./_components/Header";
-import Footer from "../../../components/Footer";
-import Loader from "../../../components/Loader";
+import Sidebar from './_components/Sidebar';
+import Navbar from './_components/Navbar';
+import RecentVideos from './_components/RecentVideos';
+import ManageUsers from './_components/AdminTools/ManageUsers';
+import ManageSubscriptions from './_components/AdminTools/ManageSubscriptions';
+import ManageAppSettings from './_components/AdminTools/ManageAppSettings';
+import EarningsReport from './_components/AdminTools/EarningsReport';
+import ManageDocuments from './_components/EarningsOverview/ManageDocuments';
+import UploadedVideos from './_components/EarningsOverview/UploadedVideos';
+import WatchedVideos from './_components/EarningsOverview/WatchedVideos';
 
-interface Video {
-  _id: string;
-  url: string;
-  title: string;
-  description: string;
-  creator: string;
-}
-
-const UserProfile: React.FC = ({ params }: any) => {
-  const [videos, setVideos] = useState<Video[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    const fetchVideos = async () => {
-      try {
-        const response = await axios.get("/api/videos/getallvideos");
-        setVideos(response.data.data);
-        setLoading(false);
-      } catch (error: any) {
-        toast.error("Failed to fetch videos");
-        console.error("Failed to fetch videos:", error);
-        setError(error.message);
-        setLoading(false);
-      }
-    };
-
-    fetchVideos();
-  }, []);
-
-  if (loading) return <div><Loader/></div>;
-  if (error) return <div>Error: {error}</div>;
-
+const Dashboard = () => {
   return (
-    <div>
-      <div>
-        <Header />
-      </div>
-
-      <main className="flex flex-col items-center justify-between p-4">
-        {videos.length === 0 ? (
-          <div>No videos available</div>
-        ) : (
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 w-full max-w-5xl p-4">
-            {videos.map((video) => (
-              <div key={video._id} className="relative h-48 sm:h-64">
-                <video className="object-cover w-full h-full" src={video.url} controls />
-              </div>
-            ))}
+    <div className="flex">
+      <Sidebar />
+      <div className="flex-1 bg-gray-900">
+        <Navbar />
+        <div className="p-6">
+          <div className="grid grid-cols-2 gap-4 mb-6">
+            <WatchedVideos />
+            <UploadedVideos />
+            <ManageSubscriptions />
+            <ManageDocuments />
           </div>
-        )}
-      </main>
-
-      <Footer />
+          <div className="grid grid-cols-2 gap-4 mb-6">
+            <ManageUsers />
+            <ManageAppSettings />
+            <EarningsReport />
+          </div>
+          <RecentVideos />
+        </div>
+      </div>
     </div>
   );
 };
 
-export default UserProfile;
+export default Dashboard;
