@@ -37,7 +37,7 @@ export async function POST(req: NextRequest) {
       res?.data?.object?.currency // Currency
     );
 
-    return NextResponse.json({ status: "sucess", event: event.type, response: res });
+    return NextResponse.json({ status: "success", event: event.type, response: res });
   } catch (error) {
     return NextResponse.json({ status: "Failed", error });
   }
