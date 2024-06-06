@@ -23,7 +23,7 @@ const Sidebar = () => {
       <ul>
         <li className="my-4 flex items-center">
           <FaVideo className="mr-2" />
-          <Link href="/users/admin/dashboard">
+          <Link href="/users/admin">
             <span>Dashboard</span>
           </Link>
         </li>
