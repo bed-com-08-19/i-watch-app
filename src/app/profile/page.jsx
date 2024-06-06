@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { FaRegEye, FaDollarSign } from "react-icons/fa";
 import { SlLike } from "react-icons/sl";
+import { FiHome } from "react-icons/fi";
 import { FiUpload } from "react-icons/fi";
 import { BiMoneyWithdraw } from "react-icons/bi";
 import { CiSettings } from "react-icons/ci";
@@ -190,6 +191,9 @@ const Profile = () => {
     <main className="flex items-center justify-between pt-4 pr-4">
       {/* Side bar navigation */}
       <section className="sticky flex-1 flex flex-col -mt-80 top-1/2 transform -translate-y-1/2">
+      <div className="p-2 flex items-top gap-2 rounded-lg hover:bg-gray-700 active:bg-gray-700">
+         <a href="/users/creator"><FiHome /></a> 
+        </div>
         <div className="p-2 flex items-center gap-2 rounded-lg hover:bg-gray-700 active:bg-gray-700">
           <FiUpload />
         </div>
