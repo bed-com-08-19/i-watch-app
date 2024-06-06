@@ -1,3 +1,5 @@
+
+"use client"
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { toast } from "react-hot-toast";
@@ -45,11 +47,11 @@ const Header = () => {
         </p>
         
         {/* Navigation links */}
-        <nav className="md:flex space-x-4 text-sm md:text-lg">
+        {/* <nav className="md:flex space-x-4 text-sm md:text-lg">
           <a href="/users/admin" className="text-white hover:text-gray-300 hover:border-red-500 border-b-2 transition duration-300" aria-current="page">HOME</a>
           <a href="/users/admin/trending" className="text-white hover:text-gray-300 hover:border-red-500 border-b-2 transition duration-300">TRENDING</a>
           <a href="/users/admin/recommended" className="text-white hover:text-gray-300 hover:border-red-500 border-b-2 transition duration-300">RECOMMENDED</a>
-        </nav>
+        </nav> */}
 
 
         {/* User profile dropdown */}
@@ -64,12 +66,12 @@ const Header = () => {
               className="w-10 h-10 rounded-full cursor-pointer"
             />
           </button>
-          {dropdownOpen && (
+          {/* {dropdownOpen && (
             <div className="absolute right-0 mt-2 w-48 bg-black rounded-md shadow-lg z-20">
               <a href="/users/admin/dashboard" className="block px-4 py-2 text-sm text-white hover:bg-gray-800">Dashboard</a>
               <a onClick={logout} className="block px-4 py-2 text-sm text-white bg-red-500 hover:bg-red-800 focus:outline-none">Logout</a>
             </div>
-          )}
+          )} */}
         </div>
       </div>
     </header>
