@@ -47,9 +47,9 @@ const UploadedVideos = () => {
   };
 
   const filteredVideos = videos.filter((video) =>
-    video.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    video.description.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+        video.title?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        video.description?.toLowerCase().includes(searchTerm.toLowerCase())
+    );
 
   return (
     <div className="flex">
