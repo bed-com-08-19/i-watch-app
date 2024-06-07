@@ -1,6 +1,8 @@
+// models/videoModel.js
+
 import mongoose, { Schema, Document } from "mongoose";
 
-interface IVideo extends Document {
+export interface IVideo extends Document {
   title: string;
   description: string;
   url: string;
@@ -20,4 +22,3 @@ const VideoSchema: Schema = new Schema(
 );
 
 export default mongoose.models.Video || mongoose.model<IVideo>("Video", VideoSchema);
-
