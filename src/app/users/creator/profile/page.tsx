@@ -44,12 +44,12 @@ const Dashboard = () => {
       <aside className="w-64 bg-black-800 text-white flex-shrink-0">
         
         <nav className="mt-6">
-            <a  href="/dashboard" className="block py-2.5 px-4 rounded hover:bg-gray-700">
+            <a  href="/users/creator" className="block py-2.5 px-4 rounded hover:bg-gray-700">
               <AiOutlineHome className="inline mr-2" />
-              Pages
+              Home
             </a>
 
-            <a href="/profile" className="block py-2.5 px-4 rounded hover:bg-gray-700">
+            <a href="/users/creator/profile" className="block py-2.5 px-4 rounded hover:bg-gray-700">
               <BiUser className="inline mr-2" />
               Profile
             </a>
@@ -63,11 +63,6 @@ const Dashboard = () => {
             <a href="/users/creator/transaction" className="block py-2.5 px-4 rounded hover:bg-gray-700">
               <RiMoneyDollarCircleLine className="inline mr-2" />
               Withdraw
-            </a>
-         
-            <a href="/users" className="block py-2.5 px-4 rounded hover:bg-gray-700">
-              <BiUser className="inline mr-2" />
-              User
             </a>
           
             <a href="/settings" className="block py-2.5 px-4 rounded hover:bg-gray-700">
@@ -111,10 +106,6 @@ const Dashboard = () => {
               <span className="block text-lg font-bold">{user.followers}</span>
               <span className="block text-gray-500">Viewers</span>
             </div>
-            <div>
-              <span className="block text-lg font-bold">{user.likes}</span>
-              <span className="block text-gray-500">Likes</span>
-            </div>
           </div>
           <div className="flex justify-around py-4">
             <button className="flex items-center bg-gray-200 px-4 py-2 rounded">
@@ -131,7 +122,7 @@ const Dashboard = () => {
             </button>
           </div>
           <div className="border-t border-gray-300 py-4 text-center">
-            <p>What are some good photos you’ve taken recently?</p>
+            <p>What are some good videos you’ve taken recently?</p>
             <button className="bg-pink-500 text-white px-4 py-2 rounded mt-2">Upload</button>
           </div>
         </div>
