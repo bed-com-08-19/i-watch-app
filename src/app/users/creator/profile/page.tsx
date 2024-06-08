@@ -125,7 +125,7 @@ const Dashboard: React.FC = () => {
             <BiUser className="inline mr-2" />
             Profile
           </a>
-          <a onClick={toggleUploadForm} className="block py-2.5 px-4 rounded hover:bg-gray-700">
+          <a className="block py-2.5 px-4 rounded hover:bg-gray-700" onClick={toggleUploadForm}>
             <BiUpload className="inline mr-2" />
             Upload
           </a>

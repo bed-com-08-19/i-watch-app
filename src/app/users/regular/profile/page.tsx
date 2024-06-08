@@ -10,17 +10,18 @@ import { AiOutlineHome } from 'react-icons/ai';
 import { RiMoneyDollarCircleLine } from 'react-icons/ri';
 
 const Dashboard = () => {
-  const [user] = useState({
-    username: "wariweyo",
+  const [user, setUser] = useState<User>({
     followers: 48,
     following: 467,
     likes: 0,
-    profileImage: "/path-to-your-image.jpg", // Add your profile image path
+    profileImage: "/path-to-your-image.jpg",
   });
+
   const [username, setUsername] = useState("null");
   const [balance, setBalance] = useState("null");
   const [image, setProfileImage] = useState("null");
   const [bio, setBio] = useState("null");
+  const [views, setViews] = useState("null");
 
   useEffect(() => {
     getUserDetails();
@@ -31,12 +32,24 @@ const Dashboard = () => {
       const res = await axios.get("/api/users/me");
       setUsername(res.data.data.username);
       setBalance(res.data.data.balance);
-      setProfileImage(res.data.data.Profileimage);
+      setProfileImage(res.data.data.image);
       setBio(res.data.data.bio);
+      setViews(res.data.data.views);
 
     } catch (error) {
       console.error(error.message);
       toast.error("Failed to fetch user details");
+    }
+  };
+
+  const logout = async () => {
+    try {
+      await axios.get("/api/users/logout");
+      toast.success("Logout successful");
+      window.location.href = "/auth/signin";
+    } catch (error: any) {
+      console.error(error.message);
+      toast.error(error.message);
     }
   };
 
@@ -45,43 +58,38 @@ const Dashboard = () => {
       <aside className="w-64 bg-black-800 text-white flex-shrink-0">
         
         <nav className="mt-6">
-            <a  href="/dashboard" className="block py-2.5 px-4 rounded hover:bg-gray-700">
+            <a  href="/users/regular" className="block py-2.5 px-4 rounded hover:bg-gray-700">
               <AiOutlineHome className="inline mr-2" />
-              Pages
+              Home
             </a>
 
-            <a href="/profile" className="block py-2.5 px-4 rounded hover:bg-gray-700">
+            <a href="/users/regular/profile" className="block py-2.5 px-4 rounded hover:bg-gray-700">
               <BiUser className="inline mr-2" />
               Profile
             </a>
           
           
-            <a href="/users/creator/upload" className="block py-2.5 px-4 rounded hover:bg-gray-700">
+            <a href="/users/regular/subscribe" className="block py-2.5 px-4 rounded hover:bg-gray-700">
               <BiUpload className="inline mr-2" />
-              Upload
+              Subscribe
             </a>
           
-            <a href="/users/creator/transaction" className="block py-2.5 px-4 rounded hover:bg-gray-700">
+            <a href="/users/regular/transaction" className="block py-2.5 px-4 rounded hover:bg-gray-700">
               <RiMoneyDollarCircleLine className="inline mr-2" />
               Withdraw
             </a>
-         
-            <a href="/users" className="block py-2.5 px-4 rounded hover:bg-gray-700">
-              <BiUser className="inline mr-2" />
-              User
-            </a>
           
-            <a href="/settings" className="block py-2.5 px-4 rounded hover:bg-gray-700">
+            <a href="/users/regular/settings" className="block py-2.5 px-4 rounded hover:bg-gray-700">
               <FiSettings className="inline mr-2" />
               Settings
             </a>
           
-            <a href="/help" className="block py-2.5 px-4 rounded hover:bg-gray-700">
+            <a href="/users/regular/help" className="block py-2.5 px-4 rounded hover:bg-gray-700">
               <FiHelpCircle className="inline mr-2" />
               Help
             </a>
           
-          <button className="w-full text-left block py-2.5 px-4 rounded hover:bg-red-700">
+          <button className="w-full text-left block py-2.5 px-4 rounded hover:bg-red-700" onClick={logout}>
             <FiLogOut className="inline mr-2" />
             Logout
           </button>
@@ -94,7 +102,7 @@ const Dashboard = () => {
             <div className="p-4 flex items-center justify-center">
           <div className="relative h-16 w-16 rounded-full overflow-hidden">
             <Image
-              src={user.profileImage}
+              src={user.image}
               alt="Profile Picture"
               layout="fill"
               objectFit="cover"
@@ -109,11 +117,11 @@ const Dashboard = () => {
               <span className="block text-gray-500">Balance</span>
             </div>
             <div>
-              <span className="block text-lg font-bold">{user.followers}</span>
+              <span className="block text-lg font-bold">{bio}</span>
               <span className="block text-gray-500">Viewers</span>
             </div>
             <div>
-              <span className="block text-lg font-bold">{user.likes}</span>
+              <span className="block text-lg font-bold">{views}</span>
               <span className="block text-gray-500">Likes</span>
             </div>
           </div>
@@ -132,8 +140,8 @@ const Dashboard = () => {
             </button>
           </div>
           <div className="border-t border-gray-300 py-4 text-center">
-            <p>What are some good photos you’ve taken recently?</p>
-            <button className="bg-pink-500 text-white px-4 py-2 rounded mt-2">Upload</button>
+            <p>Subscribe to upload videos and make more money</p>
+            <button className="bg-pink-500 text-white px-4 py-2 rounded mt-2">Subscribe</button>
           </div>
         </div>
       </div>

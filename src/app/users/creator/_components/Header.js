@@ -116,11 +116,11 @@ const Header = () => {
 
         {showUploadForm && (
           <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-75 flex items-center justify-center z-50">
-            <div className="bg-white p-6 rounded-lg">
+            <div className="bg-black p-6 rounded-lg border border-white">
               <h2 className="text-lg font-semibold mb-4">Upload Video</h2>
               <form onSubmit={handleUpload}>
                 <div className="mb-4">
-                  <label htmlFor="title" className="block text-sm font-medium text-gray-700">
+                  <label htmlFor="title" className="block text-sm font-medium text-red-700">
                     Video Title
                   </label>
                   <input
@@ -134,7 +134,7 @@ const Header = () => {
                   />
                 </div>
                 <div className="mb-4">
-                  <label htmlFor="description" className="block text-sm font-medium text-gray-700">
+                  <label htmlFor="description" className="block text-sm font-medium text-red-700">
                     Video Description
                   </label>
                   <input
@@ -148,14 +148,14 @@ const Header = () => {
                   />
                 </div>
                 <div className="mb-4">
-                  <label htmlFor="video" className="block text-sm font-medium text-gray-700">
+                  <label htmlFor="video" className="block text-sm font-medium text-red-700">
                     Upload Video File
                   </label>
                   <input
                     type="file"
                     id="video"
                     name="video"
-                    className="mt-1 p-2 block w-full border border-gray-300 rounded-md text-black"
+                    className="mt-1 p-2 block w-full border border-gray-300 rounded-md text-white"
                     onChange={handleFileChange}
                   />
                 </div>

@@ -9,6 +9,8 @@ import { useUser } from "@clerk/nextjs"
 import axios from "axios"
 import { loadStripe } from "@stripe/stripe-js"
 import { toast } from "react-hot-toast"
+import { FiHome } from "react-icons/fi";
+import { BiArrowBack } from "react-icons/bi";
 
 type PricingSwitchProps = {
   onSwitch: (value: string) => void
@@ -187,7 +189,11 @@ export default function Pricing() {
 
   return (
     <div>
-      <PricingHeader title="Sample Pricing Plans" subtitle="Use these sample pricing cards in your SAAS" />
+      <div className="absolute top-4 left-4 flex space-x-4">
+       <a href="/users/regular"><FiHome /></a>
+       <a href="/users/regular/profile"><BiArrowBack /></a>
+      </div>
+      <PricingHeader title="Pricing Plans" subtitle="Here are our suscription plans" />
       <PricingSwitch onSwitch={togglePricingPeriod} />
       <section className="flex flex-col sm:flex-row sm:flex-wrap justify-center gap-8 mt-8">
         {plans.map((plan) => {

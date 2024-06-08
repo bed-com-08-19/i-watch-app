@@ -115,7 +115,6 @@ const StudentProfile: React.FC = () => {
             ))}
           </div>
         )}
-      
       </main>
       <Footer />
     </div>

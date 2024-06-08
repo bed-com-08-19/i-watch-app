@@ -58,22 +58,19 @@ export default function RegularUser() {
   return (
     <div>
       <Header />
-      <main className="p-4">
+      <main className="flex flex-col items-center justify-between p-4">
         {videos.length === 0 ? (
           <div>No videos available</div>
         ) : (
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 w-full max-w-5xl p-4">
             {videos.map((video) => (
               <div key={video._id} className="relative h-48 sm:h-64">
-                <video
-                  className="object-cover w-full h-full"
-                  src={video.url}
-                  controls
-                />
+                <video className="object-cover w-full h-full" src={video.url} controls />
               </div>
             ))}
           </div>
         )}
+      
       </main>
       <Footer />
     </div>
