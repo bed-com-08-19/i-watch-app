@@ -34,7 +34,7 @@ const Help = () => {
             </p>
             <h3 className="text-lg font-medium">How do I contact support?</h3>
             <p className="mb-4">
-              You can contact our support team via the contact form on the "Contact Us" page or by emailing support@ourplatform.com.
+              You can contact our support team via the contact form on the "Contact Us" page or by emailing iwatch@gmail.com.
             </p>
           </div>
         </section>
@@ -45,9 +45,9 @@ const Help = () => {
             If you have any other questions or need further assistance, please reach out to our support team:
           </p>
           <ul className="list-disc list-inside pl-4">
-            <li>Email: support@ourplatform.com</li>
-            <li>Phone: 1-800-123-4567</li>
-            <li>Address: 1234 Help St, Suite 100, Helpville, HE 56789</li>
+            <li>Email: iwatch@gmail.com</li>
+            <li>Phone: +265996540072</li>
+            <li>Address: Unima Help St, Suite 100, Helpville, HE 56789</li>
           </ul>
         </section>
       </div>
