@@ -13,6 +13,8 @@ export interface IUser extends Document {
   balance: number;
   createdAt: Date;
   imgUrl: string;
+  subscription?: string;
+  credits?: number;
 }
 
 // Create a Schema corresponding to the document interface
@@ -50,6 +52,8 @@ const userSchema: Schema<IUser> = new Schema({
     type: String, 
     default: '' 
   },
+  subscription: { type: String },
+  credits: { type: Number, default: 0 },
   preferredCategories: [{ type: String }],
   balance: { 
     type: Number, 
