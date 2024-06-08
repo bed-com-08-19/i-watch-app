@@ -8,6 +8,7 @@ import { FiLogOut, FiSettings, FiHelpCircle } from 'react-icons/fi';
 import { BiUpload, BiUser } from 'react-icons/bi';
 import { AiOutlineHome } from 'react-icons/ai';
 import { RiMoneyDollarCircleLine } from 'react-icons/ri';
+import Loader from "../../../../components/Loader";
 
 interface User {
   followers: number;
@@ -39,6 +40,9 @@ const Dashboard: React.FC = () => {
   const [title, setTitle] = useState<string>("");
   const [description, setDescription] = useState<string>("");
   const [videoFile, setVideoFile] = useState<File | null>(null);
+
+  const [videos, setVideos] = useState<Video[]>([]);
+  const [selectedVideo, setSelectedVideo] = useState(null);
 
   useEffect(() => {
     getUserDetails();
@@ -112,6 +116,38 @@ const Dashboard: React.FC = () => {
       toast.error("Failed to upload video");
     }
   };
+
+  const fetchVideos = async () => {
+    try {
+      const response = await axios.get("/api/videos");
+      setVideos(response.data.data);
+      setLoading(false);
+    } catch (error: any) {
+      setError(error.message);
+      setLoading(false);
+    }
+  };
+
+  const handleDelete = async (id) => {
+    try {
+      await axios.delete(`/api/videos/${id}`);
+      toast.success('Video deleted successfully!');
+      fetchVideos();
+    } catch (error) {
+      console.error(error.message);
+      toast.error('Failed to delete video');
+    }
+  };
+
+  const handleViewStatistics = (video) => {
+    setSelectedVideo(video);
+  };
+
+  useEffect(() => {
+    getUserDetails();
+    fetchVideos();
+  }, []);
+
 
   return (
     <div className="min-h-screen flex bg-black">
@@ -245,6 +281,46 @@ const Dashboard: React.FC = () => {
             <button onClick={toggleUploadForm} className="bg-pink-500 text-white px-4 py-2 rounded mt-2">Upload</button>
           </div>
         </div>
+        {/* //for videsos */}
+        <div className="max-w-md mx-auto mt-6">
+          <h2 className="text-xl font-semibold text-white">Your Videos</h2>
+          {videos.length === 0 ? (
+            <p className="text-gray-500">No videos uploaded yet.</p>
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
+              {videos.map((video) => (
+                <div key={video._id} className="relative h-48 sm:h-64 bg-gray-800 rounded-lg p-4">
+                  <video className="object-cover w-full h-full" src={video.url} controls />
+                  <div className="flex justify-between mt-2">
+                    <button
+                      className="bg-red-500 text-white px-2 py-1 rounded"
+                      onClick={() => handleDelete(video._id)}
+                    >
+                      Delete
+                    </button>
+                    <button
+                      className="bg-blue-500 text-white px-2 py-1 rounded"
+                      onClick={() => handleViewStatistics(video)}
+                    >
+                      View Statistics
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+        {selectedVideo && (
+          <div className="max-w-md mx-auto mt-6">
+            <h2 className="text-xl font-semibold text-white">Video Statistics</h2>
+            <div className="relative h-64 bg-gray-800 rounded-lg p-4 mt-2">
+              <video className="object-cover w-full h-full" src={selectedVideo.url} controls />
+              <p className="mt-2 text-white">Views: {selectedVideo.views}</p>
+              <p className="mt-2 text-white">Title: {selectedVideo.title}</p>
+              <p className="mt-2 text-white">Description: {selectedVideo.description}</p>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

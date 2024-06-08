@@ -1,5 +1,3 @@
-// models/videoModel.js
-
 import mongoose, { Schema, Document } from "mongoose";
 
 export interface IVideo extends Document {
@@ -7,6 +5,7 @@ export interface IVideo extends Document {
   description: string;
   url: string;
   creator: string;
+  playCount: number;  // for viesw count
   createdAt: Date;
   updatedAt: Date;
 }
@@ -17,6 +16,7 @@ const VideoSchema: Schema = new Schema(
     description: { type: String, required: true },
     url: { type: String, required: true },
     creator: { type: String, required: true },
+    playCount: { type: Number, default: 0 },  
   },
   { timestamps: true }
 );
