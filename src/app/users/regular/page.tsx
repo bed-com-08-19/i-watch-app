@@ -1,5 +1,3 @@
-"use client";
-
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
@@ -9,7 +7,7 @@ import Footer from "../../../components/Footer";
 
 export default function RegularUser() {
   const router = useRouter();
-  const [data, setData] = useState("nothing");
+  const [data, setData] = useState({});
   const [videos, setVideos] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -28,8 +26,7 @@ export default function RegularUser() {
   const getUserDetails = async () => {
     try {
       const res = await axios.get("/api/users/me");
-      console.log(res.data);
-      setData(res.data.data.username);
+      setData(res.data.data);
     } catch (error) {
       console.log(error.message);
       toast.error(error.message);
@@ -44,6 +41,19 @@ export default function RegularUser() {
     } catch (error) {
       setError(error.message);
       setLoading(false);
+    }
+  };
+
+  const handleVideoPlaybackCompletion = async (videoId) => {
+    try {
+      // Send a request to the server to update the user's balance
+      await axios.post("/api/videos/playback", { videoId });
+      toast.success("Credits have been awarded!");
+      // Refetch the videos to update the UI if needed
+      fetchVideos();
+    } catch (error) {
+      console.error("Error updating balance:", error);
+      toast.error("Failed to update balance");
     }
   };
 
@@ -65,12 +75,16 @@ export default function RegularUser() {
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 w-full max-w-5xl p-4">
             {videos.map((video) => (
               <div key={video._id} className="relative h-48 sm:h-64">
-                <video className="object-cover w-full h-full" src={video.url} controls />
+                <video
+                  className="object-cover w-full h-full"
+                  src={video.url}
+                  controls
+                  onEnded={() => handleVideoPlaybackCompletion(video._id)}
+                />
               </div>
             ))}
           </div>
         )}
-      
       </main>
       <Footer />
     </div>
