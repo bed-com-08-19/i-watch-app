@@ -15,13 +15,14 @@ export async function GET(request: NextRequest) {
     }
 
     // Extracting username
-    const { username, balance } = user.toObject();
+    const { username, balance, email } = user.toObject();
 
     return NextResponse.json({
       message: "User found",
       data: {
         username,
         balance,
+        email,
       },
     });
   } catch (error: any) {

@@ -11,7 +11,6 @@ import { RiMoneyDollarCircleLine } from 'react-icons/ri';
 
 const Dashboard = () => {
   const [user] = useState({
-    username: "wariweyo",
     followers: 48,
     following: 467,
     likes: 0,
