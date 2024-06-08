@@ -21,6 +21,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/app/landing/page.tsx", "src/app/profile/dashboard/_components/dashbord.js", "src/components/Settings.js", "src/firebase.js", "src/app/users/admin/_components/Photos.js", "src/app/users/creator/_components/photos.jsx", "src/app/users/regular/_components/ProfileHeader.js", "src/app/api/videos/uploadvideos/route.ts", "src/app/users/creator/transaction/page.tsx", "src/app/api/videos/getallvideos/route.ts", "src/app/api/videos/getvideo/[id].ts", "src/app/users/creator/page.jsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/app/landing/page.tsx", "src/app/profile/dashboard/_components/dashbord.js", "src/components/Settings.js", "src/firebase.js", "src/app/users/admin/_components/Photos.js", "src/app/users/creator/_components/photos.jsx", "src/app/users/regular/_components/ProfileHeader.js", "src/app/api/videos/uploadvideos/route.ts", "src/app/users/creator/transaction/page.tsx", "src/app/api/videos/getallvideos/route.ts", "src/app/api/videos/getvideo/[id].ts", "src/app/users/creator/page.jsx", "src/app/users/regular/profile/page.jsx"],
   "exclude": ["node_modules"]
 }
