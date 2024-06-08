@@ -1,14 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server';
-import Video from "@/models/userModel";
+import Video from "@/models/videoModel";
 import { connect } from "@/dbConfig/dbConfig";
 
-export async function GET() {
-  await connect();
+export async function GET(req: NextRequest) {
   try {
-    const videos = await Video.find({});
+    await connect();
+    const videos = await Video.find().sort({ createdAt: -1 });
     return NextResponse.json({ success: true, data: videos });
-  } catch (error) {
-    return NextResponse.json({ success: false }, { status: 400 });
+  } catch (error: any) {
+    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
   }
 }
 

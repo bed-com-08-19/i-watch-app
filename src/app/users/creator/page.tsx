@@ -5,7 +5,7 @@ import { toast } from "react-hot-toast";
 import Header from "./_components/Header";
 import Footer from "../../../components/Footer";
 import Loader from "../../../components/Loader";
-import VideoPlayer from '../../../components/VideoPlayer';
+
 
 interface Video {
   _id: string;
@@ -83,7 +83,7 @@ const StudentProfile: React.FC = () => {
 
   const fetchVideos = async () => {
     try {
-      const response = await axios.get("/api/videos/getallvideos");
+      const response = await axios.get("/api/videos");
       setVideos(response.data.data);
       setLoading(false);
     } catch (error: any) {
@@ -115,10 +115,7 @@ const StudentProfile: React.FC = () => {
             ))}
           </div>
         )}
-        <div>
-          <h1> Play Video with Mux</h1>
-          {playbackId && <VideoPlayer playbackId={playbackId} />}
-        </div>
+      
       </main>
       <Footer />
     </div>
