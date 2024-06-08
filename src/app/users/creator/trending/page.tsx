@@ -14,7 +14,7 @@ const TrendingVideos = () => {
 
   const fetchTrendingVideos = async () => {
     try {
-      const res = await axios.get("/api/videos/trend/trending");
+      const res = await axios.get("/api/videos/trend");
       setVideos(res.data);
     } catch (error) {
       console.error("Failed to fetch trending videos", error);
