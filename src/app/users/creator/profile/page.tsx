@@ -1,4 +1,5 @@
 "use client";
+
 import React, { useEffect, useState, ChangeEvent, FormEvent } from 'react';
 import Image from 'next/image';
 import axios from "axios";
@@ -165,183 +166,184 @@ const Dashboard: React.FC = () => {
   const [selectedVideo, setSelectedVideo] = useState<Video | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string>("");
-
-  useEffect(() => {
-    getUserDetails();
-    fetchVideos();
-  }, []);
-
-  const getUserDetails = async () => {
-    try {
-      const res = await axios.get("/api/users/me");
-      const userDetails: UserDetails = res.data.data;
-      setUsername(userDetails.username);
-      setBalance(userDetails.balance);
-      setProfileImage(userDetails.Profileimage);
-      setBio(userDetails.bio);
-    } catch (error: any) {
-      console.error(error.message);
-      toast.error("Failed to fetch user details");
-    }
-  };
-
-  const logout = async () => {
-    try {
-      await axios.get("/api/users/logout");
-      toast.success("Logout successful");
-      window.location.href = "/auth/signin";
-    } catch (error: any) {
-      console.error(error.message);
-      toast.error(error.message);
-    }
-  };
-
-  const toggleUploadForm = () => setShowUploadForm(!showUploadForm);
-
-  const handleTitleChange = (event: ChangeEvent<HTMLInputElement>) => setTitle(event.target.value);
-
-  const handleDescriptionChange = (event: ChangeEvent<HTMLInputElement>) => setDescription(event.target.value);
-
-  const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
-    if (event.target.files && event.target.files[0]) {
-      setVideoFile(event.target.files[0]);
-    }
-  };
-
-  const handleUpload = async (event: FormEvent) => {
-    event.preventDefault();
-    if (!videoFile) {
-      toast.error("Please select a video file to upload.");
-      return;
-    }
-
-    const formData = new FormData();
-    formData.append("video", videoFile);
-    formData.append("title", title);
-    formData.append("description", description);
-    formData.append("creator", username);
-
-    try {
-      await axios.post("/api/videos/upload", formData, { headers: { "Content-Type": "multipart/form-data" } });
-      toast.success("Video uploaded successfully");
-      toggleUploadForm();
+  
+    useEffect(() => {
+      getUserDetails();
       fetchVideos();
-    } catch (error: any) {
-      console.error(error.message);
-      toast.error("Failed to upload video");
+    }, []);
+  
+    const getUserDetails = async () => {
+      try {
+        const res = await axios.get("/api/users/me");
+        const userDetails: UserDetails = res.data.data;
+        setUsername(userDetails.username);
+        setBalance(userDetails.balance);
+        setProfileImage(userDetails.Profileimage);
+        setBio(userDetails.bio);
+      } catch (error: any) {
+        console.error(error.message);
+        toast.error("Failed to fetch user details");
+      }
+    };
+  
+    const logout = async () => {
+      try {
+        await axios.get("/api/users/logout");
+        toast.success("Logout successful");
+        window.location.href = "/auth/signin";
+      } catch (error: any) {
+        console.error(error.message);
+        toast.error(error.message);
+      }
+    };
+  
+    const toggleUploadForm = () => setShowUploadForm(!showUploadForm);
+  
+    const handleTitleChange = (event: ChangeEvent<HTMLInputElement>) => setTitle(event.target.value);
+  
+    const handleDescriptionChange = (event: ChangeEvent<HTMLInputElement>) => setDescription(event.target.value);
+  
+    const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
+      if (event.target.files && event.target.files[0]) {
+        setVideoFile(event.target.files[0]);
+      }
+    };
+  
+    const handleUpload = async (event: FormEvent) => {
+      event.preventDefault();
+      if (!videoFile) {
+        toast.error("Please select a video file to upload.");
+        return;
+      }
+  
+      const formData = new FormData();
+      formData.append("video", videoFile);
+      formData.append("title", title);
+      formData.append("description", description);
+      formData.append("creator", username);
+  
+      try {
+        await axios.post("/api/videos/upload", formData, { headers: { "Content-Type": "multipart/form-data" } });
+        toast.success("Video uploaded successfully");
+        toggleUploadForm();
+        fetchVideos();
+      } catch (error: any) {
+        console.error(error.message);
+        toast.error("Failed to upload video");
+      }
+    };
+  
+    const fetchVideos = async () => {
+      try {
+        const response = await axios.get("/api/videos/user");
+        setVideos(response.data.data);
+        setLoading(false);
+      } catch (error: any) {
+        setError(error.message);
+        setLoading(false);
+      }
+    };
+  
+    const handleDelete = async (id: string) => {
+      try {
+        await axios.delete(`/api/videos/${id}`);
+        toast.success('Video deleted successfully!');
+        fetchVideos();
+      } catch (error: any) {
+        console.error(error.message);
+        toast.error('Failed to delete video');
+      }
+    };
+  
+    const handleViewStatistics = (video: Video) => setSelectedVideo(video);
+  
+    if (loading) {
+      return <div className="text-white text-center">Loading...</div>;
     }
-  };
-
-  const fetchVideos = async () => {
-    try {
-      const response = await axios.get("/api/videos");
-      setVideos(response.data.data);
-      setLoading(false);
-    } catch (error: any) {
-      setError(error.message);
-      setLoading(false);
+  
+    if (error) {
+      return <div className="text-red-500 text-center">{error}</div>;
     }
-  };
-
-  const handleDelete = async (id: string) => {
-    try {
-      await axios.delete(`/api/videos/${id}`);
-      toast.success('Video deleted successfully!');
-      fetchVideos();
-    } catch (error: any) {
-      console.error(error.message);
-      toast.error('Failed to delete video');
-    }
-  };
-
-  const handleViewStatistics = (video: Video) => setSelectedVideo(video);
-
-  if (loading) {
-    return <div className="text-white text-center">Loading...</div>;
-  }
-
-  if (error) {
-    return <div className="text-red-500 text-center">{error}</div>;
-  }
-
-  return (
-    <div className="min-h-screen flex bg-black">
-      <Sidebar toggleUploadForm={toggleUploadForm} logout={logout} />
-      <div className="flex-grow p-6 ml-64 bg-black">
-        <div className="max-w-md mx-auto">
-          <div className="flex items-center justify-between py-4">
-            <h1 className="text-xl font-semibold text-white">{username}</h1>
-            <div className="p-4 flex items-center justify-center">
-              <div className="relative h-16 w-16 rounded-full overflow-hidden">
-                <Image src={user.profileImage} alt="Profile Picture" layout="fill" objectFit="cover" objectPosition="center" />
+  
+    return (
+      <div className="min-h-screen flex bg-black">
+        <Sidebar toggleUploadForm={toggleUploadForm} logout={logout} />
+        <div className="flex-grow p-6 ml-64 bg-black">
+          <div className="max-w-md mx-auto">
+            <div className="flex items-center justify-between py-4">
+              <h1 className="text-xl font-semibold text-white">{username}</h1>
+              <div className="p-4 flex items-center justify-center">
+                <div className="relative h-16 w-16 rounded-full overflow-hidden">
+                  <Image src={user.profileImage} alt="Profile Picture" layout="fill" objectFit="cover" objectPosition="center" />
+                </div>
               </div>
             </div>
-          </div>
-          <div className="flex justify-around text-center py-4">
-            <div>
-              <span className="block text-lg font-bold text-white">{balance}</span>
-              <span className="block text-gray-500">Balance</span>
+            <div className="flex justify-around text-center py-4">
+              <div>
+                <span className="block text-lg font-bold text-white">{balance}</span>
+                <span className="block text-gray-500">Balance</span>
+              </div>
+              <div>
+                <span className="block text-lg font-bold text-white">{user.followers}</span>
+                <span className="block text-gray-500">Viewers</span>
+              </div>
             </div>
-            <div>
-              <span className="block text-lg font-bold text-white">{user.followers}</span>
-              <span className="block text-gray-500">Viewers</span>
+            <div className="flex justify-around py-4">
+              <button className="flex items-center bg-gray-200 px-4 py-2 rounded">
+                <FaUserEdit className="mr-2" />
+                Edit profile
+              </button>
+              <button className="flex items-center bg-gray-200 px-4 py-2 rounded">
+                <FaShareAlt className="mr-2" />
+                Share profile
+              </button>
+              <button className="flex items-center bg-gray-200 px-4 py-2 rounded">
+                <FaPlusCircle className="mr-2" />
+                Add bio
+              </button>
+            </div>
+            <div className="border-t border-gray-300 py-4 text-center">
+              <p className="text-white">What are some good videos you’ve taken recently?</p>
+              <button onClick={toggleUploadForm} className="bg-pink-500 text-white px-4 py-2 rounded mt-2">Upload</button>
             </div>
           </div>
-          <div className="flex justify-around py-4">
-            <button className="flex items-center bg-gray-200 px-4 py-2 rounded">
-              <FaUserEdit className="mr-2" />
-              Edit profile
-            </button>
-            <button className="flex items-center bg-gray-200 px-4 py-2 rounded">
-              <FaShareAlt className="mr-2" />
-              Share profile
-            </button>
-            <button className="flex items-center bg-gray-200 px-4 py-2 rounded">
-              <FaPlusCircle className="mr-2" />
-              Add bio
-            </button>
+          <div className="max-w-5xl mx-auto mt-6">
+            <h2 className="text-xl font-semibold text-white">Your Videos</h2>
+            {videos.length === 0 ? (
+              <p className="text-gray-500">No videos uploaded yet.</p>
+            ) : (
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-4">
+                {videos.map((video) => (
+                  <VideoCard key={video._id} video={video} handleDelete={handleDelete} handleViewStatistics={handleViewStatistics} />
+                ))}
+              </div>
+            )}
           </div>
-          <div className="border-t border-gray-300 py-4 text-center">
-            <p className="text-white">What are some good videos you’ve taken recently?</p>
-            <button onClick={toggleUploadForm} className="bg-pink-500 text-white px-4 py-2 rounded mt-2">Upload</button>
-          </div>
-        </div>
-        <div className="max-w-5xl mx-auto mt-6">
-          <h2 className="text-xl font-semibold text-white">Your Videos</h2>
-          {videos.length === 0 ? (
-            <p className="text-gray-500">No videos uploaded yet.</p>
-          ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-4">
-              {videos.map((video) => (
-                <VideoCard key={video._id} video={video} handleDelete={handleDelete} handleViewStatistics={handleViewStatistics} />
-              ))}
+          {selectedVideo && (
+            <div className="max-w-md mx-auto mt-6">
+              <h2 className="text-xl font-semibold text-white">Video Statistics</h2>
+              <div className="relative h-64 bg-gray-800 rounded-lg p-4 mt-2">
+                <video className="object-cover w-full h-full" src={selectedVideo.url} controls />
+                <p className="mt-2 text-white">Views: {selectedVideo.views}</p>
+                <p className="mt-2 text-white">Title: {selectedVideo.title}</p>
+                <p className="mt-2 text-white">Description: {selectedVideo.description}</p>
+              </div>
             </div>
           )}
         </div>
-        {selectedVideo && (
-          <div className="max-w-md mx-auto mt-6">
-            <h2 className="text-xl font-semibold text-white">Video Statistics</h2>
-            <div className="relative h-64 bg-gray-800 rounded-lg p-4 mt-2">
-              <video className="object-cover w-full h-full" src={selectedVideo.url} controls />
-              <p className="mt-2 text-white">Views: {selectedVideo.views}</p>
-              <p className="mt-2 text-white">Title: {selectedVideo.title}</p>
-              <p className="mt-2 text-white">Description: {selectedVideo.description}</p>
-            </div>
-          </div>
-        )}
+        <UploadForm
+          showUploadForm={showUploadForm}
+          toggleUploadForm={toggleUploadForm}
+          handleUpload={handleUpload}
+          handleTitleChange={handleTitleChange}
+          handleDescriptionChange={handleDescriptionChange}
+          handleFileChange={handleFileChange}
+          title={title}
+          description={description}
+        />
       </div>
-      <UploadForm
-        showUploadForm={showUploadForm}
-        toggleUploadForm={toggleUploadForm}
-        handleUpload={handleUpload}
-        handleTitleChange={handleTitleChange}
-        handleDescriptionChange={handleDescriptionChange}
-        handleFileChange={handleFileChange}
-        title={title}
-        description={description}
-      />
-    </div>
-  );
-};
-
-export default Dashboard;
+    );
+  };
+  
+  export default Dashboard;
+  
