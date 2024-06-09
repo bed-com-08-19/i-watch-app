@@ -15,6 +15,7 @@ export interface IUser extends Document {
   imgUrl: string;
   subscription?: string;
   credits?: number;
+  creditedVideos: mongoose.Types.ObjectId[];
 }
 
 // Create a Schema corresponding to the document interface
@@ -63,6 +64,7 @@ const userSchema: Schema<IUser> = new Schema({
     type: Date, 
     default: Date.now 
   },
+  creditedVideos: [{ type: Schema.Types.ObjectId, ref: 'Video' }]
 });
 
 // Adding an index on email for better performance
@@ -72,3 +74,6 @@ userSchema.index({ email: 1 });
 const UserModel: Model<IUser> = mongoose.models.User || mongoose.model<IUser>("User", userSchema);
 
 export default UserModel;
+
+
+
