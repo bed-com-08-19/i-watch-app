@@ -44,7 +44,7 @@ export default function RegularUser() {
     }
   };
 
-  const handleVideoPlaybackCompletion = async (videoId) => {
+  const handleVideoPlaybackCompletion = async (videoId: any) => {
     try {
       // Send a request to the server to update the user's balance
       await axios.post("/api/videos/playback", { videoId });
