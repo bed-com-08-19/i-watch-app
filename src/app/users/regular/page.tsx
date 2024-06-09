@@ -44,12 +44,10 @@ export default function RegularUser() {
     }
   };
 
-  const handleVideoPlaybackCompletion = async (videoId: any) => {
+  const handleVideoPlaybackCompletion = async (videoId) => {
     try {
-      // Send a request to the server to update the user's balance
       await axios.post("/api/videos/playback", { videoId });
       toast.success("Credits have been awarded!");
-      // Refetch the videos to update the UI if needed
       fetchVideos();
     } catch (error) {
       console.error("Error updating balance:", error);
