@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import Sidebar from '../_components/Sidebar';
-import Navbar from '../_components/Navbar';
+import Header from '../_components/Header';
 import axios from 'axios';
 
 const UploadedVideos = () => {
@@ -55,7 +55,7 @@ const UploadedVideos = () => {
     <div className="flex">
       <Sidebar />
       <div className="flex-1 bg-black-900">
-        <Navbar />
+        <Header />
         <div className="p-6 bg-black-800 text-white rounded-lg shadow-md">
           <h2 className="text-lg font-bold mb-4">Uploaded Videos</h2>
           <input
