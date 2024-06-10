@@ -36,7 +36,7 @@ export default function RegisterPage() {
       const response = await axios.post("/api/users/signup", user);
       console.log("Signup success", response.data);
       toast.success("Sign up successful!");
-      router.push("/signin");
+      router.push("/auth/signin");
     } catch (error) {
       console.error("Signup failed", error.response?.data?.message || error.message);
       toast.error(error.response?.data?.message || "An error occurred during signup. Please try again.");
