@@ -1,4 +1,5 @@
 "use client"
+
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
@@ -68,7 +69,6 @@ export default function RegularUser() {
     <div>
       <Header />
       <main className="flex flex-col items-center justify-between p-4">
-        <button onClick={logout} className="mb-4">Logout</button>
         {videos.length === 0 ? (
           <div>No videos available</div>
         ) : (
