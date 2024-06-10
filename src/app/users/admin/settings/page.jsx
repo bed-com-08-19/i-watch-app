@@ -1,7 +1,7 @@
 "use client";
-import Sidebar from '../../../../components/Sidebar';
-import Navbar from '../../../../components/Navbar';
-import ManageAppSettings from '../../../../components/AdminTools/ManageAppSettings';
+import Sidebar from '../_components/Sidebar';
+import Navbar from '../_components/Navbar';
+import ManageAppSettings from '../_components/AdminTools/ManageAppSettings';
 
 const Settings = () => {
   return (

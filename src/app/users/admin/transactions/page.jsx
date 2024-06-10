@@ -1,7 +1,7 @@
 "use client";
-import Sidebar from '../../../../components/Sidebar';
-import Navbar from '../../../../components/Navbar';
-import EarningsReport from '../../../../components/AdminTools/EarningsReport';
+import Sidebar from '../_components/Sidebar';
+import Navbar from '../_components/Navbar';
+import EarningsReport from '../_components/AdminTools/EarningsReport';
 
 const Transactions = () => {
   return (
