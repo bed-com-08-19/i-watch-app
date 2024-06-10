@@ -35,7 +35,7 @@ const ManageUsers = () => {
 
     const handleVerify = async (id) => {
         try {
-            await axios.patch(`/api/users/${id}/verify`);
+            await axios.patch(`/api/users/verify/${id}`);
             fetchUsers();
         } catch (error) {
             console.error("Error verifying user:", error);
