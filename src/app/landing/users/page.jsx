@@ -1,3 +1,4 @@
+"use client"
 import { useState, useEffect } from "react";
 import Pagination from "../pagination/pagination";
 import Search from "../search/search";
