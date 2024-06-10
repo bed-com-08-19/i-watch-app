@@ -15,7 +15,12 @@ const TrendingVideos = () => {
   const fetchTrendingVideos = async () => {
     try {
       const res = await axios.get("/api/videos/trend");
-      setVideos(res.data);
+      console.log("API response:", res.data); // Log the response to check its structure
+      if (Array.isArray(res.data.data)) {
+        setVideos(res.data.data); // Ensure you access the correct part of the response
+      } else {
+        console.error("Unexpected response format", res.data);
+      }
     } catch (error) {
       console.error("Failed to fetch trending videos", error);
     }
