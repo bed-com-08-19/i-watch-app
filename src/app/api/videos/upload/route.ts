@@ -5,6 +5,7 @@ import multer from 'multer';
 import { v4 as uuidv4 } from 'uuid';
 import path from 'path';
 import { createWriteStream } from 'fs';
+import mongoose from 'mongoose';
 
 // Multer configuration for storing uploaded files
 const storage = multer.diskStorage({
@@ -44,10 +45,18 @@ export async function POST(req: NextRequest) {
   const file = formData.get('video') as File;
   const title = formData.get('title') as string;
   const description = formData.get('description') as string;
-  const creator = formData.get('creator') as string;
+  const creatorId = formData.get('creator') as string;
 
   if (!file) {
     return NextResponse.json({ success: false, error: 'No file uploaded' }, { status: 400 });
+  }
+
+  // Validate and convert creator ID to ObjectId
+  let creator;
+  try {
+    creator = new mongoose.Types.ObjectId(creatorId);
+  } catch (error) {
+    return NextResponse.json({ success: false, error: 'Invalid creator ID' }, { status: 400 });
   }
 
   const filePath = path.join('./public/uploads/videos', `${uuidv4()}${path.extname(file.name)}`);
@@ -66,7 +75,7 @@ export async function POST(req: NextRequest) {
     const video: IVideo = new Video({ title, description, url, creator });
     await video.save();
 
-    return NextResponse.json({ success: true, data: video }, { status: 201 });
+    return NextResponse.json({ success: true, data: video }, { status: 200 });
   } catch (error: any) {
     return NextResponse.json({ success: false, error: error.message }, { status: 400 });
   }
