@@ -54,9 +54,9 @@ const UploadedVideos = () => {
   return (
     <div className="flex">
       <Sidebar />
-      <div className="flex-1 bg-gray-900">
+      <div className="flex-1 bg-black-900">
         <Navbar />
-        <div className="p-6 bg-gray-800 text-white rounded-lg shadow-md">
+        <div className="p-6 bg-black-800 text-white rounded-lg shadow-md">
           <h2 className="text-lg font-bold mb-4">Uploaded Videos</h2>
           <input
             type="text"

@@ -74,9 +74,9 @@ const ManageUsers = () => {
     return (
         <div className="flex">
             <Sidebar />
-            <div className="flex-1 bg-gray-900">
+            <div className="flex-1 bg-black-900">
                 <Navbar />
-                <div className="bg-gray-800 text-white p-4 rounded-lg shadow-md">
+                <div className="bg-black-800 text-white p-4 rounded-lg shadow-md">
                     <h2 className="text-lg font-bold mb-4">Manage Users</h2>
                     <input
                         type="text"
