@@ -1,7 +1,7 @@
 'use client';
 
 import Sidebar from '../_components/Sidebar';
-import Navbar from '../_components/Navbar';
+import Header from '../_components/Header';
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
@@ -75,7 +75,7 @@ const ManageUsers = () => {
         <div className="flex">
             <Sidebar />
             <div className="flex-1 bg-black-900">
-                <Navbar />
+                <Header />
                 <div className="bg-black-800 text-white p-4 rounded-lg shadow-md">
                     <h2 className="text-lg font-bold mb-4">Manage Users</h2>
                     <input
