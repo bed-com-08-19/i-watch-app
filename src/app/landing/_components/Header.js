@@ -1,5 +1,8 @@
 // Header.js
 //<img className="h-8" src= {logo} alt="Logo" />
+
+
+"use client"
 import logo from "./logo.png"
 import Image from "next/image";
 const Header = () => {
