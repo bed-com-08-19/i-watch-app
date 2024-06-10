@@ -32,9 +32,11 @@ const runMiddleware = (req: NextRequest, res: NextResponse, fn: any) => {
 
 const uploadMiddleware = upload.single('video');
 
-export const config = {
-  api: {
-    bodyParser: false,
+export const segment = {
+  config: {
+    api: {
+      bodyParser: false,
+    },
   },
 };
 
