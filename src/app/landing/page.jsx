@@ -1,7 +1,9 @@
+"use client"
+
 import Head from 'next/head';
 import Header from './_components/Header';
 import Footer from './_components/Footer';
-import subjectCards from './_components/subjectcards';
+import SubjectCards from './_components/subjectCards';
 
 export default function Home() {
   return ( 
@@ -15,7 +17,7 @@ export default function Home() {
   <Header />
 
   <main>
-    <subjectCards/>
+    <SubjectCards/>
 
   </main>
 
