@@ -33,7 +33,7 @@ interface Video {
 }
 
 const Sidebar: React.FC<{ toggleUploadForm: () => void; logout: () => void }> = ({ toggleUploadForm, logout }) => (
-  <aside className="fixed top-0 left-0 w-64 h-screen bg-black-800 text-white overflow-y-auto">
+  <aside className="fixed top-0 left-0 w-64 h-screen bg-gray-900 text-white overflow-y-auto">
     <nav className="mt-6">
       <a href="/users/creator" className="block py-2.5 px-4 rounded hover:bg-gray-700">
         <AiOutlineHome className="inline mr-2" />
@@ -59,7 +59,7 @@ const Sidebar: React.FC<{ toggleUploadForm: () => void; logout: () => void }> = 
         <FiHelpCircle className="inline mr-2" />
         Help
       </a>
-      <button className="w-full text-left block py-2.5 px-4 rounded hover:bg-red-700" onClick={logout}>
+      <button className="mt-4 px-4 py-2 text-sm text-white bg-red-500 hover:bg-red-800 focus:outline-none cursor-pointer" onClick={logout}>
         <FiLogOut className="inline mr-2" />
         Logout
       </button>

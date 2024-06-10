@@ -1,13 +1,13 @@
 "use client";
-import Sidebar from '../../../../components/Sidebar';
-import Navbar from '../../../../components/Navbar';
-import EarningsReport from '../../../../components/AdminTools/EarningsReport';
+import Sidebar from '../_components/Sidebar';
+import Navbar from '../_components/Navbar';
+import EarningsReport from '../_components/AdminTools/EarningsReport';
 
 const Transactions = () => {
   return (
     <div className="flex">
       <Sidebar />
-      <div className="flex-1 bg-gray-900">
+      <div className="flex-1 bg-black-900">
         <Navbar />
         <div className="p-6">
           <EarningsReport />
