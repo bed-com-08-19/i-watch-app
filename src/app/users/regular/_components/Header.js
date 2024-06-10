@@ -64,6 +64,7 @@ const Header = () => {
           {dropdownOpen && (
             <div className="absolute right-0 mt-2 w-48 bg-black rounded-md shadow-lg z-20">
               <a href="/users/regular/subscribe" className="block px-4 py-2 text-sm text-white hover:bg-gray-800" >subscribe</a>
+              <a href="/users/regular/subscribe" className="block px-4 py-2 text-sm text-white hover:bg-gray-800" >Be a Creator</a>
               <a href="/users/regular/profile" className="block px-4 py-2 text-sm text-white hover:bg-gray-800" >Profile</a>
               <a href="/auth/signin" className="block px-4 py-2 text-sm text-white bg-red-500 hover:bg-red-800" onClick={logout}>Logout</a>
             </div>
@@ -75,4 +76,3 @@ const Header = () => {
 };
 
 export default Header;
- 
