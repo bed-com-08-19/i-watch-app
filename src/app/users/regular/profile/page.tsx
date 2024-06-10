@@ -4,7 +4,7 @@ import Image from 'next/image';
 import axios from "axios";
 import { toast } from "react-hot-toast";
 import { FaUserEdit, FaShareAlt, FaPlusCircle } from 'react-icons/fa';
-import { FiLogOut, FiSettings, FiHelpCircle } from 'react-icons/fi';
+import { FiLogOut, FiSettings, FiHelpCircle, FiCheckCircle } from 'react-icons/fi';
 import { BiUpload, BiUser } from 'react-icons/bi';
 import { AiOutlineHome } from 'react-icons/ai';
 import { RiMoneyDollarCircleLine } from 'react-icons/ri';
@@ -55,9 +55,6 @@ const Dashboard = () => {
   return (
     <div className="min-h-screen flex bg-black">
       <aside className="fixed top-0 left-0 w-64 h-screen bg-gray-900 text-white flex flex-col overflow-y-auto">
-        <div className="text-center my-6">
-          <h1 className="text-2xl font-bold">Admin Dashboard</h1>
-        </div>
         <nav className="flex-grow mt-6">
           <a href="/users/regular" className="flex items-center block py-2.5 px-4 rounded hover:bg-gray-700">
             <AiOutlineHome className="mr-2" />
@@ -68,7 +65,7 @@ const Dashboard = () => {
             Profile
           </a>
           <a href="/users/regular/subscribe" className="flex items-center block py-2.5 px-4 rounded hover:bg-gray-700">
-            <BiUpload className="mr-2" />
+            <FiCheckCircle className="mr-2" />
             Subscribe
           </a>
           <a href="/users/regular/transaction" className="flex items-center block py-2.5 px-4 rounded hover:bg-gray-700">
