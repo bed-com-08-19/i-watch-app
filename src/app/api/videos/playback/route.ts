@@ -1,10 +1,9 @@
-// pages/api/videos/playback.ts
-
 import { NextRequest, NextResponse } from "next/server";
 import { connect } from "@/dbConfig/dbConfig";
 import Video from "@/models/videoModel";
 import User from "@/models/userModel";
 import { getDataFromToken } from "@/helper/getDataFromToken";
+import mongoose from "mongoose";
 
 connect();
 
@@ -33,14 +32,14 @@ export async function POST(request: NextRequest) {
     }
 
     // Check if user has already been credited for this video
-    if (user.creditedVideos.includes(videoId)) {
+    if (user.creditedVideos.includes(new mongoose.Types.ObjectId(videoId))) {
       return NextResponse.json({ message: "User has already been credited for this video" }, { status: 400 });
     }
 
     // Reward credits
     user.balance += 10;
     videoOwner.balance += 10;
-    user.creditedVideos.push(videoId);
+    user.creditedVideos.push(new mongoose.Types.ObjectId(videoId));
 
     await user.save();
     await videoOwner.save();

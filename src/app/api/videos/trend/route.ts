@@ -1,21 +1,15 @@
 // pages/api/videos/trend/route.ts
 
-import { NextRequest, NextResponse } from "next/server";
-import { connect } from "@/dbConfig/dbConfig";
+import { NextRequest, NextResponse } from 'next/server';
 import Video from "@/models/videoModel";
+import { connect } from "@/dbConfig/dbConfig";
 
-connect();
-
-export async function GET(request: NextRequest) {
+export async function GET(req: NextRequest) {
+  await connect();
   try {
-    // Fetch top 10 trending videos sorted by play count in descending order
-    const videos = await Video.find().sort({ playCount: -1 }).limit(10);
-    
-    return NextResponse.json({
-      data: videos,
-    });
+    const videos = await Video.find().sort({ createdAt: -1 });
+    return NextResponse.json({ success: true, data: videos });
   } catch (error: any) {
-    console.error("Error fetching trending videos:", error);
-    return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
+    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
   }
 }
