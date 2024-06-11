@@ -1,14 +1,13 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import Image from "next/image";
 import { FaRegEye, FaDollarSign } from "react-icons/fa";
 import { SlLike } from "react-icons/sl";
-import { FiHome } from "react-icons/fi";
-import { FiUpload } from "react-icons/fi";
+import { FiHome, FiUpload } from "react-icons/fi";
 import { BiMoneyWithdraw } from "react-icons/bi";
 import { CiSettings } from "react-icons/ci";
 import axios from "axios";
-import toast from "react-hot-toast"; // Assuming you're using react-hot-toast for notifications
+import toast from "react-hot-toast";
 import { ref, uploadBytes, getDownloadURL, deleteObject } from "firebase/storage";
 import { collection, query, where, getDocs, deleteDoc, addDoc } from "firebase/firestore";
 //import { storage, db } from "./firebaseConfig"; // Ensure your Firebase config is imported
@@ -25,10 +24,33 @@ const Profile = () => {
   const [isImageViewerOpen, setIsImageViewerOpen] = useState(false);
   const [profileImageUrl, setProfileImageUrl] = useState("");
 
+  const getUserDetails = useCallback(async () => {
+    try {
+      const res = await axios.get("/api/users/me");
+      setUsername(res.data.data.username);
+      setUser(res.data.data);
+    } catch (error) {
+      console.error(error.message);
+      toast.error("Failed to fetch user details");
+    }
+  }, []);
+
+  const getUserBalance = useCallback(async () => {
+    try {
+      const res = await axios.get("/api/balance/getBalance", {
+        params: { userId: user._id },
+      });
+      setUser((prevUser) => ({ ...prevUser, balance: res.data.data.balance }));
+    } catch (error) {
+      console.error(error.message);
+      toast.error("Failed to fetch user balance");
+    }
+  }, [user._id]);
+
   useEffect(() => {
     getUserDetails();
     getUserBalance();
-  }, []);
+  }, [getUserDetails, getUserBalance]);
 
   const logout = async () => {
     try {
@@ -40,30 +62,7 @@ const Profile = () => {
     }
   };
 
-  const getUserDetails = async () => {
-    try {
-      const res = await axios.get("/api/users/me");
-      setUsername(res.data.data.username);
-      setUser(res.data.data);
-    } catch (error) {
-      console.error(error.message);
-      toast.error("Failed to fetch user details");
-    }
-  };
-
-  const getUserBalance = async () => {
-    try {
-      const res = await axios.get("/api/balance/getBalance", {
-        params: { userId: user._id },
-      });
-      setUser((prevUser) => ({ ...prevUser, balance: res.data.data.balance }));
-    } catch (error) {
-      console.error(error.message);
-      toast.error("Failed to fetch user balance");
-    }
-  };
-
-  const fetchProfileImage = async () => {
+  const fetchProfileImage = useCallback(async () => {
     try {
       const q = query(collection(db, "profileImages"), where("username", "==", username));
       const querySnapshot = await getDocs(q);
@@ -74,7 +73,7 @@ const Profile = () => {
       console.error(error.message);
       toast.error("Failed to fetch profile image");
     }
-  };
+  }, [username]);
 
   const toggleDropdown = () => setDropdownOpen(!dropdownOpen);
 
@@ -162,20 +161,15 @@ const Profile = () => {
       return;
     }
 
-    // Find the document in Firestore
     const q = query(collection(db, "profileImages"), where("username", "==", username));
     const querySnapshot = await getDocs(q);
     const docId = querySnapshot.docs[0]?.id;
 
     if (docId) {
-      // Delete the image from Firebase Storage
       const storageRef = ref(storage, profileImageUrl);
       try {
         await deleteObject(storageRef);
-
-        // Delete the document from Firestore
         await deleteDoc(doc(db, "profileImages", docId));
-
         setProfileImageUrl("");
         toast.success("Image deleted successfully");
       } catch (error) {
@@ -189,10 +183,9 @@ const Profile = () => {
 
   return (
     <main className="flex items-center justify-between pt-4 pr-4">
-      {/* Side bar navigation */}
       <section className="sticky flex-1 flex flex-col -mt-80 top-1/2 transform -translate-y-1/2">
-      <div className="p-2 flex items-top gap-2 rounded-lg hover:bg-gray-700 active:bg-gray-700">
-         <a href="/users/creator"><FiHome /></a> 
+        <div className="p-2 flex items-top gap-2 rounded-lg hover:bg-gray-700 active:bg-gray-700">
+          <a href="/users/creator"><FiHome /></a>
         </div>
         <div className="p-2 flex items-center gap-2 rounded-lg hover:bg-gray-700 active:bg-gray-700">
           <FiUpload />
@@ -207,7 +200,6 @@ const Profile = () => {
 
       <section className="w-full">
         <section className="w-full sticky top-0 z-10 section1">
-          {/* Profile Header */}
           <div className="flex items-center justify-center w-full p-4">
             <div className="flex items-center">
               <div className="relative h-16 w-16 sm:h-20 sm:w-20 rounded-full overflow-hidden">
@@ -241,7 +233,6 @@ const Profile = () => {
             </div>
           </div>
 
-          {/* Money and Views */}
           <div className="flex w-full items-center justify-center font-bold p-2 text-center text-white">
             <div className="m-4 flex flex-col">
               <p>MK{user.balance}</p>
@@ -257,11 +248,9 @@ const Profile = () => {
             </div>
           </div>
 
-          {/* Divider */}
           <hr className="w-full border-t-0.5 border-gray-300 my-2" />
         </section>
 
-        {/* User Videos */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 w-full p-4">
           {videos.map((video) => (
             <div key={video.id} className="relative h-48 sm:h-64">
