@@ -6,8 +6,13 @@ import { toast } from "react-hot-toast";
 import Header from '../_components/Header';
 import Footer from '../../../../components/Footer';
 
+interface Video {
+  _id: string;
+  url: string;
+}
+
 export default function UserProfile({ params }: any) {
-  const [videos, setVideos] = useState([]);
+  const [videos, setVideos] = useState<Video[]>([]);
 
   useEffect(() => {
     fetchVideos();
@@ -16,7 +21,7 @@ export default function UserProfile({ params }: any) {
   const fetchVideos = async () => {
     try {
       const res = await axios.get("/api/videos");
-      const videos = res.data.data;
+      const videos: Video[] = res.data.data;
 
       setVideos(videos);
     } catch (error) {
