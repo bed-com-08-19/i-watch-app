@@ -7,12 +7,20 @@ import { useRouter } from "next/navigation";
 import Header from "./_components/Header";
 import Footer from "../../../components/Footer";
 
+
+interface Video {
+  _id: string;
+  url: string;
+}
+
 export default function RegularUser() {
   const router = useRouter();
   const [data, setData] = useState({});
-  const [videos, setVideos] = useState([]);
+  const [videos, setVideos] = useState<Video[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  
 
   const logout = async () => {
     try {
@@ -20,8 +28,8 @@ export default function RegularUser() {
       toast.success("Logout successful");
       router.push("/login");
     } catch (error) {
-      console.log(error.message);
-      toast.error(error.message);
+      
+      toast.error("Login Failed");
     }
   };
 
@@ -30,8 +38,7 @@ export default function RegularUser() {
       const res = await axios.get("/api/users/me");
       setData(res.data.data);
     } catch (error) {
-      console.log(error.message);
-      toast.error(error.message);
+      toast.error("Login Failed");
     }
   };
 
@@ -41,12 +48,12 @@ export default function RegularUser() {
       setVideos(response.data.data);
       setLoading(false);
     } catch (error) {
-      setError(error.message);
+      toast.error("Login Failed");
       setLoading(false);
     }
   };
 
-  const handleVideoPlaybackCompletion = async (videoId) => {
+  const handleVideoPlaybackCompletion = async (videoId: any) => {
     try {
       await axios.post("/api/videos/playback", { videoId });
       toast.success("Credits have been awarded!");
