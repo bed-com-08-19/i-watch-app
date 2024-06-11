@@ -4,7 +4,6 @@ import Video, { IVideo } from '@/models/videoModel';
 import multer from 'multer';
 import { v4 as uuidv4 } from 'uuid';
 import path from 'path';
-import { createWriteStream } from 'fs';
 import mongoose from 'mongoose';
 
 // Multer configuration for storing uploaded files
