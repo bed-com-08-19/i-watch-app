@@ -24,7 +24,7 @@ export default function RegisterPage() {
     );
   };
 
-  const onSignup = async (e) => {
+  const onSignup = async (e: { preventDefault: () => void; }) => {
     e.preventDefault();
     if (!validateForm()) {
       toast.error("Please fill out all fields and ensure the password is at least 7 characters long.");
@@ -38,8 +38,8 @@ export default function RegisterPage() {
       toast.success("Sign up successful!");
       router.push("/auth/signin");
     } catch (error) {
-      console.error("Signup failed", error.response?.data?.message || error.message);
-      toast.error(error.response?.data?.message || "An error occurred during signup. Please try again.");
+      console.error("Signup failed");
+      toast.error("An error occurred during signup. Please try again.");
     } finally {
       setLoading(false);
     }
