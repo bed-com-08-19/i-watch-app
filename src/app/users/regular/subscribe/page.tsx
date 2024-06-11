@@ -18,8 +18,8 @@ type PricingSwitchProps = {
 type PricingCardProps = {
   user: any
   handleCheckout: any
-  priceIdMonthly: any
-  priceIdYearly: any
+  priceIdMonthly: string
+  priceIdYearly?: string
   isYearly?: boolean
   title: string
   monthlyPrice?: number
@@ -119,30 +119,22 @@ export default function Pricing() {
       const res = await axios.get("/api/users/me");
       setUserId(res.data.data.userId);
       setEmail(res.data.data.email);
-
     } catch (error) {
-      
       toast.error("Failed to fetch user details");
     }
   };
 
   const handleCheckout = async (priceId: string, subscription: boolean) => {
-
     try {
       const { data } = await axios.post(`/api/payments/create-checkout-session`,
-        { userId: { userId }, email: { email }, priceId, subscription });
+        { userId: userId, email: email, priceId, subscription });
 
-      console.log('data', data)
       if (data.sessionId) {
         const stripe = await stripePromise;
-        console.log('stripe', stripe)
 
         const response = await stripe?.redirectToCheckout({
           sessionId: data.sessionId,
         });
-
-        console.log('response', response)
-
 
         return response
       } else {
@@ -161,27 +153,31 @@ export default function Pricing() {
     {
       title: "Basic",
       monthlyPrice: 5000,
+      yearlyPrice: 50000,
       description: "Essential features you need to get started",
       features: ["Example Feature Number 1", "Example Feature Number 2", "Example Feature Number 3"],
       priceIdMonthly: "price_1PP8S5LNL4vBEK12ZhmoTt8Q",
+      priceIdYearly: "price_1PP8S5LNL4vBEK12Yearly",
       actionLabel: "Get Started",
     },
     {
       title: "Pro",
       monthlyPrice: 10000,
-      description: "Perfect for owners of small & medium businessess",
+      yearlyPrice: 100000,
+      description: "Perfect for owners of small & medium businesses",
       features: ["Example Feature Number 1", "Example Feature Number 2", "Example Feature Number 3"],
       actionLabel: "Get Started",
       priceIdMonthly: "price_1PP8S5LNL4vBEK128c1JJR2f",
+      priceIdYearly: "price_1PP8S5LNL4vBEK12YearlyPro",
       popular: true,
     },
     {
       title: "Enterprise",
-      price: "Custom",
       description: "Dedicated support and infrastructure to fit your needs",
       features: ["Example Feature Number 1", "Example Feature Number 2", "Example Feature Number 3", "Super Exclusive Feature"],
       actionLabel: "Contact Sales",
       priceIdMonthly: "price_1PP8S5LNL4vBEK127oGMPzYL",
+      priceIdYearly: "price_1PP8S5LNL4vBEK12YearlyEnterprise",
       exclusive: true,
     },
   ]
@@ -196,7 +192,7 @@ export default function Pricing() {
       <PricingSwitch onSwitch={togglePricingPeriod} />
       <section className="flex flex-col sm:flex-row sm:flex-wrap justify-center gap-8 mt-8">
         {plans.map((plan) => {
-          return <Card user={userId} handleCheckout={handleCheckout} key={plan.title} {...plan} isYearly={isYearly} />
+          return <PricingCard user={userId} handleCheckout={handleCheckout} key={plan.title} {...plan} isYearly={isYearly} />
         })}
       </section>
     </div>
