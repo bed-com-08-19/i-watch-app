@@ -36,7 +36,7 @@ const Dashboard = () => {
       setBio(res.data.data.bio);
       setViews(res.data.data.views);
     } catch (error) {
-      console.error(error.message);
+      
       toast.error("Failed to fetch user details");
     }
   };
@@ -47,8 +47,7 @@ const Dashboard = () => {
       toast.success("Logout successful");
       window.location.href = "/auth/signin";
     } catch (error) {
-      console.error(error.message);
-      toast.error(error.message);
+      toast.error("Logout failed");
     }
   };
 
