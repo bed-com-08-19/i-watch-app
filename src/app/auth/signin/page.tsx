@@ -16,7 +16,7 @@ export default function RegisterPage() {
   const [buttonDisabled, setButtonDisabled] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const onLogin = async (e) => {
+  const onLogin = async (e: { preventDefault: () => void; }) => {
     e.preventDefault();
     try {
       setLoading(true);
