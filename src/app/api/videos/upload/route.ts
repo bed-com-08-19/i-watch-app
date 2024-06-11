@@ -83,3 +83,9 @@ export async function POST(req: NextRequest, res: any) {
     return NextResponse.json({ success: false, error: error.message }, { status: 400 });
   }
 }
+
+export const segment = {
+  api: {
+    bodyParser: false,
+  },
+};
