@@ -18,17 +18,17 @@ export default function UserProfile({ params }: any) {
       const res = await axios.get("/api/videos");
       const videos = res.data.data;
 
-      if (videos.length === 0) {
-        setCategories([]);
-      } else {
-        const newCategories = [
-          { name: "Newly Added", videos: videos.slice(0, 8) },
-          { name: "Mostly Liked", videos: videos.slice(8, 16) },
-        ];
-        setCategories(newCategories);
-      }
+      // if (videos.length === 0) {
+      //   setCategories([]);
+      // } else {
+      //   const newCategories = [
+      //     { name: "Newly Added", videos: videos.slice(0, 8) },
+      //     { name: "Mostly Liked", videos: videos.slice(8, 16) },
+      //   ];
+      //   setCategories(newCategories);
+      // }
     } catch (error) {
-      console.error(error.message);
+      
       toast.error("Failed to fetch videos");
     }
   };
