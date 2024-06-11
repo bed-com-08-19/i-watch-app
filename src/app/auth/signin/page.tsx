@@ -120,7 +120,7 @@ export default function RegisterPage() {
           </div>
           <div className="text-sm text-center">
             <p className="tc-grey t-center">
-              Don't have an account?
+              Dont have an account?
               <Link className="link font-bold" href={`/auth/signup`}>
                 Sign Up
               </Link>
