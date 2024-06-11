@@ -30,11 +30,11 @@ const Help = () => {
           <div>
             <h3 className="text-lg font-medium">How do I reset my password?</h3>
             <p className="mb-4">
-              If you forgot your password, click on "Forgot password" on the login page and follow the instructions.
+              If you forgot your password, click on Forgot password on the login page and follow the instructions.
             </p>
             <h3 className="text-lg font-medium">How do I contact support?</h3>
             <p className="mb-4">
-              You can contact our support team via the contact form on the "Contact Us" page or by emailing iwatch@gmail.com.
+              You can contact our support team via the contact form on the Contact Us page or by emailing iwatch@gmail.com.
             </p>
           </div>
         </section>

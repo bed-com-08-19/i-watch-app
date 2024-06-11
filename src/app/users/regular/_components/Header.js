@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { toast } from "react-hot-toast";
+import Image from "next/image";
 
 const Header = () => {
   const [username, setUsername] = useState("null");
@@ -55,7 +56,7 @@ const Header = () => {
             onClick={toggleDropdown}
             className="mt-4 focus:outline-none"
           >
-            <img
+            <Image
               src=""
               alt={username}
               className="w-10 h-10 rounded-full cursor-pointer"

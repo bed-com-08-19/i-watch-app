@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { toast } from 'react-hot-toast';
+import Image from 'next/image';
 
 const ChangeProfilePhotoForm = ({ userId }) => {
     const [profilePhoto, setProfilePhoto] = useState(null);
@@ -44,7 +45,7 @@ const ChangeProfilePhotoForm = ({ userId }) => {
                     onChange={handlePhotoChange}
                     required
                 />
-                {preview && <img src={preview} alt="Profile Preview" className="mt-4 w-32 h-32 rounded-full" />}
+                {preview && <Image src={preview} alt="Profile Preview" className="mt-4 w-32 h-32 rounded-full" />}
             </div>
             <button type="submit" className="bg-blue-500 text-white py-2 px-4 rounded">
                 Change Profile Photo
