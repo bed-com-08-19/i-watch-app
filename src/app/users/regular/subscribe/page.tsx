@@ -5,7 +5,6 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { CheckCircle2 } from "lucide-react"
 import React, { useState, useEffect } from "react"
 import { cn } from "../../../../lib/utils"
-import { useUser } from "@clerk/nextjs"
 import axios from "axios"
 import { loadStripe } from "@stripe/stripe-js"
 import { toast } from "react-hot-toast"
@@ -122,7 +121,7 @@ export default function Pricing() {
       setEmail(res.data.data.email);
 
     } catch (error) {
-      console.error(error.message);
+      
       toast.error("Failed to fetch user details");
     }
   };
@@ -197,7 +196,7 @@ export default function Pricing() {
       <PricingSwitch onSwitch={togglePricingPeriod} />
       <section className="flex flex-col sm:flex-row sm:flex-wrap justify-center gap-8 mt-8">
         {plans.map((plan) => {
-          return <PricingCard user={userId} handleCheckout={handleCheckout} key={plan.title} {...plan} isYearly={isYearly} />
+          return <Card user={userId} handleCheckout={handleCheckout} key={plan.title} {...plan} isYearly={isYearly} />
         })}
       </section>
     </div>
