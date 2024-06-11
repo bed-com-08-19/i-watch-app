@@ -19,7 +19,7 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 // Helper function to run middleware in Next.js
-const runMiddleware = (req: NextRequest, res: NextResponse, fn: any) => {
+const runMiddleware = (req: any, res: any, fn: any) => {
   return new Promise((resolve, reject) => {
     fn(req, res, (result: any) => {
       if (result instanceof Error) {
@@ -32,16 +32,17 @@ const runMiddleware = (req: NextRequest, res: NextResponse, fn: any) => {
 
 const uploadMiddleware = upload.single('video');
 
-export const segment = {
-  config: {
-    api: {
-      bodyParser: false,
-    },
+export const config = {
+  api: {
+    bodyParser: false,
   },
 };
 
-export async function POST(req: NextRequest) {
+export async function POST(req: NextRequest, res: any) {
   await connect();
+
+  // Run the upload middleware
+  await runMiddleware(req, res, uploadMiddleware);
 
   const formData = await req.formData();
   const file = formData.get('video') as File;
