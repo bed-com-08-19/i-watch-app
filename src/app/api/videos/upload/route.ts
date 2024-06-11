@@ -6,22 +6,10 @@ import mongoose from 'mongoose';
 import path from 'path';
 import { promises as fs } from 'fs';
 
-// Ensure this API route uses the Node.js runtime
+// Configure the runtime correctly
 export const runtime = 'nodejs';
 
-// Helper function to run middleware in Next.js
-const runMiddleware = (req: any, res: any, fn: any) => {
-  return new Promise((resolve, reject) => {
-    fn(req, res, (result: any) => {
-      if (result instanceof Error) {
-        return reject(result);
-      }
-      return resolve(result);
-    });
-  });
-};
-
-export async function POST(req: NextRequest, res: any) {
+export async function POST(req: NextRequest) {
   await connect();
 
   const formData = await req.formData();
