@@ -1,17 +1,15 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextApiRequest, NextApiResponse } from 'next';
 import { connect } from '@/dbConfig/dbConfig';
 import Video, { IVideo } from '@/models/videoModel';
 import multer from 'multer';
 import { v4 as uuidv4 } from 'uuid';
-import path from 'path';
-import { createWriteStream } from 'node:fs';
 import mongoose from 'mongoose';
 
 // Multer configuration for storing uploaded files
 const storage = multer.diskStorage({
   destination: './public/uploads/videos',
   filename: (req, file, cb) => {
-    const randomName = `${uuidv4()}${path.extname(file.originalname)}`;
+    const randomName = `${uuidv4()}${file.originalname}`;
     cb(null, randomName);
   },
 });
@@ -19,7 +17,7 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 // Helper function to run middleware in Next.js
-const runMiddleware = (req: any, res: any, fn: any) => {
+const runMiddleware = (req: NextApiRequest, res: NextApiResponse, fn: any) => {
   return new Promise((resolve, reject) => {
     fn(req, res, (result: any) => {
       if (result instanceof Error) {
@@ -32,51 +30,44 @@ const runMiddleware = (req: any, res: any, fn: any) => {
 
 const uploadMiddleware = upload.single('video');
 
-// Using the new export configuration
-export const runtime = 'edge';
+export const config = {
+  api: {
+    bodyParser: false,
+  },
+};
 
-export async function POST(req: NextRequest, res: any) {
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+  if (req.method !== 'POST') {
+    return res.status(405).json({ success: false, error: 'Method not allowed' });
+  }
+
   await connect();
 
   // Run the upload middleware
   await runMiddleware(req, res, uploadMiddleware);
 
-  const formData = await req.formData();
-  const file = formData.get('video') as File;
-  const title = formData.get('title') as string;
-  const description = formData.get('description') as string;
-  const creatorId = formData.get('creator') as string;
+  const { title, description, creator } = req.body;
 
-  if (!file) {
-    return NextResponse.json({ success: false, error: 'No file uploaded' }, { status: 400 });
+  if (!req.file) {
+    return res.status(400).json({ success: false, error: 'No file uploaded' });
   }
 
   // Validate and convert creator ID to ObjectId
-  let creator;
+  let creatorId;
   try {
-    creator = new mongoose.Types.ObjectId(creatorId);
+    creatorId = new mongoose.Types.ObjectId(creator);
   } catch (error) {
-    return NextResponse.json({ success: false, error: 'Invalid creator ID' }, { status: 400 });
+    return res.status(400).json({ success: false, error: 'Invalid creator ID' });
   }
 
-  const filePath = path.join('./public/uploads/videos', `${uuidv4()}${path.extname(file.name)}`);
+  const url = `/uploads/videos/${req.file.filename}`;
 
   try {
-    const buffer = await file.arrayBuffer();
-    await new Promise((resolve, reject) => {
-      const stream = createWriteStream(filePath);
-      stream.write(Buffer.from(buffer));
-      stream.end();
-      stream.on('finish', resolve);
-      stream.on('error', reject);
-    });
-
-    const url = `/uploads/videos/${path.basename(filePath)}`;
-    const video: IVideo = new Video({ title, description, url, creator });
+    const video: IVideo = new Video({ title, description, url, creator: creatorId });
     await video.save();
 
-    return NextResponse.json({ success: true, data: video }, { status: 200 });
+    return res.status(200).json({ success: true, data: video });
   } catch (error: any) {
-    return NextResponse.json({ success: false, error: error.message }, { status: 400 });
+    return res.status(400).json({ success: false, error: error.message });
   }
 }
