@@ -32,11 +32,8 @@ const runMiddleware = (req: any, res: any, fn: any) => {
 
 const uploadMiddleware = upload.single('video');
 
-export const config = {
-  api: {
-    bodyParser: false,
-  },
-};
+// Using the new export configuration
+export const runtime = 'edge';
 
 export async function POST(req: NextRequest, res: any) {
   await connect();
@@ -83,9 +80,3 @@ export async function POST(req: NextRequest, res: any) {
     return NextResponse.json({ success: false, error: error.message }, { status: 400 });
   }
 }
-
-export const segment = {
-  api: {
-    bodyParser: false,
-  },
-};
