@@ -67,7 +67,7 @@ export async function POST(req: NextRequest) {
     const video: IVideo = new Video({ title, description, url, creator });
     await video.save();
 
-    return NextResponse.json({ success: true, data: video }, { status: 201 });
+    return NextResponse.json({ success: true, data: video }, { status: 200 });
   } catch (error: any) {
     return NextResponse.json({ success: false, error: error.message }, { status: 400 });
   }
