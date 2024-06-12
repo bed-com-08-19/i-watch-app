@@ -1,53 +1,54 @@
-import { NextApiRequest, NextApiResponse } from 'next';
-import {connect} from '@/dbConfig/dbConfig';
-import Video from '@/models/videoModel';
+// /app/api/videos/[id]/route.ts
 
-type Data = {
-  success: boolean;
-  data?: any;
-};
+import { NextRequest, NextResponse } from 'next/server';
+import Video from "@/models/videoModel";
+import { connect } from "@/dbConfig/dbConfig";
 
-export async function GET(req: NextApiRequest, res: NextApiResponse<Data>) {
+export async function GET(req: NextRequest) {
   await connect();
+  const { id } = req.query;
 
   try {
-    const video = await Video.findById(req.query.id);
+    const video = await Video.findById(id);
     if (!video) {
-      return res.status(404).json({ success: false });
+      return NextResponse.json({ success: false, error: 'Video not found' }, { status: 404 });
     }
-    res.status(200).json({ success: true, data: video });
+    return NextResponse.json({ success: true, data: video });
   } catch (error) {
-    res.status(400).json({ success: false });
+    return NextResponse.json({ success: false, error: error.message }, { status: 400 });
   }
 }
 
-export async function PUT(req: NextApiRequest, res: NextApiResponse<Data>) {
+export async function PUT(req: NextRequest) {
   await connect();
+  const { id } = req.query;
 
   try {
-    const video = await Video.findByIdAndUpdate(req.query.id, req.body, {
+    const body = await req.json();
+    const video = await Video.findByIdAndUpdate(id, body, {
       new: true,
       runValidators: true,
     });
     if (!video) {
-      return res.status(404).json({ success: false });
+      return NextResponse.json({ success: false, error: 'Video not found' }, { status: 404 });
     }
-    res.status(200).json({ success: true, data: video });
+    return NextResponse.json({ success: true, data: video });
   } catch (error) {
-    res.status(400).json({ success: false });
+    return NextResponse.json({ success: false, error: error.message }, { status: 400 });
   }
 }
 
-export async function DELETE(req: NextApiRequest, res: NextApiResponse<Data>) {
+export async function DELETE(req: NextRequest) {
   await connect();
+  const { id } = req.query;
 
   try {
-    const deletedVideo = await Video.deleteOne({ _id: req.query.id });
+    const deletedVideo = await Video.findByIdAndDelete(id);
     if (!deletedVideo) {
-      return res.status(404).json({ success: false });
+      return NextResponse.json({ success: false, error: 'Video not found' }, { status: 404 });
     }
-    res.status(200).json({ success: true, data: {} });
+    return NextResponse.json({ success: true, data: {} });
   } catch (error) {
-    res.status(400).json({ success: false });
+    return NextResponse.json({ success: false, error: error.message }, { status: 400 });
   }
 }
