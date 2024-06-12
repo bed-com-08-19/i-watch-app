@@ -1,4 +1,3 @@
-// models/Invoice.ts
 import mongoose, { Schema, Document } from 'mongoose';
 
 interface IInvoice extends Document {

@@ -1,6 +1,6 @@
-import { getDataFromToken } from "../../../../helper/getDataFromToken";
+import { getDataFromToken } from "@/helper/getDataFromToken";
 import { NextRequest, NextResponse } from "next/server";
-import User from "@/models/userModel";
+import User from "../../../../models/userModel";
 import { connect } from "@/dbConfig/dbConfig";
 
 connect();
@@ -14,7 +14,6 @@ export async function GET(request: NextRequest) {
       throw new Error("User not found");
     }
 
-    // Extracting username
     const { username, balance, email } = user.toObject();
 
     return NextResponse.json({

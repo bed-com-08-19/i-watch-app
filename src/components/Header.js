@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios"; // Import axios for making HTTP requests
 import { toast } from "react-hot-toast";
 import Link from "next/link";
+import Image from "next/image";
 
 const Header = () => {
   const [username, setUsername] = useState("null"); // State to store the username
@@ -49,7 +50,7 @@ const Header = () => {
         </nav>
         {/* User profile */}
         <div className="flex items-center text-[10px] sm:text-sm md:text-lg">
-          <img className="h-10 w-10 rounded-full" src="#" alt="User Profile" />
+          <Image className="h-10 w-10 rounded-full" src="#" alt="User Profile" />
           <Link className="link font-bold" href={`../dashboard`}>
             <span className="text-white ml-2 hidden md:block">{username}</span>
           </Link>

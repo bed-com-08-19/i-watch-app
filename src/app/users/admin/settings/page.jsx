@@ -1,6 +1,6 @@
 "use client";
 import Sidebar from '../_components/Sidebar';
-import Navbar from '../_components/Navbar';
+import Header from '../_components/Header';
 import ManageAppSettings from '../_components/AdminTools/ManageAppSettings';
 
 const Settings = () => {
@@ -8,7 +8,7 @@ const Settings = () => {
     <div className="flex">
       <Sidebar />
       <div className="flex-1 bg-black-900">
-        <Navbar />
+        <Header />
         <div className="p-6">
           <ManageAppSettings />
         </div>

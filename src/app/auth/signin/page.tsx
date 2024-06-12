@@ -16,7 +16,7 @@ export default function RegisterPage() {
   const [buttonDisabled, setButtonDisabled] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const onLogin = async (e) => {
+  const onLogin = async (e: { preventDefault: () => void; }) => {
     e.preventDefault();
     try {
       setLoading(true);
@@ -43,7 +43,7 @@ export default function RegisterPage() {
     } catch (error) {
       console.error("Error logging in:", error);
       // Handle errors (e.g., display error messages to the user)
-      const errorMessage = error.response?.data?.message || "An error occurred during login.";
+      const errorMessage = "An error occurred during login.";
       toast.error(errorMessage);
     } finally {
       setLoading(false);
@@ -120,7 +120,7 @@ export default function RegisterPage() {
           </div>
           <div className="text-sm text-center">
             <p className="tc-grey t-center">
-              Don't have an account?{" "}
+              Dont have an account?
               <Link className="link font-bold" href={`/auth/signup`}>
                 Sign Up
               </Link>

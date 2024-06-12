@@ -1,6 +1,5 @@
 import mongoose, { Document, Schema, Model } from 'mongoose';
 
-// Define an interface representing a document in MongoDB
 export interface IUser extends Document {
   username: string;
   email: string;
@@ -18,7 +17,6 @@ export interface IUser extends Document {
   creditedVideos: mongoose.Types.ObjectId[];
 }
 
-// Create a Schema corresponding to the document interface
 const userSchema: Schema<IUser> = new Schema({
   username: {
     type: String,
@@ -70,10 +68,6 @@ const userSchema: Schema<IUser> = new Schema({
 // Adding an index on email for better performance
 userSchema.index({ email: 1 });
 
-// Create a Model
 const UserModel: Model<IUser> = mongoose.models.User || mongoose.model<IUser>("User", userSchema);
 
 export default UserModel;
-
-
-
