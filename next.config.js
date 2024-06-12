@@ -1,4 +1,4 @@
-const webpack = require('webpack');
+{/*const webpack = require('webpack');
 
 module.exports = {
   webpack: (config, { isServer }) => {
@@ -24,4 +24,4 @@ module.exports = {
     
     return config;
   },
-};
+};*/}

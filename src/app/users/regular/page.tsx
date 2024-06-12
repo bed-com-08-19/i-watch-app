@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import axios from "axios";
 import React, { useEffect, useState } from "react";
@@ -7,20 +7,21 @@ import { useRouter } from "next/navigation";
 import Header from "./_components/Header";
 import Footer from "../../../components/Footer";
 
-
 interface Video {
   _id: string;
   url: string;
 }
 
+interface UserData {
+  // Define the user data structure here
+}
+
 export default function RegularUser() {
   const router = useRouter();
-  const [data, setData] = useState({});
+  const [data, setData] = useState<UserData | null>(null);
   const [videos, setVideos] = useState<Video[]>([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-
-  
+  const [error, setError] = useState<string | null>(null);
 
   const logout = async () => {
     try {
@@ -28,8 +29,7 @@ export default function RegularUser() {
       toast.success("Logout successful");
       router.push("/login");
     } catch (error) {
-      
-      toast.error("Login Failed");
+      toast.error("Logout failed");
     }
   };
 
@@ -38,7 +38,8 @@ export default function RegularUser() {
       const res = await axios.get("/api/users/me");
       setData(res.data.data);
     } catch (error) {
-      toast.error("Login Failed");
+      toast.error("Failed to fetch user details");
+      setError("Failed to fetch user details");
     }
   };
 
@@ -48,12 +49,13 @@ export default function RegularUser() {
       setVideos(response.data.data);
       setLoading(false);
     } catch (error) {
-      toast.error("Login Failed");
+      toast.error("Failed to fetch videos");
+      setError("Failed to fetch videos");
       setLoading(false);
     }
   };
 
-  const handleVideoPlaybackCompletion = async (videoId: any) => {
+  const handleVideoPlaybackCompletion = async (videoId: string) => {
     try {
       await axios.post("/api/videos/playback", { videoId });
       toast.success("Credits have been awarded!");
@@ -79,7 +81,7 @@ export default function RegularUser() {
         {videos.length === 0 ? (
           <div>No videos available</div>
         ) : (
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 w-full max-w-5xl p-4">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 w-full max-w-5xl p-4">
             {videos.map((video) => (
               <div key={video._id} className="relative h-48 sm:h-64">
                 <video
