@@ -54,33 +54,33 @@ const Header = () => {
     }
   };
 
-  // const handleUpload = async (event) => {
-  //   event.preventDefault();
+  const handleUpload = async (event) => {
+    event.preventDefault();
   
-  //   if (!videoFile) {
-  //     toast.error("Please select a video file to upload.");
-  //     return;
-  //   }
+    if (!videoFile) {
+      toast.error("Please select a video file to upload.");
+      return;
+    }
   
-  //   const formData = new FormData();
-  //   formData.append("video", videoFile);
-  //   formData.append("title", title);
-  //   formData.append("description", description);
-  //   formData.append("creator", username);
+    const formData = new FormData();
+    formData.append("video", videoFile);
+    formData.append("title", title);
+    formData.append("description", description);
+    formData.append("creator", username);
   
-  //   try {
-  //     await axios.post("/api/videos/upload", formData, {
-  //       headers: {
-  //         "Content-Type": "multipart/form-data",
-  //       },
-  //     });
-  //     toast.success("Video uploaded successfully");
-  //     toggleUploadForm();
-  //   } catch (error) {
-  //     console.error(error.message);
-  //     toast.error("Failed to upload video");
-  //   }
-  // };
+    try {
+      await axios.post("/api/videos/upload", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      toast.success("Video uploaded successfully");
+      toggleUploadForm();
+    } catch (error) {
+      console.error(error.message);
+      toast.error("Failed to upload video");
+    }
+  };
   
   return (
     <header className="bg-black py-2 px-4 sm:px-6 lg:px-8">
