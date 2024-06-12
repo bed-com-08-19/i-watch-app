@@ -35,7 +35,7 @@ const Sidebar: React.FC<{ toggleUploadForm: () => void; logout: () => void }> = 
   <div className="min-h-screen flex bg-black">
   <aside className="fixed top-0 left-0 w-64 h-screen bg-gray-900 text-white flex flex-col overflow-y-auto">
         <nav className="flex-grow mt-6">
-          <a href="/users/regular" className="flex items-center block py-2.5 px-4 rounded hover:bg-gray-700">
+          <a href="/users/creator" className="flex items-center block py-2.5 px-4 rounded hover:bg-gray-700">
             <AiOutlineHome className="mr-2" />
             Home
           </a>
@@ -43,23 +43,23 @@ const Sidebar: React.FC<{ toggleUploadForm: () => void; logout: () => void }> = 
             <BiUser className="mr-2" />
             Profile
           </a>
-          <a href="/users/regular/subscribe" className="flex items-center block py-2.5 px-4 rounded hover:bg-gray-700">
+          <a href="/users/creator/subscribe" className="flex items-center block py-2.5 px-4 rounded hover:bg-gray-700">
             <BiUpload className="mr-2" />
             Upload
           </a>
-          <a href="/users/regular/subscribe" className="flex items-center block py-2.5 px-4 rounded hover:bg-gray-700">
+          <a href="/users/creator/subscribe" className="flex items-center block py-2.5 px-4 rounded hover:bg-gray-700">
             <FiCheckCircle className="mr-2" />
             Subscribe
           </a>
-          <a href="/users/regular/transaction" className="flex items-center block py-2.5 px-4 rounded hover:bg-gray-700">
+          <a href="/users/creator/transaction" className="flex items-center block py-2.5 px-4 rounded hover:bg-gray-700">
             <RiMoneyDollarCircleLine className="mr-2" />
             Withdraw
           </a>
-          <a href="/users/regular/settings" className="flex items-center block py-2.5 px-4 rounded hover:bg-gray-700">
+          <a href="/users/creator/settings" className="flex items-center block py-2.5 px-4 rounded hover:bg-gray-700">
             <FiSettings className="mr-2" />
             Settings
           </a>
-          <a href="/users/regular/help" className="flex items-center block py-2.5 px-4 rounded hover:bg-gray-700">
+          <a href="/users/creator/help" className="flex items-center block py-2.5 px-4 rounded hover:bg-gray-700">
             <FiHelpCircle className="mr-2" />
             Help
           </a>
