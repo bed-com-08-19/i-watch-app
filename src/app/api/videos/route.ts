@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import Video from "@/models/videoModel";
 import { connect } from "@/dbConfig/dbConfig";
-import mongoose from 'mongoose';
 
 export async function GET(req: NextRequest) {
   try {
@@ -13,29 +12,14 @@ export async function GET(req: NextRequest) {
   }
 }
 
-export async function POST(request: NextRequest) {
+export async function POST(request: Request) {
   await connect();
   try {
     const body = await request.json();
-
-    // Convert the creator field to an ObjectId
-    let creator;
-    try {
-      // Ensure that the creator is converted to ObjectId
-      creator = mongoose.Types.ObjectId.createFromHexString(body.creator);
-    } catch (error) {
-      // If conversion fails, return a 400 error
-      return NextResponse.json({ success: false, error: 'Invalid creator ID' }, { status: 400 });
-    }
-
-    const videoData = {
-      ...body,
-      creator
-    };
-
-    const video = await Video.create(videoData);
+    const video = await Video.create(body);
     return NextResponse.json({ success: true, data: video }, { status: 201 });
-  } catch (error: any) {
-    return NextResponse.json({ success: false, error: error.message }, { status: 400 });
+  } catch (error) {
+    return NextResponse.json({ success: false }, { status: 400 });
   }
 }
+
