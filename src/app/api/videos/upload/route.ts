@@ -1,42 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { connect } from '@/dbConfig/dbConfig';
 import Video, { IVideo } from '@/models/videoModel';
-import multer from 'multer';
 import { v4 as uuidv4 } from 'uuid';
 import path from 'path';
 import { createWriteStream } from 'fs';
 import { getDataFromToken } from '@/helper/getDataFromToken';
 
-// Multer configuration for storing uploaded files
-const storage = multer.diskStorage({
-  destination: './public/uploads/videos',
-  filename: (req, file, cb) => {
-    const randomName = `${uuidv4()}${path.extname(file.originalname)}`;
-    cb(null, randomName);
-  },
-});
-
-const upload = multer({ storage });
-
-// Helper function to run middleware in Next.js
-const runMiddleware = (req: NextRequest, res: NextResponse, fn: any) => {
-  return new Promise((resolve, reject) => {
-    fn(req, res, (result: any) => {
-      if (result instanceof Error) {
-        return reject(result);
-      }
-      return resolve(result);
-    });
-  });
-};
-
-const uploadMiddleware = upload.single('video');
-
-// Updated runtime configuration
-export const runtime = {
+export const config = {
   api: {
-    bodyParser: false,
-  }
+    bodyParser: false, // Disable body parsing so we can handle file uploads ourselves
+  },
 };
 
 export async function POST(req: NextRequest) {
