@@ -5,7 +5,7 @@ import multer from 'multer';
 import { v4 as uuidv4 } from 'uuid';
 import path from 'path';
 import { createWriteStream } from 'fs';
-import { getDataFromToken } from '@/helper/getDataFromToken'; // Assuming this helper retrieves user ID from token
+import { getDataFromToken } from '@/helper/getDataFromToken';
 
 // Multer configuration for storing uploaded files
 const storage = multer.diskStorage({
@@ -32,10 +32,11 @@ const runMiddleware = (req: NextRequest, res: NextResponse, fn: any) => {
 
 const uploadMiddleware = upload.single('video');
 
-export const config = {
+// Updated runtime configuration
+export const runtime = {
   api: {
     bodyParser: false,
-  },
+  }
 };
 
 export async function POST(req: NextRequest) {
@@ -48,7 +49,7 @@ export async function POST(req: NextRequest) {
     const description = formData.get('description') as string;
     
     // Get user ID from token or session
-    const userId = await getDataFromToken(req); // Example function to retrieve user ID from token
+    const userId = await getDataFromToken(req);
 
     if (!file) {
       return NextResponse.json({ success: false, error: 'No file uploaded' }, { status: 400 });
