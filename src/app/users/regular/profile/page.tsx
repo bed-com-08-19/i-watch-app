@@ -109,14 +109,14 @@ const Dashboard = () => {
               <span className="block text-lg font-bold">{balance}</span>
               <span className="block text-gray-500">Balance</span>
             </div>
-            <div>
+            {/* <div>
               <span className="block text-lg font-bold">{bio}</span>
               <span className="block text-gray-500">Viewers</span>
             </div>
             <div>
               <span className="block text-lg font-bold">{views}</span>
               <span className="block text-gray-500">Likes</span>
-            </div>
+            </div> */}
           </div>
           <div className="flex justify-around py-4">
             <button className="flex items-center bg-gray-200 px-4 py-2 rounded">

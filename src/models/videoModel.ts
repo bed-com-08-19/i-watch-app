@@ -5,12 +5,12 @@ export interface IVideo extends Document {
   description: string;
   url: string;
   creator: mongoose.Types.ObjectId;
-  playCount: number;
+  playCount: number;  // for view count
   createdAt: Date;
   updatedAt: Date;
 }
 
-const VideoSchema: Schema<IVideo> = new Schema(
+const VideoSchema: Schema = new Schema(
   {
     title: { type: String, required: true },
     description: { type: String, required: true },

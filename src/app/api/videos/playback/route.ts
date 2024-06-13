@@ -5,9 +5,9 @@ import User from "@/models/userModel";
 import { getDataFromToken } from "@/helper/getDataFromToken";
 import mongoose from "mongoose";
 
-connect();
-
 export async function POST(request: NextRequest) {
+  await connect(); // Ensure connection is made in each request
+
   try {
     const { videoId } = await request.json();
     const userId = await getDataFromToken(request);
@@ -16,7 +16,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const video = await Video.findById(videoId);
+    const video = await Video.findById(videoId).populate('creator');
     if (!video) {
       return NextResponse.json({ error: "Video not found" }, { status: 404 });
     }
@@ -26,20 +26,20 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "User not found" }, { status: 404 });
     }
 
-    const videoOwner = await User.findById(video.creator);
+    const videoOwner = video.creator;
     if (!videoOwner) {
       return NextResponse.json({ error: "Video owner not found" }, { status: 404 });
     }
 
     // Check if user has already been credited for this video
-    if (user.creditedVideos.includes(new mongoose.Types.ObjectId(videoId))) {
+    if (user.creditedVideos.includes(videoId)) {
       return NextResponse.json({ message: "User has already been credited for this video" }, { status: 400 });
     }
 
     // Reward credits
     user.balance += 10;
     videoOwner.balance += 10;
-    user.creditedVideos.push(new mongoose.Types.ObjectId(videoId));
+    user.creditedVideos.push(videoId);
 
     await user.save();
     await videoOwner.save();
