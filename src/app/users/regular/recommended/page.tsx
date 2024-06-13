@@ -6,26 +6,25 @@ import { toast } from "react-hot-toast";
 import Header from '../_components/Header';
 import Footer from '../../../../components/Footer';
 
-interface Video {
+interface Ad {
   _id: string;
   url: string;
 }
 
-export default function UserProfile({ params }: any) {
-  const [videos, setVideos] = useState<Video[]>([]);
+const AdsPage: React.FC = () => {
+  const [ads, setAds] = useState<Ad[]>([]);
 
   useEffect(() => {
-    fetchVideos();
+    fetchAds();
   }, []);
 
-  const fetchVideos = async () => {
+  const fetchAds = async () => {
     try {
-      const res = await axios.get("/api/videos");
-      const videos: Video[] = res.data.data;
-
-      setVideos(videos);
+      const res = await axios.get("/api/ads");
+      const ads: Ad[] = res.data.data;
+      setAds(ads);
     } catch (error) {
-      toast.error("Failed to fetch videos");
+      toast.error("Failed to fetch ads");
     }
   };
 
@@ -33,17 +32,17 @@ export default function UserProfile({ params }: any) {
     <div>
       <Header />
       <main className="p-4">
-        {videos.length === 0 ? (
+        {ads.length === 0 ? (
           <div className="text-center text-white">
-            <p>No videos available</p>
+            <p>No ads available</p>
           </div>
         ) : (
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-            {videos.map((video) => (
-              <div key={video._id} className="relative h-48 sm:h-64">
+            {ads.map((ad) => (
+              <div key={ad._id} className="relative h-48 sm:h-64">
                 <video
                   className="object-cover w-full h-full"
-                  src={video.url}
+                  src={ad.url}
                   controls
                 />
               </div>
@@ -55,3 +54,5 @@ export default function UserProfile({ params }: any) {
     </div>
   );
 }
+
+export default AdsPage;
