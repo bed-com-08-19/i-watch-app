@@ -8,6 +8,7 @@ import Header from "./_components/Header";
 import Footer from "../../../components/Footer";
 
 interface Video {
+  createdAt: string | number | Date;
   _id: string;
   title: string;
   description: string;
