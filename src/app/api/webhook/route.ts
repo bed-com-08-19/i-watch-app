@@ -1,14 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server';
 import Stripe from 'stripe';
-import { connect } from '../../../dbConfig/dbConfig';
-import Subscription from '../../../models/Subscription';
-import Invoice from '../../../models/invoice';
-import User from '../../../models/userModel';
+import { connect } from '@/dbConfig/dbConfig';
+import Subscription from '@/models/Subscription';
+import Invoice from '@/models/invoice';
+import User from '@/models/userModel';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 
 export async function POST(req: NextRequest) {
   await connect();
+
   const reqText = await req.text();
   return webhooksHandler(reqText, req);
 }
@@ -119,9 +120,7 @@ async function handleInvoiceEvent(
   }
 }
 
-async function handleCheckoutSessionCompleted(
-  event: Stripe.Event
-) {
+async function handleCheckoutSessionCompleted(event: Stripe.Event) {
   const session = event.data.object as Stripe.Checkout.Session;
   const metadata = session.metadata;
 
@@ -168,7 +167,7 @@ async function handleCheckoutSessionCompleted(
         currency: session.currency,
       };
 
-      await db.collection('payments').insertOne(paymentData);
+      await Invoice.create(paymentData);
 
       const updatedCredits = Number(user.credits || 0) + (session.amount_total || 0) / 100;
       await User.updateOne(
@@ -184,7 +183,7 @@ async function handleCheckoutSessionCompleted(
       console.error('Error handling checkout session:', error);
       return NextResponse.json({
         status: 500,
-        error,
+        error: 'Error handling checkout session',
       });
     }
   }
@@ -197,11 +196,7 @@ async function webhooksHandler(
   const sig = request.headers.get('Stripe-Signature');
 
   try {
-    const event = await stripe.webhooks.constructEventAsync(
-      reqText,
-      sig!,
-      process.env.STRIPE_WEBHOOK_SECRET!
-    );
+    const event = stripe.webhooks.constructEvent(reqText, sig!, process.env.STRIPE_WEBHOOK_SECRET!);
 
     switch (event.type) {
       case 'customer.subscription.created':

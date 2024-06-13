@@ -6,7 +6,7 @@ interface IInvoice extends Document {
   amount_paid?: number;
   amount_due?: number;
   currency: string;
-  status: string;
+  status: 'succeeded' | 'failed';
   user_id: string;
   email: string;
 }
@@ -22,4 +22,4 @@ const InvoiceSchema: Schema = new Schema({
   email: { type: String, required: true },
 });
 
-export default mongoose.model<IInvoice>('Invoice', InvoiceSchema);
+export default mongoose.models.Invoice || mongoose.model<IInvoice>('Invoice', InvoiceSchema);

@@ -125,6 +125,7 @@ export default function Pricing() {
       ],
       priceIdMonthly: "price_1PP8S5LNL4vBEK12ZhmoTt8Q",
       actionLabel: "Get Started",
+      checkoutLink: "https://buy.stripe.com/test_4gwaH43hQefK1Wg8wx"  // Add checkout link here
     },
     {
       title: "Pro",
@@ -141,6 +142,7 @@ export default function Pricing() {
       actionLabel: "Get Started",
       priceIdMonthly: "price_1PP8S5LNL4vBEK127oGMPzYL",
       popular: true,
+      checkoutLink: "https://buy.stripe.com/test_4gwaH43hQefK1Wg8wx"  // Add checkout link here
     },
     {
       title: "Enterprise",
@@ -161,8 +163,10 @@ export default function Pricing() {
       actionLabel: "Get Started",
       priceIdMonthly: "price_1PP8S5LNL4vBEK128c1JJR2f",
       exclusive: true,
-    },
-  ]
+      checkoutLink: "https://buy.stripe.com/test_4gwaH43hQefK1Wg8wx"  // Add checkout link here
+    }
+  ];
+  
 
   return (
     <div>

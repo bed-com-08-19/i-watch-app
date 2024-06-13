@@ -1,6 +1,6 @@
-import mongoose, { Document, Schema, Model } from 'mongoose';
+import mongoose, { Schema, Document } from 'mongoose';
 
-export interface IUser extends Document {
+interface IUser extends Document {
   username: string;
   email: string;
   password: string;
@@ -18,61 +18,25 @@ export interface IUser extends Document {
   playCount: number;
 }
 
-const userSchema: Schema<IUser> = new Schema({
-  username: {
-    type: String,
-    required: [true, "Please provide a username"],
-  },
-  email: {
-    type: String,
-    required: [true, "Please provide an email"],
-    unique: true,
-    match: [/.+\@.+\..+/, "Please provide a valid email address"], // simple email validation regex
-  },
-  imgUrl: {
-    type: String,
-    required: false,
-    default: ''
-  },
-  password: {
-    type: String,
-    required: [true, "Please provide a password"],
-  },
-  role: {
-    type: String,
-    enum: ["user", "admin", "creator"],
-    default: "user",
-  },
-  isVerified: {
-    type: Boolean,
-    default: false,
-  },
+const UserSchema: Schema<IUser> = new Schema({
+  username: { type: String, required: [true, "Please provide a username"] },
+  email: { type: String, required: [true, "Please provide an email"], unique: true, match: [/.+\@.+\..+/, "Please provide a valid email address"] },
+  imgUrl: { type: String, required: false, default: '' },
+  password: { type: String, required: [true, "Please provide a password"] },
+  role: { type: String, enum: ["user", "admin", "creator"], default: "user" },
+  isVerified: { type: Boolean, default: false },
   favoriteVideos: [{ type: Schema.Types.ObjectId, ref: 'Video' }],
-  bio: { 
-    type: String, 
-    default: '' 
-  },
+  bio: { type: String, default: '' },
   subscription: { type: String },
   credits: { type: Number, default: 0 },
   preferredCategories: [{ type: String }],
-  balance: { 
-    type: Number, 
-    default: 0 
-  },
-  createdAt: { 
-    type: Date, 
-    default: Date.now 
-  },
+  balance: { type: Number, default: 0 },
+  createdAt: { type: Date, default: Date.now },
   creditedVideos: [{ type: Schema.Types.ObjectId, ref: 'Video' }],
-  playCount: { 
-    type: Number, 
-    default: 0 
-  }
+  playCount: { type: Number, default: 0 }
 });
 
 // Adding an index on email for better performance
-userSchema.index({ email: 1 });
+UserSchema.index({ email: 1 });
 
-const UserModel: Model<IUser> = mongoose.models.User || mongoose.model<IUser>("User", userSchema);
-
-export default UserModel;
+export default mongoose.models.User || mongoose.model<IUser>("User", UserSchema);

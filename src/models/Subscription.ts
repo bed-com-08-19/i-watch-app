@@ -20,4 +20,4 @@ const SubscriptionSchema: Schema = new Schema({
   email: { type: String, required: true },
 });
 
-export default mongoose.model<ISubscription>('Subscription', SubscriptionSchema);
+export default mongoose.models.Subscription || mongoose.model<ISubscription>('Subscription', SubscriptionSchema);
