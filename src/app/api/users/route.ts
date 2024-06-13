@@ -1,31 +1,26 @@
 import { NextRequest, NextResponse } from 'next/server';
-import User, { IUser } from "@/models/userModel";
+import User from "@/models/userModel";
 import { connect } from "@/dbConfig/dbConfig";
 
-
-
-
-// Handle GET requests
+// Handle GET requests to fetch all users
 export async function GET(req: NextRequest) {
-  await connect();
-
   try {
-    const users: IUser[] = await User.find({});
-    return NextResponse.json({ success: true, data: users }, { status: 200 });
-  } catch (error) {
-    return NextResponse.json({ success: false }, { status: 400 });
+    await connect();
+    const users = await User.find({});
+    return NextResponse.json({ success: true, data: users });
+  } catch (error: any) {
+    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
   }
 }
 
-// Handle POST requests
+// Handle POST requests to create a new user
 export async function POST(req: NextRequest) {
-  await connect();
-
   try {
+    await connect();
     const body = await req.json();
-    const user: IUser = await User.create(body);
+    const user = await User.create(body);
     return NextResponse.json({ success: true, data: user }, { status: 201 });
-  } catch (error) {
+  } catch (error: any) {
     return NextResponse.json({ success: false }, { status: 400 });
   }
 }
