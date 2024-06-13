@@ -15,6 +15,7 @@ export interface IUser extends Document {
   subscription?: string;
   credits?: number;
   creditedVideos: mongoose.Types.ObjectId[];
+  playCount: number;
 }
 
 const userSchema: Schema<IUser> = new Schema({
@@ -62,7 +63,11 @@ const userSchema: Schema<IUser> = new Schema({
     type: Date, 
     default: Date.now 
   },
-  creditedVideos: [{ type: Schema.Types.ObjectId, ref: 'Video' }]
+  creditedVideos: [{ type: Schema.Types.ObjectId, ref: 'Video' }],
+  playCount: { 
+    type: Number, 
+    default: 0 
+  }
 });
 
 // Adding an index on email for better performance
