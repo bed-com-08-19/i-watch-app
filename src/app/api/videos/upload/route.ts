@@ -6,11 +6,9 @@ import path from 'path';
 import { createWriteStream } from 'fs';
 import { getDataFromToken } from '@/helper/getDataFromToken';
 
-// Correct Next.js API route configuration
-export const config = {
-  api: {
-    bodyParser: false, // Disable the body parser to handle file uploads manually
-  },
+export const dynamic = 'force-dynamic'; // Ensure the route is treated as dynamic
+export const api = {
+  bodyParser: false, // Disable body parsing so we can handle file uploads ourselves
 };
 
 export async function POST(req: NextRequest) {
@@ -21,7 +19,7 @@ export async function POST(req: NextRequest) {
     const file = formData.get('video') as File;
     const title = formData.get('title') as string;
     const description = formData.get('description') as string;
-    
+
     // Get user ID from token or session
     const userId = await getDataFromToken(req);
 
@@ -41,7 +39,7 @@ export async function POST(req: NextRequest) {
     });
 
     const url = `/uploads/videos/${path.basename(filePath)}`;
-    
+
     // Create Video object with creator as userId
     const video: IVideo = new Video({ title, description, url, creator: userId });
     await video.save();
