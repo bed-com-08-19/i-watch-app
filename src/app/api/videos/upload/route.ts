@@ -6,10 +6,10 @@ import path from 'path';
 import { createWriteStream } from 'fs';
 import { getDataFromToken } from '@/helper/getDataFromToken';
 
-export const config = {
-  api: {
-    bodyParser: false, // Disable body parsing so we can handle file uploads ourselves
-  },
+// New way to configure API routes in Next.js
+export const dynamic = 'force-dynamic';
+export const api = {
+  bodyParser: false, // Disable body parsing so we can handle file uploads ourselves
 };
 
 export async function POST(req: NextRequest) {
