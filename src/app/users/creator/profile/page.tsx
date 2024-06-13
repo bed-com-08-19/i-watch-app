@@ -17,9 +17,10 @@ interface User {
 }
 
 interface UserDetails {
+  playCount: number;
   username: string;
   balance: string;
-  Profileimage: string;
+  profileImage: string;
   bio: string;
 }
 
@@ -29,50 +30,51 @@ interface Video {
   title: string;
   description: string;
   views: number;
+  playCount: number; // Ensure this matches the server-side Video interface
 }
 
-const Sidebar: React.FC<{ toggleUploadForm: () => void; logout: () => void }> = ({ toggleUploadForm, logout }) => (
+const Sidebar: React.FC<{ toggleUploadForm: () => void; logout: () => void; playcount: number }> = ({ toggleUploadForm, logout, playcount }) => (
   <div className="min-h-screen flex bg-black">
-  <aside className="fixed top-0 left-0 w-64 h-screen bg-gray-900 text-white flex flex-col overflow-y-auto">
-        <nav className="flex-grow mt-6">
-          <a href="/users/creator" className="flex items-center block py-2.5 px-4 rounded hover:bg-gray-700">
-            <AiOutlineHome className="mr-2" />
-            Home
-          </a>
-          <a href="/users/regular/profile" className="flex items-center block py-2.5 px-4 rounded hover:bg-gray-700">
-            <BiUser className="mr-2" />
-            Profile
-          </a>
-          <a href="/users/creator/subscribe" className="flex items-center block py-2.5 px-4 rounded hover:bg-gray-700">
-            <BiUpload className="mr-2" />
-            Upload
-          </a>
-          <a href="/users/creator/subscribe" className="flex items-center block py-2.5 px-4 rounded hover:bg-gray-700">
-            <FiCheckCircle className="mr-2" />
-            Subscribe
-          </a>
-          <a href="/users/creator/transaction" className="flex items-center block py-2.5 px-4 rounded hover:bg-gray-700">
-            <RiMoneyDollarCircleLine className="mr-2" />
-            Withdraw
-          </a>
-          <a href="/users/creator/settings" className="flex items-center block py-2.5 px-4 rounded hover:bg-gray-700">
-            <FiSettings className="mr-2" />
-            Settings
-          </a>
-          <a href="/users/creator/help" className="flex items-center block py-2.5 px-4 rounded hover:bg-gray-700">
-            <FiHelpCircle className="mr-2" />
-            Help
-          </a>
-        </nav>
-        <button
-          className="flex items-center w-cover mt-auto mb-4 px-4 py-2 text-sm text-white bg-red-500 hover:bg-red-800 focus:outline-none cursor-pointer"
-          onClick={logout}
-        >
-          <FiLogOut className="mr-2" />
-          Logout
-        </button>
-      </aside>
-    </div>
+    <aside className="fixed top-0 left-0 w-64 h-screen bg-gray-900 text-white flex flex-col overflow-y-auto">
+      <nav className="flex-grow mt-6">
+        <a href="/users/creator" className="flex items-center block py-2.5 px-4 rounded hover:bg-gray-700">
+          <AiOutlineHome className="mr-2" />
+          Home
+        </a>
+        <a href="/users/regular/profile" className="flex items-center block py-2.5 px-4 rounded hover:bg-gray-700">
+          <BiUser className="mr-2" />
+          Profile
+        </a>
+        <a href="/users/creator/subscribe" className="flex items-center block py-2.5 px-4 rounded hover:bg-gray-700">
+          <BiUpload className="mr-2" />
+          Upload
+        </a>
+        <a href="/users/creator/subscribe" className="flex items-center block py-2.5 px-4 rounded hover:bg-gray-700">
+          <FiCheckCircle className="mr-2" />
+          Subscribe
+        </a>
+        <a href="/users/creator/transaction" className="flex items-center block py-2.5 px-4 rounded hover:bg-gray-700">
+          <RiMoneyDollarCircleLine className="mr-2" />
+          Withdraw
+        </a>
+        <a href="/users/creator/settings" className="flex items-center block py-2.5 px-4 rounded hover:bg-gray-700">
+          <FiSettings className="mr-2" />
+          Settings
+        </a>
+        <a href="/users/creator/help" className="flex items-center block py-2.5 px-4 rounded hover:bg-gray-700">
+          <FiHelpCircle className="mr-2" />
+          Help
+        </a>
+      </nav>
+      <button
+        className="flex items-center w-cover mt-auto mb-4 px-4 py-2 text-sm text-white bg-red-500 hover:bg-red-800 focus:outline-none cursor-pointer"
+        onClick={logout}
+      >
+        <FiLogOut className="mr-2" />
+        Logout
+      </button>
+    </aside>
+  </div>
 );
 
 const UploadForm: React.FC<{
@@ -150,30 +152,58 @@ const UploadForm: React.FC<{
   );
 };
 
-const VideoCard: React.FC<{ video: Video; handleDelete: (id: string) => void; handleViewStatistics: (video: Video) => void }> = ({ video, handleDelete, handleViewStatistics }) => (
-  <div className="relative h-48 sm:h-64 bg-gray-800 rounded-lg p-4 flex flex-col justify-between">
-    <video className="object-cover w-full h-full" src={video.url} controls />
-    <div className="flex justify-between mt-2">
-      <button className="bg-red-500 text-white px-2 py-1 rounded" onClick={() => handleDelete(video._id)}>Delete</button>
-      <button className="bg-blue-500 text-white px-2 py-1 rounded" onClick={() => handleViewStatistics(video)}>View Statistics</button>
+const VideoCard: React.FC<{
+  video: Video;
+  handleDelete: (id: string) => void;
+  handleViewStatistics: (video: Video) => void;
+}> = ({ video, handleDelete, handleViewStatistics }) => (
+  <div className="relative bg-gray-800 rounded-lg overflow-hidden shadow-md">
+    {/* Title */}
+    <div className="px-4 py-2 bg-black bg-opacity-75 text-white">
+      <h3 className="text-lg font-semibold">{video.title}</h3>
+    </div>
+
+    {/* Video Player */}
+    <video className="object-cover w-full h-48 sm:h-64" src={video.url} controls />
+
+    {/* Action Buttons */}
+    <div className="px-4 py-2 bg-black bg-opacity-75 text-white flex justify-between">
+      <button
+        className="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600 focus:outline-none"
+        onClick={() => handleDelete(video._id)}
+      >
+        Delete
+      </button>
+      <button
+        className="px-3 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 focus:outline-none"
+        onClick={() => handleViewStatistics(video)}
+      >
+        View Stats
+      </button>
+    </div>
+
+    {/* Video Description */}
+    <div className="px-4 py-2 bg-black bg-opacity-75 text-white">
+      <p className="text-sm">{video.description}</p>
     </div>
   </div>
 );
-
-const Dashboard: React.FC = () => {
-  const [user, setUser] = useState<User>({ followers: 48, following: 467, likes: 0, profileImage: "/path-to-your-image.jpg" });
-  const [username, setUsername] = useState<string>("null");
-  const [balance, setBalance] = useState<string>("null");
-  const [image, setProfileImage] = useState<string>("null");
-  const [bio, setBio] = useState<string>("null");
-  const [showUploadForm, setShowUploadForm] = useState<boolean>(false);
-  const [title, setTitle] = useState<string>("");
-  const [description, setDescription] = useState<string>("");
-  const [videoFile, setVideoFile] = useState<File | null>(null);
-  const [videos, setVideos] = useState<Video[]>([]);
-  const [selectedVideo, setSelectedVideo] = useState<Video | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string>("");
+  
+  const Dashboard: React.FC = () => {
+    const [user, setUser] = useState<User>({ followers: 48, following: 467, likes: 0, profileImage: "/path-to-your-image.jpg" });
+    const [username, setUsername] = useState<string>("");
+    const [balance, setBalance] = useState<string>("");
+    const [profileImage, setProfileImage] = useState<string>("");
+    const [bio, setBio] = useState<string>("");
+    const [playcount, setPlaycount] = useState<number>(0); // State for playcount
+    const [showUploadForm, setShowUploadForm] = useState<boolean>(false);
+    const [title, setTitle] = useState<string>("");
+    const [description, setDescription] = useState<string>("");
+    const [videoFile, setVideoFile] = useState<File | null>(null);
+    const [videos, setVideos] = useState<Video[]>([]);
+    const [selectedVideo, setSelectedVideo] = useState<Video | null>(null);
+    const [loading, setLoading] = useState<boolean>(true);
+    const [error, setError] = useState<string>("");
   
     useEffect(() => {
       getUserDetails();
@@ -186,7 +216,8 @@ const Dashboard: React.FC = () => {
         const userDetails: UserDetails = res.data.data;
         setUsername(userDetails.username);
         setBalance(userDetails.balance);
-        setProfileImage(userDetails.Profileimage);
+        setProfileImage(userDetails.profileImage); // Corrected to set profileImage
+        setPlaycount(userDetails.playCount);
         setBio(userDetails.bio);
       } catch (error: any) {
         console.error(error.message);
@@ -275,14 +306,14 @@ const Dashboard: React.FC = () => {
   
     return (
       <div className="min-h-screen flex bg-black">
-        <Sidebar toggleUploadForm={toggleUploadForm} logout={logout} />
+        <Sidebar toggleUploadForm={toggleUploadForm} logout={logout} playcount={playcount} />
         <div className="flex-grow p-6 ml-64 bg-black">
           <div className="max-w-md mx-auto">
             <div className="flex items-center justify-between py-4">
               <h1 className="text-xl font-semibold text-white">{username}</h1>
               <div className="p-4 flex items-center justify-center">
                 <div className="relative h-16 w-16 rounded-full overflow-hidden">
-                  <Image src={user.profileImage} alt="Profile Picture" layout="fill" objectFit="cover" objectPosition="center" />
+                  <Image src={profileImage} alt="Profile Picture" layout="fill" objectFit="cover" objectPosition="center" />
                 </div>
               </div>
             </div>
@@ -292,7 +323,11 @@ const Dashboard: React.FC = () => {
                 <span className="block text-gray-500">Balance</span>
               </div>
               <div>
-                <span className="block text-lg font-bold text-white">{user.followers}</span>
+                <span className="block text-lg font-bold text-white">{playcount}</span>
+                <span className="block text-gray-500">Likes</span>
+              </div>
+              <div>
+                <span className="block text-lg font-bold text-white">{playcount}</span>
                 <span className="block text-gray-500">Viewers</span>
               </div>
             </div>
@@ -329,14 +364,19 @@ const Dashboard: React.FC = () => {
           </div>
           {selectedVideo && (
             <div className="max-w-md mx-auto mt-6">
-              <h2 className="text-xl font-semibold text-white">Video Statistics</h2>
-              <div className="relative h-64 bg-gray-800 rounded-lg p-4 mt-2">
-                <video className="object-cover w-full h-full" src={selectedVideo.url} controls />
-                <p className="mt-2 text-white">Views: {selectedVideo.views}</p>
-                <p className="mt-2 text-white">Title: {selectedVideo.title}</p>
-                <p className="mt-2 text-white">Description: {selectedVideo.description}</p>
+            <h2 className="text-xl font-semibold text-white">Video Statistics</h2>
+            <div className="relative bg-gray-800 rounded-lg overflow-hidden shadow-md">
+              {/* Video Player */}
+              <video className="object-cover w-full h-64" src={selectedVideo.url} controls />
+        
+              {/* Statistics Details */}
+              <div className="px-4 py-2 bg-black bg-opacity-75 text-white">
+                <p className="text-lg font-semibold">{selectedVideo.title}</p>
+                <p className="mt-2">Description: {selectedVideo.description}</p>
+                <p className="mt-2">Views: {selectedVideo.playCount}</p>
               </div>
             </div>
+          </div>
           )}
         </div>
         <UploadForm
