@@ -6,10 +6,7 @@ import path from 'path';
 import { createWriteStream } from 'fs';
 import { getDataFromToken } from '@/helper/getDataFromToken';
 
-export const dynamic = 'force-dynamic'; // Ensure the route is treated as dynamic
-export const api = {
-  bodyParser: false, // Disable body parsing so we can handle file uploads ourselves
-};
+
 
 export async function POST(req: NextRequest) {
   await connect();
