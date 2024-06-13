@@ -8,6 +8,8 @@ import Header from "./_components/Header";
 import Footer from "../../../components/Footer";
 
 interface Video {
+  title: string;
+  description: string;
   _id: string;
   url: string;
 }
@@ -57,6 +59,14 @@ export default function RegularUser() {
 
   const handleVideoPlaybackCompletion = async (videoId: string) => {
     try {
+      await axios.post("/api/videos/playcount", { videoId }); // Adjusted to increment play count
+      toast.success("Play count updated!");
+      fetchVideos(); // Refresh videos to get the updated play count
+    } catch (error) {
+      console.error("Error updating play count:", error);
+      toast.error("Failed to update play count");
+    }
+    try {
       await axios.post("/api/videos/playback", { videoId });
       toast.success("Credits have been awarded!");
       fetchVideos();
@@ -77,24 +87,29 @@ export default function RegularUser() {
   return (
     <div>
       <Header />
-      <main className="flex flex-col items-center justify-between p-4">
+      <main className="flex flex-col items-center justify-center p-4">
         {videos.length === 0 ? (
-          <div>No videos available</div>
+          <div className="text-xl font-semibold text-gray-600">No videos available</div>
         ) : (
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 w-full max-w-5xl p-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4 w-full max-w-screen-xl p-4">
             {videos.map((video) => (
-              <div key={video._id} className="relative h-48 sm:h-64">
+              <div key={video._id} className="relative group h-96 overflow-hidden rounded-lg shadow-md">
                 <video
-                  className="object-cover w-full h-full"
+                  className="object-cover w-full h-full transition-transform transform group-hover:scale-105"
                   src={video.url}
                   controls
                   onEnded={() => handleVideoPlaybackCompletion(video._id)}
                 />
+                <div className="absolute inset-0 flex flex-col items-center justify-center opacity-0 transition-opacity group-hover:opacity-100 bg-black bg-opacity-50 text-white">
+                  <p className="text-lg font-semibold">{video.title}</p>
+                  <p className="text-sm">{video.description}</p>
+                </div>
               </div>
             ))}
           </div>
         )}
       </main>
+
       <Footer />
     </div>
   );
