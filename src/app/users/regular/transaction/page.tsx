@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation'; // Correct import
 import { FiHome } from "react-icons/fi";
 import { BiArrowBack } from "react-icons/bi";
@@ -11,7 +11,7 @@ function Page() {
 
   const [balance, setBalance] = useState("null");
 
-  seEffect(() => {
+  useEffect(() => {
     getUserDetails();
   }, []);
 
