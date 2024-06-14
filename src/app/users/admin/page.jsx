@@ -24,20 +24,40 @@ const Dashboard = () => {
           <Header />
         </div>
         <div className="pt-20 p-6 overflow-auto h-full">
-        <div className="grid grid-cols-2 gap-4 mb-6">
-        <DashboardChart className="mb-6" />
-            <a href="/users/admin/ads"><a><ManageAds /></a></a>
-            <a href="/users/admin/funds"><a><ManageAccount/></a></a>
-            <a href="/users/admin/videos"><a><UploadedVideos /></a></a>
-            <a href=""><a><ManageSubscriptions /></a></a>
-            <a href=""><a><ManageDocuments /></a></a>
+          <div className="grid grid-cols-2 gap-4 mb-6">
+            <div className="bg-gray-700 rounded-lg p-4 flex flex-col">
+              <DashboardChart className="h-full w-full" />
+            </div>
+            <a href="/users/admin/ads" className="bg-gray-700 rounded-lg p-4 flex flex-col">
+              <ManageAds className="h-full w-full" />
+            </a>
+            <a href="/users/admin/funds" className="bg-gray-700 rounded-lg p-4 flex flex-col">
+              <ManageAccount className="h-full w-full" />
+            </a>
+            <a href="/users/admin/videos" className="bg-gray-700 rounded-lg p-4 flex flex-col">
+              <UploadedVideos className="h-full w-full" />
+            </a>
+            <a href="/users/admin/subscriptions" className="bg-gray-700 rounded-lg p-4 flex flex-col">
+              <ManageSubscriptions className="h-full w-full" />
+            </a>
+            <a href="/users/admin/documents" className="bg-gray-700 rounded-lg p-4 flex flex-col">
+              <ManageDocuments className="h-full w-full" />
+            </a>
           </div>
           <div className="grid grid-cols-2 gap-4 mb-6">
-            <a href="/users/admin/users"><a><ManageUsers /></a></a>
-            <a href="/users/admin/settings"><a><ManageAppSettings /></a></a>
-            <a href="/users/admin/transactions"><a><EarningsReport /></a></a>
+            <a href="/users/admin/users" className="bg-gray-700 rounded-lg p-4 flex flex-col">
+              <ManageUsers className="h-full w-full" />
+            </a>
+            <a href="/users/admin/settings" className="bg-gray-700 rounded-lg p-4 flex flex-col">
+              <ManageAppSettings className="h-full w-full" />
+            </a>
+            <a href="/users/admin/transactions" className="bg-gray-700 rounded-lg p-4 flex flex-col">
+              <EarningsReport className="h-full w-full" />
+            </a>
           </div>
-          <a href="/users/admin/videos"><a><RecentVideos /></a></a>
+          <a href="/users/admin/videos" className="bg-gray-700 rounded-lg p-4 flex flex-col">
+            <RecentVideos className="h-full w-full" />
+          </a>
         </div>
       </div>
     </div>
