@@ -1,3 +1,5 @@
+// File path: /components/Pricing.tsx
+
 "use client"
 
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "../_components/card"
@@ -11,8 +13,8 @@ import { FiHome } from "react-icons/fi";
 import { BiArrowBack } from "react-icons/bi";
 
 type PricingCardProps = {
-  user: any
-  handleCheckout: any
+  user: string
+  handleCheckout: (priceId: string, subscription: boolean) => void
   priceIdMonthly: string
   title: string
   monthlyPrice: number
@@ -59,7 +61,8 @@ const CheckItem = ({ text }: { text: string }) => (
     <p className="pt-0.5 text-zinc-700 dark:text-zinc-300 text-sm">{text}</p>
   </div>
 )
-const PricingHeader = ({ title }: { title: string; }) => (
+
+const PricingHeader = ({ title }: { title: string }) => (
   <section className="text-center">
     <h2 className="text-3xl lg:text-5xl font-bold">{title}</h2>
     <br />
@@ -101,12 +104,12 @@ export default function Pricing() {
         return response
       } else {
         console.error('Failed to create checkout session');
-        toast('Failed to create checkout session')
+        toast('Failed to create checkout session');
         return
       }
     } catch (error) {
       console.error('Error during checkout:', error);
-      toast('Error during checkout')
+      toast('Error during checkout');
       return
     }
   };
@@ -114,55 +117,31 @@ export default function Pricing() {
   const plans = [
     {
       title: "Basic",
+      priceIdMonthly: "price_1",
       monthlyPrice: 5000,
-      description: "Essential features you need to get started",
-      features: [
-        "Access to standard content library",
-        "Standard video quality (up to 720p)",
-        "Single device streaming",
-        "Limited offline downloads",
-        "Basic customer support"
-      ],
-      priceIdMonthly: "price_1PP8S5LNL4vBEK12ZhmoTt8Q",
-      actionLabel: "Get Started",
+      description: "Basic plan description",
+      features: ["Feature 1", "Feature 2", "Feature 3"],
+      actionLabel: "Choose Basic",
     },
     {
       title: "Pro",
+      priceIdMonthly: "price_2",
       monthlyPrice: 10000,
-      description: "Perfect for owners of small & medium businesses",
-      features: [
-        "Access to extended content library (including exclusive shows)",
-        "High-definition video quality (up to 1080p)",
-        "Multi-device streaming (up to 3 devices)",
-        "Unlimited offline downloads",
-        "Ad-free experience",
-        "Priority customer support"
-      ],
-      actionLabel: "Get Started",
-      priceIdMonthly: "price_1PP8S5LNL4vBEK127oGMPzYL",
+      description: "Pro plan description",
+      features: ["Feature A", "Feature B", "Feature C"],
+      actionLabel: "Choose Pro",
       popular: true,
     },
     {
-      title: "Enterprise",
+      title: "Premium",
+      priceIdMonthly: "price_3",
       monthlyPrice: 15000,
-      description: "Dedicated support and infrastructure to fit your needs",
-      features: [
-        "Ultra-high-definition video quality (up to 4K and HDR)",
-        "Multi-device streaming (up to 10 devices)",
-        "Unlimited offline downloads",
-        "Ad-free experience",
-        "Dedicated account manager",
-        "24/7 premium customer support",
-        "Customizable user profiles",
-        "Advanced analytics and reporting tools",
-        "Content request options",
-        "Special access to early releases and beta content"
-      ],
-      actionLabel: "Get Started",
-      priceIdMonthly: "price_1PP8S5LNL4vBEK128c1JJR2f",
+      description: "Premium plan description",
+      features: ["Feature X", "Feature Y", "Feature Z"],
+      actionLabel: "Choose Premium",
       exclusive: true,
-    },
-  ]
+    }
+  ];
 
   return (
     <div>
@@ -170,7 +149,7 @@ export default function Pricing() {
        <a href="/users/regular"><FiHome /></a>
        <a href="/users/regular/profile"><BiArrowBack /></a>
       </div>
-      <PricingHeader title="Pricing Plans"  />
+      <PricingHeader title="Pricing Plans" />
       <section className="flex flex-col sm:flex-row sm:flex-wrap justify-center gap-8 mt-8">
         {plans.map((plan) => {
           return <PricingCard user={userId} handleCheckout={handleCheckout} key={plan.title} {...plan} />

@@ -1,3 +1,5 @@
+// File path: /components/Pricing.tsx
+
 "use client"
 
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "../_components/card"
@@ -11,8 +13,8 @@ import { FiHome } from "react-icons/fi";
 import { BiArrowBack } from "react-icons/bi";
 
 type PricingCardProps = {
-  user: any
-  handleCheckout: any
+  user: string
+  handleCheckout: (priceId: string, subscription: boolean) => void
   priceIdMonthly: string
   title: string
   monthlyPrice: number
@@ -45,10 +47,17 @@ const PricingCard = ({ user, handleCheckout, title, priceIdMonthly, monthlyPrice
       </CardContent>
     </div>
     <CardFooter className="mt-2">
-      <button onClick={() => handleCheckout(priceIdMonthly, true)} className="relative inline-flex w-full items-center justify-center rounded-md bg-black text-white dark:bg-white px-6 font-medium  dark:text-black transition-colors focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50">
-        <div className="absolute -inset-0.5 -z-10 rounded-lg bg-gradient-to-b from-[#c7d2fe] to-[#8678f9] opacity-75 blur" />
-        {actionLabel}
-      </button>
+      {priceIdMonthly.startsWith("http") ? (
+        <a href={priceIdMonthly} target="_blank" rel="noopener noreferrer" className="relative inline-flex w-full items-center justify-center rounded-md bg-black text-white dark:bg-white px-6 font-medium dark:text-black transition-colors focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50">
+          <div className="absolute -inset-0.5 -z-10 rounded-lg bg-gradient-to-b from-[#c7d2fe] to-[#8678f9] opacity-75 blur" />
+          {actionLabel}
+        </a>
+      ) : (
+        <button onClick={() => handleCheckout(priceIdMonthly, true)} className="relative inline-flex w-full items-center justify-center rounded-md bg-black text-white dark:bg-white px-6 font-medium dark:text-black transition-colors focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50">
+          <div className="absolute -inset-0.5 -z-10 rounded-lg bg-gradient-to-b from-[#c7d2fe] to-[#8678f9] opacity-75 blur" />
+          {actionLabel}
+        </button>
+      )}
     </CardFooter>
   </Card>
 )
@@ -123,8 +132,8 @@ export default function Pricing() {
         "Limited offline downloads",
         "Basic customer support"
       ],
-      priceIdMonthly: "https://buy.stripe.com/test_7sIdTgdWu9Zu0Sc4gj",
       actionLabel: "Get Started",
+      priceIdMonthly: "https://buy.stripe.com/test_dR68yWdWufjOfN614e",
     },
     {
       title: "Pro",
@@ -139,7 +148,7 @@ export default function Pricing() {
         "Priority customer support"
       ],
       actionLabel: "Get Started",
-      priceIdMonthly: "https://buy.stripe.com/test_9AQbL89Ge4Fa0Sc3cg",
+      priceIdMonthly: "https://buy.stripe.com/test_9AQdTgaKi5JeasM3cn",
       popular: true,
     },
     {
@@ -159,10 +168,9 @@ export default function Pricing() {
         "Special access to early releases and beta content"
       ],
       actionLabel: "Get Started",
-      priceIdMonthly: "https://buy.stripe.com/test_4gwaH43hQefK1Wg8wx" ,
+      priceIdMonthly: "https://buy.stripe.com/test_5kA02q9Ge2x21Wg008", // URL example
     }
   ];
-  
 
   return (
     <div>
@@ -170,7 +178,7 @@ export default function Pricing() {
        <a href="/users/creator"><FiHome /></a>
        <a href="/users/creator/profile"><BiArrowBack /></a>
       </div>
-      <PricingHeader title="Pricing Plans"  />
+      <PricingHeader title="Pricing Plans" />
       <section className="flex flex-col sm:flex-row sm:flex-wrap justify-center gap-8 mt-8">
         {plans.map((plan) => {
           return <PricingCard user={userId} handleCheckout={handleCheckout} key={plan.title} {...plan} />
