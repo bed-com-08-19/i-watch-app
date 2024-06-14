@@ -339,9 +339,6 @@ const Dashboard: React.FC = () => {
     }
   };
 
-  if (loading) {
-    return <div className="text-white text-center">Loading...</div>;
-  }
 
   if (error) {
     return <div className="text-red-500 text-center">{error}</div>;
