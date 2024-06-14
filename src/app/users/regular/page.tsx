@@ -164,7 +164,7 @@ const RegularUser: React.FC = () => {
             <h1 className="text-2xl font-semibold text-red-800">Welcome, {data?.username}</h1>
             <button
               onClick={logout}
-              className="px-4 py-2 bg-red-500 text-white rounded shadow hover:bg-red-600"
+              className="px-4 py-2 bg-red-500 text-white rounded shadow"
             >
               Logout
             </button>
@@ -196,14 +196,14 @@ const RegularUser: React.FC = () => {
               {filteredVideos.map((video) => (
                 <div key={video._id} className="relative group">
                   <video
-                    className="object-cover w-full h-64 rounded-lg shadow-md transition-transform transform group-hover:scale-105"
+                    className="object-cover w-full h-64 rounded-lg shadow-md transition-transform transform"
                     src={video.url}
                     controls
                     onClick={() => handleVideoClick(video._id)}
                     onEnded={() => handleVideoEnd(video._id)}
                   
                   />
-                  <div className="absolute inset-0 flex flex-col items-center justify-center opacity-0 transition-opacity group-hover:opacity-100 bg-black bg-opacity-50 text-white">
+                  <div className="">
                     <p className="text-lg font-semibold">{video.title || "Untitled"}</p>
                     <p className="text-sm">{video.description || "No description provided"}</p>
                   </div>
