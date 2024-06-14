@@ -8,6 +8,7 @@ import ManageUsers from './_components/AdminTools/ManageUsers';
 import ManageSubscriptions from './_components/AdminTools/ManageSubscriptions';
 import ManageAppSettings from './_components/AdminTools/ManageAppSettings';
 import EarningsReport from './_components/AdminTools/EarningsReport';
+import ManageAccount from './_components/EarningsOverview/ManageAccount';
 import ManageDocuments from './_components/EarningsOverview/ManageDocuments';
 import UploadedVideos from './_components/EarningsOverview/UploadedVideos';
 import WatchedVideos from './_components/EarningsOverview/WatchedVideos';
