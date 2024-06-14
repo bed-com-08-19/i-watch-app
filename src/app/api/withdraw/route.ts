@@ -60,7 +60,7 @@ router.post('/', async (req: Request, res: Response) => {
     await transaction.save();
 
     // Send withdrawal success SMS
-    const smsMessage = `Withdrawal of ${amount} successful. Updated balance: ${user.balance}`;
+    const smsMessage = `Withdrawal of ${amount} successful from I-WATCH. Updated balance: ${user.balance}. KEEP MAKING MONEY with US`;
     await sendSMSNotification(mobileNumber, smsMessage);
 
     // Respond with success message
