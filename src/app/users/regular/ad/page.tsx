@@ -4,12 +4,13 @@ import Header from "../_components/Header";
 import Footer from "../../../../components/Footer";
 import { toast } from "react-hot-toast";
 import axios from "axios";
+import Image from "next/image";
 
 interface Ad {
   _id: string;
   title: string;
   description: string;
-  imageUrl: string;
+  adUrl: string;
 }
 
 const AdsPage = () => {
@@ -55,8 +56,8 @@ const AdsPage = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
             {ads.map((ad) => (
               <div key={ad._id} className="relative group p-4 border rounded-lg shadow-md">
-                <img
-                  src={ad.imageUrl}
+                <Image
+                  src={ad.adUrl}
                   alt={ad.title}
                   className="object-cover w-full h-48 rounded-lg mb-4"
                 />
