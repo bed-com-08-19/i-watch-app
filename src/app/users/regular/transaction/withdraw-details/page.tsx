@@ -1,4 +1,4 @@
-// pages/withdraw.js
+// pages/withdraw.js or equivalent
 "use client";
 
 import React, { useState } from 'react';
@@ -12,16 +12,19 @@ function Page() {
 
   const handleWithdraw = async () => {
     try {
+      // Validate inputs
       if (!mobileNumber.trim() || !amount.trim()) {
         toast.error('Please enter both mobile number and amount');
         return;
       }
 
+      // Prepare request body
       const requestBody = {
-        phoneNumber: mobileNumber.trim(),
+        mobileNumber: mobileNumber.trim(),
         amount: parseFloat(amount.trim()),
       };
 
+      // Make API call to withdraw endpoint
       const response = await fetch('/api/withdraw', {
         method: 'POST',
         headers: {
@@ -36,8 +39,9 @@ function Page() {
         return;
       }
 
+      // Successful withdrawal
       toast.success('Withdrawal successful');
-      router.push('/users/creator/transaction/withdraw-success');
+      router.push('/users/regular/transaction/withdraw-success');
     } catch (error) {
       console.error('Error during withdrawal:', error);
       toast.error('Failed to withdraw');
