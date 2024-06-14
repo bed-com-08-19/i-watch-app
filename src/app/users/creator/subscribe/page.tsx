@@ -176,6 +176,7 @@ export default function Pricing() {
           return <PricingCard user={userId} handleCheckout={handleCheckout} key={plan.title} {...plan} />
         })}
       </section>
+      <a href="https://buy.stripe.com/test_7sI16u7y61sY6cw4gn">buy</a>
     </div>
   )
 }
