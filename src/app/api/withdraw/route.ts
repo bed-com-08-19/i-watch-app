@@ -1,12 +1,12 @@
-import { NextApiRequest, NextApiResponse } from 'next';
+import { NextRequest, NextResponse } from 'next/server';
 import User from '@/models/userModel';
 import Transaction from '@/models/transaction';
 import fetch from 'node-fetch';
-import { connect } from '@/dbConfig/dbConfig'; // Adjust path as per your project
+import { connect } from '@/dbConfig/dbConfig';
 
 // Function to send SMS using TelcomW API (unchanged)
 async function sendSMSNotification(phoneNumber: string, message: string) {
-  const apiKey = 'TTEPAiSawKA2Ia2w92Px '; // Replace with your TelcomW API key
+  const apiKey = 'TTEPAiSawKA2Ia2w92Px'; // Replace with your TelcomW API key
   const password = '12345678'; // Replace with your TelcomW API password
 
   const formData = new URLSearchParams();
@@ -31,31 +31,29 @@ async function sendSMSNotification(phoneNumber: string, message: string) {
   return responseData;
 }
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  if (req.method !== 'POST') {
-    return res.status(405).json({ success: false, message: 'Method Not Allowed' });
-  }
+export async function POST(request: NextRequest) {
 
-  // Ensure HTTPS request handling
-//   if (!req.secure) {
-//     return res.status(403).json({ success: false, message: 'HTTPS Required' });
-//   }
-
-  const { mobileNumber, amount }: { mobileNumber: string; amount: number } = req.body;
 
   try {
+    const { mobileNumber, amount }: { mobileNumber: string; amount: number } = request.body;
+
+    // Check if mobileNumber is null or undefined
+    if (!mobileNumber) {
+      return NextResponse.json({ success: false, message: 'Mobile number is required' }, { status: 400 });
+    }
+
     await connect(); // Ensure database connection
 
     // Find user by mobile number
     const user = await User.findOne({ phoneNumber: mobileNumber });
 
     if (!user) {
-      return res.status(404).json({ success: false, message: 'User not found' });
+      return NextResponse.json({ success: false, message: 'User not found' }, { status: 404 });
     }
 
     // Check if user has sufficient balance
     if (user.balance < amount) {
-      return res.status(400).json({ success: false, message: 'Insufficient balance' });
+      return NextResponse.json({ success: false, message: 'Insufficient balance' }, { status: 400 });
     }
 
     // Deduct balance
@@ -71,9 +69,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     await sendSMSNotification(mobileNumber, smsMessage);
 
     // Respond with success message
-    res.status(200).json({ success: true, message: 'Withdrawal successful' });
+    return NextResponse.json({ success: true, message: 'Withdrawal successful' }, { status: 200 });
   } catch (error) {
     console.error('Error during withdrawal:', error);
-    res.status(500).json({ success: false, error: 'Failed to process withdrawal' });
+    return NextResponse.json({ success: false, error: 'Failed to process withdrawal' }, { status: 500 });
   }
 }
