@@ -1,4 +1,5 @@
 // pages/withdraw.js or equivalent
+"use client";
 
 import React, { useState } from 'react';
 import { useRouter } from 'next/router';

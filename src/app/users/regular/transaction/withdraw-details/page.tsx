@@ -1,21 +1,51 @@
+// pages/withdraw.js or equivalent
 "use client";
 
 import React, { useState } from 'react';
-import { useRouter } from 'next/navigation'; // Correct import
-import { useSearchParams } from 'next/navigation'; // Correct import
+import { useRouter } from 'next/router';
+import { toast } from 'react-hot-toast';
 
 function Page() {
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const method = searchParams.get('method') || 'mobile';
-
-  const [details, setDetails] = useState('');
+  const [mobileNumber, setMobileNumber] = useState('');
   const [amount, setAmount] = useState('');
 
-  const handleWithdraw = () => {
-    // You can add your backend call here
-    console.log(`Method: ${method}, Details: ${details}, Amount: ${amount}`);
-    router.push('/users/regular/transaction/withdraw-success');
+  const handleWithdraw = async () => {
+    try {
+      // Validate inputs
+      if (!mobileNumber.trim() || !amount.trim()) {
+        toast.error('Please enter both mobile number and amount');
+        return;
+      }
+
+      // Prepare request body
+      const requestBody = {
+        mobileNumber: mobileNumber.trim(),
+        amount: parseFloat(amount.trim()),
+      };
+
+      // Make API call to withdraw endpoint
+      const response = await fetch('/api/withdraw', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(requestBody),
+      });
+
+      if (!response.ok) {
+        const data = await response.json();
+        toast.error(data.message || 'Failed to withdraw');
+        return;
+      }
+
+      // Successful withdrawal
+      toast.success('Withdrawal successful');
+      router.push('/users/creator/transaction/withdraw-success');
+    } catch (error) {
+      console.error('Error during withdrawal:', error);
+      toast.error('Failed to withdraw');
+    }
   };
 
   return (
@@ -24,9 +54,9 @@ function Page() {
         <h1 className="text-4xl mb-8 font-semibold text-center">Enter Withdrawal Details</h1>
         <input
           type="text"
-          value={details}
-          onChange={(e) => setDetails(e.target.value)}
-          placeholder={`Enter your ${method === 'mobile' ? 'mobile number' : 'bank account'}`}
+          value={mobileNumber}
+          onChange={(e) => setMobileNumber(e.target.value)}
+          placeholder="Enter your mobile number"
           className="mt-4 px-4 py-2 rounded-md bg-gray-800 border border-gray-700 text-white focus:outline-none focus:border-red-500 w-full"
         />
         <input
