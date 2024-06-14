@@ -1,13 +1,10 @@
-// routes/withdraw.ts
-
-import express, { Request, Response } from 'express';
-import User, { IUser } from '../models/User';
-import Transaction, { ITransaction } from '../models/Transaction';
+import { NextApiRequest, NextApiResponse } from 'next';
+import User from '@/models/userModel';
+import Transaction from '@/models/transaction';
 import fetch from 'node-fetch';
+import { connect } from '@/dbConfig/dbConfig'; // Adjust path as per your project
 
-const router = express.Router();
-
-// Function to send SMS using TelcomW API
+// Function to send SMS using TelcomW API (unchanged)
 async function sendSMSNotification(phoneNumber: string, message: string) {
   const apiKey = 'TTEPAiSawKA2Ia2w92Px '; // Replace with your TelcomW API key
   const password = '12345678'; // Replace with your TelcomW API password
@@ -34,13 +31,23 @@ async function sendSMSNotification(phoneNumber: string, message: string) {
   return responseData;
 }
 
-// POST /api/withdraw
-router.post('/', async (req: Request, res: Response) => {
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+  if (req.method !== 'POST') {
+    return res.status(405).json({ success: false, message: 'Method Not Allowed' });
+  }
+
+  // Ensure HTTPS request handling
+//   if (!req.secure) {
+//     return res.status(403).json({ success: false, message: 'HTTPS Required' });
+//   }
+
   const { mobileNumber, amount }: { mobileNumber: string; amount: number } = req.body;
 
   try {
+    await connect(); // Ensure database connection
+
     // Find user by mobile number
-    const user: IUser | null = await User.findOne({ phoneNumber: mobileNumber });
+    const user = await User.findOne({ phoneNumber: mobileNumber });
 
     if (!user) {
       return res.status(404).json({ success: false, message: 'User not found' });
@@ -56,7 +63,7 @@ router.post('/', async (req: Request, res: Response) => {
     await user.save();
 
     // Create transaction record
-    const transaction: ITransaction = new Transaction({ user: user._id, amount, type: 'withdrawal' });
+    const transaction = new Transaction({ user: user._id, amount, type: 'withdrawal' });
     await transaction.save();
 
     // Send withdrawal success SMS
@@ -69,6 +76,4 @@ router.post('/', async (req: Request, res: Response) => {
     console.error('Error during withdrawal:', error);
     res.status(500).json({ success: false, error: 'Failed to process withdrawal' });
   }
-});
-
-export default router;
+}
