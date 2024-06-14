@@ -1,3 +1,5 @@
+// File path: /components/Pricing.tsx
+
 "use client"
 
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "../_components/card"
@@ -11,8 +13,8 @@ import { FiHome } from "react-icons/fi";
 import { BiArrowBack } from "react-icons/bi";
 
 type PricingCardProps = {
-  user: any
-  handleCheckout: any
+  user: string
+  handleCheckout: (priceId: string, subscription: boolean) => void
   priceIdMonthly: string
   title: string
   monthlyPrice: number
@@ -123,8 +125,8 @@ export default function Pricing() {
         "Limited offline downloads",
         "Basic customer support"
       ],
-      priceIdMonthly: "price_1PP8S5LNL4vBEK12ZhmoTt8Q",
       actionLabel: "Get Started",
+      priceIdMonthly: "price_1PRTfvLNL4vBEK12AVROjl3k",
     },
     {
       title: "Pro",
@@ -139,7 +141,7 @@ export default function Pricing() {
         "Priority customer support"
       ],
       actionLabel: "Get Started",
-      priceIdMonthly: "price_1PP8S5LNL4vBEK127oGMPzYL",
+      priceIdMonthly: "price_1PRTheLNL4vBEK12MOE0vvxS",
       popular: true,
     },
     {
@@ -159,10 +161,9 @@ export default function Pricing() {
         "Special access to early releases and beta content"
       ],
       actionLabel: "Get Started",
-      priceIdMonthly: "price_1PP8S5LNL4vBEK128c1JJR2f",
-      exclusive: true,
-    },
-  ]
+      priceIdMonthly: "price_1PRTigLNL4vBEK12LvCHqk3p",
+    }
+  ];
 
   return (
     <div>
@@ -170,7 +171,7 @@ export default function Pricing() {
        <a href="/users/regular"><FiHome /></a>
        <a href="/users/regular/profile"><BiArrowBack /></a>
       </div>
-      <PricingHeader title="Pricing Plans"  />
+      <PricingHeader title="Pricing Plans" />
       <section className="flex flex-col sm:flex-row sm:flex-wrap justify-center gap-8 mt-8">
         {plans.map((plan) => {
           return <PricingCard user={userId} handleCheckout={handleCheckout} key={plan.title} {...plan} />
