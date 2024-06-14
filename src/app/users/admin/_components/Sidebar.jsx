@@ -1,5 +1,5 @@
 "use client";
-import { FaVideo, FaUser, FaCog, FaChartLine, FaDashcube } from 'react-icons/fa';
+import { FaVideo, FaUser, FaCog, FaChartLine, FaDashcube, FaMoneyBillWave } from 'react-icons/fa';
 import React from "react";
 import axios from "axios";
 import Link from "next/link";
@@ -38,6 +38,12 @@ const Sidebar = () => {
             <Link href="/users/admin/videos" className="flex items-center block py-2.5 px-4 rounded hover:bg-gray-700">
               <FaVideo className="mr-2" />
               <span>Videos</span>
+            </Link>
+          </li>
+          <li className="my-4 flex items-center">
+            <Link href="/users/admin/ads" className="flex items-center block py-2.5 px-4 rounded hover:bg-gray-700">
+              <FaMoneyBillWave className="mr-2" />
+              <span>Ads</span>
             </Link>
           </li>
           <li className="my-4 flex items-center">

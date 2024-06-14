@@ -219,4 +219,3 @@ const RegularUser: React.FC = () => {
 };
 
 export default RegularUser;
-

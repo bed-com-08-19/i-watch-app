@@ -8,11 +8,9 @@ import ManageUsers from './_components/AdminTools/ManageUsers';
 import ManageSubscriptions from './_components/AdminTools/ManageSubscriptions';
 import ManageAppSettings from './_components/AdminTools/ManageAppSettings';
 import EarningsReport from './_components/AdminTools/EarningsReport';
-import ManageAccount from './_components/EarningsOverview/ManageAccount';
 import ManageDocuments from './_components/EarningsOverview/ManageDocuments';
 import UploadedVideos from './_components/EarningsOverview/UploadedVideos';
-import WatchedVideos from './_components/EarningsOverview/WatchedVideos';
-import Link from 'next/link';
+import ManageAds from './_components/EarningsOverview/ManageAds';
 
 const Dashboard = () => {
   return (
@@ -24,10 +22,10 @@ const Dashboard = () => {
         <div className="fixed inset-x-0 top-0 left-64 h-16 bg-gray-800 z-10">
           <Header />
         </div>
-        <div className="pt-16 p-6 overflow-auto h-full">
-          <DashboardChart />
-          <div className="grid grid-cols-2 gap-4 mb-6">
-            <a href=""><a><WatchedVideos /></a></a>
+        <div className="pt-20 p-6 overflow-auto h-full">
+        <div className="grid grid-cols-2 gap-4 mb-6">
+        <DashboardChart className="mb-6" />
+            <a href="/users/admin/ads"><a><ManageAds /></a></a>
             <a href="/users/admin/videos"><a><UploadedVideos /></a></a>
             <a href=""><a><ManageSubscriptions /></a></a>
             <a href=""><a><ManageDocuments /></a></a>
