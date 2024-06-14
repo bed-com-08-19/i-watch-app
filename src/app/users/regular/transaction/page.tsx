@@ -55,7 +55,5 @@ function Page() {
 }
 
 export default Page;
-function seEffect(arg0: () => void, arg1: never[]) {
-  throw new Error('Function not implemented.');
-}
+
 
