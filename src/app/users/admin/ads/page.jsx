@@ -9,7 +9,7 @@ const Transactions = () => {
       <Sidebar />
       <div className="flex-1 bg-black-900">
         <Header />
-        <div className="p-6">
+        <div className="p-6 bg-">
           <Ads />
         </div>
       </div>

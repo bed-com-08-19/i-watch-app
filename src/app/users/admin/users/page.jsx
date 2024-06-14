@@ -85,7 +85,7 @@ const ManageUsers = () => {
                         onChange={handleSearch}
                         className="mb-4 p-2 rounded bg-gray-700 text-white"
                     />
-                    <table className="w-full text-left">
+                    <table className="w-full text-left bg-gray-900">
                         <thead>
                             <tr>
                                 <th onClick={() => handleSort('username')}>Username</th>

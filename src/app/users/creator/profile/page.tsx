@@ -41,7 +41,7 @@ const Sidebar: React.FC<{ toggleUploadForm: () => void; logout: () => void; play
           <AiOutlineHome className="mr-2" />
           Home
         </a>
-        <a href="/users/regular/profile" className="flex items-center block py-2.5 px-4 rounded hover:bg-gray-700">
+        <a href="/users/creator/profile" className="flex items-center block py-2.5 px-4 rounded hover:bg-gray-700">
           <BiUser className="mr-2" />
           Profile
         </a>

@@ -47,51 +47,53 @@ const UploadedVideos = () => {
   };
 
   const filteredVideos = videos.filter((video) =>
-        video.title?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        video.description?.toLowerCase().includes(searchTerm.toLowerCase())
-    );
+    video.title?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    video.description?.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
-    <div className="flex">
-      <Sidebar />
-      <div className="flex-1 bg-black-900">
-        <Header />
-        <div className="p-6 bg-black-800 text-white rounded-lg shadow-md">
-          <h2 className="text-lg font-bold mb-4">Uploaded Videos</h2>
-          <input
-            type="text"
-            placeholder="Search videos..."
-            value={searchTerm}
-            onChange={handleSearch}
-            className="mb-4 p-2 bg-gray-700 rounded"
-          />
-          <table className="w-full text-left table-auto">
-            <thead>
-              <tr>
-                <th className="px-4 py-2 cursor-pointer" onClick={() => handleSort('title')}>Title</th>
-                <th className="px-4 py-2 cursor-pointer" onClick={() => handleSort('description')}>Description</th>
-                <th className="px-4 py-2 cursor-pointer" onClick={() => handleSort('creator')}>Creator</th>
-                <th className="px-4 py-2">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {filteredVideos.map((video) => (
-                <tr key={video._id}>
-                  <td className="border px-4 py-2">{video.title}</td>
-                  <td className="border px-4 py-2">{video.description}</td>
-                  <td className="border px-4 py-2">{video.creator}</td>
-                  <td className="border px-4 py-2">
-                    <button
-                      onClick={() => handleDelete(video._id)}
-                      className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded"
-                    >
-                      Delete
-                    </button>
-                  </td>
+    <div className="flex h-screen overflow-hidden">
+      <Sidebar className="fixed inset-y-0 left-0 w-64 bg-gray-800" />
+      <div className="flex-1 ml-64 bg-gray-900">
+        <Header className="fixed inset-x-0 top-0 left-64 h-16 bg-gray-800" />
+        <div className="pt-16 p-6 overflow-auto h-full">
+          <div className="bg-gray-800 text-white rounded-lg shadow-md p-6">
+            <h2 className="text-lg font-bold mb-4">Uploaded Videos</h2>
+            <input
+              type="text"
+              placeholder="Search videos..."
+              value={searchTerm}
+              onChange={handleSearch}
+              className="mb-4 p-2 bg-gray-700 rounded"
+            />
+            <table className="w-full text-left table-auto">
+              <thead>
+                <tr>
+                  <th className="px-4 py-2 cursor-pointer" onClick={() => handleSort('title')}>Title</th>
+                  <th className="px-4 py-2 cursor-pointer" onClick={() => handleSort('description')}>Description</th>
+                  <th className="px-4 py-2 cursor-pointer" onClick={() => handleSort('creator')}>Creator</th>
+                  <th className="px-4 py-2">Actions</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {filteredVideos.map((video) => (
+                  <tr key={video._id}>
+                    <td className="border px-4 py-2">{video.title}</td>
+                    <td className="border px-4 py-2">{video.description}</td>
+                    <td className="border px-4 py-2">{video.creator}</td>
+                    <td className="border px-4 py-2">
+                      <button
+                        onClick={() => handleDelete(video._id)}
+                        className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded"
+                      >
+                        Delete
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>
@@ -99,4 +101,3 @@ const UploadedVideos = () => {
 };
 
 export default UploadedVideos;
-

@@ -31,8 +31,8 @@ const Settings = () => {
     return (
         <div className="container mx-auto p-4">
             <div className="absolute top-4 left-4 flex space-x-4">
-                <a href="/users/creator"><FiHome /></a>
-                <a href="/users/creator/profile"><BiArrowBack /></a>
+                <a href="/users/regular"><FiHome /></a>
+                <a href="/users/regular/profile"><BiArrowBack /></a>
             </div>
             <h2 className="text-2xl mb-4">Settings</h2>
             <div className="mb-4">

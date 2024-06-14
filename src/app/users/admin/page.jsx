@@ -15,10 +15,10 @@ import ManageAds from './_components/EarningsOverview/ManageAds';
 const Dashboard = () => {
   return (
     <div className="flex h-screen overflow-hidden">
-      <div className="fixed inset-y-0 left-0 w-64 bg-gray-800">
+      <div className="fixed inset-y-0 left-0 w-64 bg-black-800">
         <Sidebar />
       </div>
-      <div className="flex-1 ml-64 bg-gray-900">
+      <div className="flex-1 ml-64 bg-black-900">
         <div className="fixed inset-x-0 top-0 left-64 h-16 bg-gray-800 z-10">
           <Header />
         </div>

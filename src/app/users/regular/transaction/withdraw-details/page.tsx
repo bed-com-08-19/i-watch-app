@@ -15,7 +15,7 @@ function Page() {
   const handleWithdraw = () => {
     // You can add your backend call here
     console.log(`Method: ${method}, Details: ${details}, Amount: ${amount}`);
-    router.push('/users/creator/transaction/withdraw-success');
+    router.push('/users/regular/transaction/withdraw-success');
   };
 
   return (
