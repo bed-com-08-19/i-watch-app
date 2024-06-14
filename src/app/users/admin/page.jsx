@@ -11,6 +11,7 @@ import EarningsReport from './_components/AdminTools/EarningsReport';
 import ManageDocuments from './_components/EarningsOverview/ManageDocuments';
 import UploadedVideos from './_components/EarningsOverview/UploadedVideos';
 import ManageAds from './_components/EarningsOverview/ManageAds';
+import ManageAccount from './_components/EarningsOverview/ManageAccount';
 
 const Dashboard = () => {
   return (
@@ -32,7 +33,8 @@ const Dashboard = () => {
           </div>
           <div className="grid grid-cols-2 gap-4 mb-6">
             <a href="/users/admin/users"><a><ManageUsers /></a></a>
-            <a href=""><a><ManageAppSettings /></a></a>
+            <a href="/users/admin/settings"><a><ManageAppSettings /></a></a>
+            <a href="/users/admin/funds"><a><ManageAccount /></a></a>
             <a href="/users/admin/transactions"><a><EarningsReport /></a></a>
           </div>
           <a href="/users/admin/videos"><a><RecentVideos /></a></a>
