@@ -1,38 +1,80 @@
+"use client";
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+
 const RecentVideos = () => {
-    const videos = [
-      { title: "Exciting vlog.mp4", size: "3.75 MB", uploadedOn: "24/08/2023 08:42 AM", earned: "Profile" },
-      { title: "Funny cat videos.mp4", size: "1.5 MB", uploadedOn: "24/08/2023 11:23 PM", earned: "My videos" },
-      { title: "Tutorial.mp4", size: "1.2 MB", uploadedOn: "21/08/2023 07:09 AM", earned: "Subscriptions" },
-      { title: "Earnings report.xls", size: "500 KB", uploadedOn: "21/08/2023 06:10 AM", earned: "Manage users" },
-      { title: "Top 10 videos.mp4", size: "50 KB", uploadedOn: "20/08/2023 03:55 AM", earned: "Manage videos" }
-    ];
-  
-    return (
-      <div className="p-4 bg-gray-800 text-white rounded-lg shadow-md">
-        <h2 className="text-lg font-bold mb-4">Recent Videos</h2>
-        <table className="w-full">
-          <thead>
-            <tr className="text-left border-b border-gray-700">
-              <th className="pb-2">Title</th>
-              <th className="pb-2">Size</th>
-              <th className="pb-2">Uploaded On</th>
-              <th className="pb-2">Earned</th>
-            </tr>
-          </thead>
-          <tbody>
-            {videos.map((video, index) => (
-              <tr key={index} className="border-b border-gray-700">
-                <td className="py-2">{video.title}</td>
-                <td className="py-2">{video.size}</td>
-                <td className="py-2">{video.uploadedOn}</td>
-                <td className="py-2">{video.earned}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-    );
+  const [videos, setVideos] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [sortOrder, setSortOrder] = useState('desc');
+  const [sortField, setSortField] = useState('uploadedOn');
+  const [error, setError] = useState(null);
+
+
+  useEffect(() => {
+    fetchVideos();
+  }, []);
+
+  const fetchVideos = async () => {
+    try {
+      const response = await axios.get('/api/videos');
+      const sortedVideos = response.data.data.sort((a, b) => new Date(b.uploadedOn) - new Date(a.uploadedOn));
+      setVideos(sortedVideos);
+    } catch (error) {
+      setError("Error fetching videos");
+    }
   };
-  
-  export default RecentVideos;
-  
+
+  const handleSort = (field) => {
+    const sortedVideos = [...videos].sort((a, b) => {
+      if (field === 'uploadedOn') {
+        return sortOrder === 'asc' 
+          ? new Date(a.uploadedOn) - new Date(b.uploadedOn)
+          : new Date(b.uploadedOn) - new Date(a.uploadedOn);
+      }
+      if (a[field] < b[field]) return sortOrder === 'asc' ? -1 : 1;
+      if (a[field] > b[field]) return sortOrder === 'asc' ? 1 : -1;
+      return 0;
+    });
+    setVideos(sortedVideos);
+    setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
+    setSortField(field);
+  };
+
+  const filteredVideos = videos.filter((video) =>
+    video.title?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    video.description?.toLowerCase().includes(searchTerm.toLowerCase())
+  ).slice(0, 5); // Limit to 5 most recent videos
+
+
+  if (error) {
+    return <div className="text-center text-red-500">{error}</div>;
+  }
+
+  return (
+    <div className="p-4 bg-gray-800 text-white rounded-lg shadow-md">
+      <h2 className="text-lg font-bold mb-4">Recent Videos</h2>
+      <table className="w-full">
+        <thead>
+          <tr className="text-left border-b border-gray-700">
+            <th className="pb-2 cursor-pointer" onClick={() => handleSort('title')}>Title</th>
+            <th className="pb-2 cursor-pointer" onClick={() => handleSort('size')}>Size</th>
+            <th className="pb-2 cursor-pointer" onClick={() => handleSort('uploadedOn')}>Uploaded On</th>
+            <th className="pb-2 cursor-pointer" onClick={() => handleSort('earned')}>Earned</th>
+          </tr>
+        </thead>
+        <tbody>
+          {filteredVideos.map((video, index) => (
+            <tr key={index} className="border-b border-gray-700">
+              <td className="py-2">{video.title}</td>
+              <td className="py-2">{video.size}</td>
+              <td className="py-2">{new Date(video.uploadedOn).toLocaleDateString()}</td>
+              <td className="py-2">{video.earned}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+};
+
+export default RecentVideos;

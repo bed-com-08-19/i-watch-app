@@ -4,7 +4,7 @@ interface ISubscription extends Document {
   subscription_id: string;
   stripe_user_id: string;
   status: string;
-  start_date: string;
+  start_date: Date;
   plan_id: string;
   user_id: string;
   email: string;
