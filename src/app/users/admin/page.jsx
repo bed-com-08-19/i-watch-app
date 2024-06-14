@@ -27,6 +27,7 @@ const Dashboard = () => {
         <div className="grid grid-cols-2 gap-4 mb-6">
         <DashboardChart className="mb-6" />
             <a href="/users/admin/ads"><a><ManageAds /></a></a>
+            <a href="/users/admin/funds"><a><ManageAccount/></a></a>
             <a href="/users/admin/videos"><a><UploadedVideos /></a></a>
             <a href=""><a><ManageSubscriptions /></a></a>
             <a href=""><a><ManageDocuments /></a></a>
@@ -34,7 +35,6 @@ const Dashboard = () => {
           <div className="grid grid-cols-2 gap-4 mb-6">
             <a href="/users/admin/users"><a><ManageUsers /></a></a>
             <a href="/users/admin/settings"><a><ManageAppSettings /></a></a>
-            <a href="/users/admin/funds"><a><ManageAccount /></a></a>
             <a href="/users/admin/transactions"><a><EarningsReport /></a></a>
           </div>
           <a href="/users/admin/videos"><a><RecentVideos /></a></a>
