@@ -31,6 +31,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Video owner not found" }, { status: 404 });
     }
 
+
     // Check if user has already been credited for this video
     if (user.creditedVideos.includes(videoId)) {
       return NextResponse.json({ message: "User has already been credited for this video" }, { status: 400 });

@@ -18,6 +18,7 @@ interface Video {
 
 interface UserData {
   username: string;
+  creditedVideos: string[];
 }
 
 const RegularUser: React.FC = () => {
@@ -54,6 +55,7 @@ const RegularUser: React.FC = () => {
     try {
       const response = await axios.get("/api/videos");
       setVideos(response.data.data);
+      setFilteredVideos(response.data.data); // Show all videos initially
       setLoading(false);
     } catch (error) {
       toast.error("Failed to fetch videos");
@@ -81,6 +83,17 @@ const RegularUser: React.FC = () => {
     } catch (error) {
       console.error("Error updating play count:", error);
       toast.error("Failed to update play count");
+    }
+  };
+
+  const handleSubtractBalance = async (videoId: string) => {
+    try {
+      await axios.post("/api/users/subtract", { videoId });
+      toast.success("Balance subtracted successfully!");
+      getUserDetails(); // Refresh user details to update balance
+    } catch (error) {
+      console.error("Error subtracting balance:", error);
+      toast.error("Failed to subtract balance");
     }
   };
 
@@ -136,8 +149,10 @@ const RegularUser: React.FC = () => {
     sortVideos(sortBy);
   }, [searchTerm, sortBy]);
 
-  if (loading) return <div className="text-center mt-8">Loading...</div>;
-  if (error) return <div className="text-center mt-8">Error: {error}</div>;
+  const handleVideoEnd = (videoId: string) => {
+    handleSubtractBalance(videoId);
+    handleVideoPlaybackCompletion(videoId);
+  };
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -184,6 +199,8 @@ const RegularUser: React.FC = () => {
                     src={video.url}
                     controls
                     onClick={() => handleVideoClick(video._id)}
+                    onEnded={() => handleVideoEnd(video._id)}
+                  
                   />
                   <div className="absolute inset-0 flex flex-col items-center justify-center opacity-0 transition-opacity group-hover:opacity-100 bg-black bg-opacity-50 text-white">
                     <p className="text-lg font-semibold">{video.title || "Untitled"}</p>
@@ -201,3 +218,4 @@ const RegularUser: React.FC = () => {
 };
 
 export default RegularUser;
+
