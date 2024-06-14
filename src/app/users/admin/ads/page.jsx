@@ -1,7 +1,7 @@
 "use client";
 import Sidebar from '../_components/Sidebar';
 import Header from '../_components/Header';
-import Ads from '../_components/AdminTools/ads';
+import Ads from '../_components/AdminTools/Ads';
 
 const Transactions = () => {
   return (
