@@ -31,10 +31,6 @@ const AdsPage = () => {
     }
   };
 
-  const handleClickAd = (adId: string) => {
-    toast.success("Clicked on Ad!");
-  };
-
   const handleViewAd = (adId: string) => {
     toast.success("Viewing Ad!");
   };
@@ -46,10 +42,10 @@ const AdsPage = () => {
     <div className="flex flex-col min-h-screen">
       <main className="flex-1 p-4">
         <div className="max-w-5xl mx-auto">
-          <h1 className="text-2xl font-semibold text-gray-800 mb-6">Ads Page</h1>
+          <h1 className="text-2xl font-semibold text-red-800 mb-6">Ads Page</h1>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             {ads.map((ad) => (
-              <div key={ad._id} className="relative group p-4 border rounded-lg shadow-md bg-white">
+              <div key={ad._id} className="relative group p-4 border rounded-lg shadow-md bg-grey-900">
                 <img
                   src={ad.adUrl}
                   alt={ad.title}
@@ -58,12 +54,7 @@ const AdsPage = () => {
                 <h2 className="text-lg font-semibold mb-2">{ad.title}</h2>
                 <p className="text-gray-600 mb-4">{ad.description}</p>
                 <div className="flex justify-between">
-                  <button
-                    onClick={() => handleClickAd(ad._id)}
-                    className="px-4 py-2 bg-blue-500 text-white rounded shadow hover:bg-blue-600 transition duration-200"
-                  >
-                    Click Ad
-                  </button>
+                
                   <button
                     onClick={() => handleViewAd(ad._id)}
                     className="px-4 py-2 bg-green-500 text-white rounded shadow hover:bg-green-600 transition duration-200"
