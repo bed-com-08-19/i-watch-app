@@ -1,10 +1,11 @@
+// pages/api/withdraw.ts
 import { NextRequest, NextResponse } from 'next/server';
 import User from '@/models/userModel';
 import Transaction from '@/models/transaction';
 import fetch from 'node-fetch';
 import { connect } from '@/dbConfig/dbConfig';
+import mongoose from 'mongoose';
 
-// Function to send SMS using TelcomW API (unchanged)
 async function sendSMSNotification(phoneNumber: string, message: string) {
   const apiKey = 'TTEPAiSawKA2Ia2w92Px'; // Replace with your TelcomW API key
   const password = '12345678'; // Replace with your TelcomW API password
@@ -32,43 +33,25 @@ async function sendSMSNotification(phoneNumber: string, message: string) {
 }
 
 export async function POST(request: NextRequest) {
-
-
   try {
-    const { mobileNumber, amount }: { mobileNumber: string; amount: number } = request.body;
+    const { phoneNumber, amount }: { phoneNumber: string; amount: number } = await request.json();
 
-    // Check if mobileNumber is null or undefined
-    if (!mobileNumber) {
-      return NextResponse.json({ success: false, message: 'Mobile number is required' }, { status: 400 });
+    if (!phoneNumber || !amount) {
+      return NextResponse.json({ success: false, message: 'Phone number and amount are required' }, { status: 400 });
     }
 
-    await connect(); // Ensure database connection
+    await connect();
 
-    // Find user by mobile number
-    const user = await User.findOne({ phoneNumber: mobileNumber });
+    // Fetch current user balance (replace with actual logic)
+    let userBalance = 20; // Example initial balance
+    userBalance -= amount;
 
-    if (!user) {
-      return NextResponse.json({ success: false, message: 'User not found' }, { status: 404 });
-    }
-
-    // Check if user has sufficient balance
-    if (user.balance < amount) {
-      return NextResponse.json({ success: false, message: 'Insufficient balance' }, { status: 400 });
-    }
-
-    // Deduct balance
-    user.balance -= amount;
-    await user.save();
-
-    // Create transaction record
-    const transaction = new Transaction({ user: user._id, amount, type: 'withdrawal' });
+    const transaction = new Transaction({ user: new mongoose.Types.ObjectId('current_user_id'), amount, type: 'spending' });
     await transaction.save();
 
-    // Send withdrawal success SMS
-    const smsMessage = `Withdrawal of ${amount} successful from I-WATCH. Updated balance: ${user.balance}. KEEP MAKING MONEY with US`;
-    await sendSMSNotification(mobileNumber, smsMessage);
+    const smsMessage = `Withdrawal of ${amount} successful from I-WATCH. Updated balance: ${userBalance}. KEEP MAKING MONEY with US`;
+    await sendSMSNotification(phoneNumber, smsMessage);
 
-    // Respond with success message
     return NextResponse.json({ success: true, message: 'Withdrawal successful' }, { status: 200 });
   } catch (error) {
     console.error('Error during withdrawal:', error);

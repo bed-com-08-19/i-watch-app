@@ -1,3 +1,4 @@
+// models/transaction.ts
 import mongoose, { Document, Schema } from 'mongoose';
 
 interface ITransaction extends Document {
@@ -16,3 +17,4 @@ const transactionSchema = new Schema<ITransaction>({
 
 const Transaction = mongoose.models.Transaction || mongoose.model<ITransaction>('Transaction', transactionSchema);
 
+export default Transaction;
