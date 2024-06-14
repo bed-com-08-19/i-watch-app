@@ -33,7 +33,7 @@ const RegularUser: React.FC = () => {
     try {
       await axios.get("/api/users/logout");
       toast.success("Logout successful");
-      router.push("/login");
+      router.push("/auth/signin");
     } catch (error) {
       toast.error("Logout failed");
     }
@@ -135,7 +135,6 @@ const RegularUser: React.FC = () => {
     sortVideos(sortBy);
   }, [searchTerm, sortBy]);
 
-  if (loading) return <div className="text-center mt-8">Loading...</div>;
   if (error) return <div className="text-center mt-8">Error: {error}</div>;
 
   return (
@@ -144,7 +143,7 @@ const RegularUser: React.FC = () => {
       <main className="flex-1 p-4">
         <div className="max-w-5xl mx-auto">
           <div className="flex justify-between items-center mb-4">
-            <h1 className="text-2xl font-semibold text-gray-800">Welcome, {data?.username}</h1>
+            <h1 className="text-2xl font-semibold text-red-800">Welcome, {data?.username}</h1>
             <button
               onClick={logout}
               className="px-4 py-2 bg-red-500 text-white rounded shadow hover:bg-red-600"

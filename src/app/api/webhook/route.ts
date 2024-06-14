@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import Stripe from 'stripe';
 import { connect } from '@/dbConfig/dbConfig';
-import Subscription from '@/models/Subscription';
+import Subscription from '@/models/subscription';
 import Invoice from '@/models/invoice';
 import User from '@/models/userModel';
 

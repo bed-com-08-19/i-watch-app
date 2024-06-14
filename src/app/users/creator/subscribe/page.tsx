@@ -123,9 +123,8 @@ export default function Pricing() {
         "Limited offline downloads",
         "Basic customer support"
       ],
-      priceIdMonthly: "price_1PP8S5LNL4vBEK12ZhmoTt8Q",
+      priceIdMonthly: "https://buy.stripe.com/test_7sIdTgdWu9Zu0Sc4gj",
       actionLabel: "Get Started",
-      checkoutLink: "https://buy.stripe.com/test_4gwaH43hQefK1Wg8wx"  // Add checkout link here
     },
     {
       title: "Pro",
@@ -140,9 +139,8 @@ export default function Pricing() {
         "Priority customer support"
       ],
       actionLabel: "Get Started",
-      priceIdMonthly: "price_1PP8S5LNL4vBEK127oGMPzYL",
+      priceIdMonthly: "https://buy.stripe.com/test_9AQbL89Ge4Fa0Sc3cg",
       popular: true,
-      checkoutLink: "https://buy.stripe.com/test_4gwaH43hQefK1Wg8wx"  // Add checkout link here
     },
     {
       title: "Enterprise",
@@ -161,9 +159,7 @@ export default function Pricing() {
         "Special access to early releases and beta content"
       ],
       actionLabel: "Get Started",
-      priceIdMonthly: "price_1PP8S5LNL4vBEK128c1JJR2f",
-      exclusive: true,
-      checkoutLink: "https://buy.stripe.com/test_4gwaH43hQefK1Wg8wx"  // Add checkout link here
+      priceIdMonthly: "https://buy.stripe.com/test_4gwaH43hQefK1Wg8wx" ,
     }
   ];
   
@@ -171,8 +167,8 @@ export default function Pricing() {
   return (
     <div>
       <div className="absolute top-4 left-4 flex space-x-4">
-       <a href="/users/regular"><FiHome /></a>
-       <a href="/users/regular/profile"><BiArrowBack /></a>
+       <a href="/users/creator"><FiHome /></a>
+       <a href="/users/creator/profile"><BiArrowBack /></a>
       </div>
       <PricingHeader title="Pricing Plans"  />
       <section className="flex flex-col sm:flex-row sm:flex-wrap justify-center gap-8 mt-8">
