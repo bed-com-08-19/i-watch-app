@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import Subscription from '@/models/Subscription';
+import Subscription from '@/models/subscription';
 import { connect } from '@/dbConfig/dbConfig'; // Ensure this path is correct based on your project structure
 
 // Handle GET request to fetch subscriptions
