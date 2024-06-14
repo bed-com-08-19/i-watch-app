@@ -18,7 +18,7 @@ export async function POST(req: NextRequest) {
     const { title, description, adUrl } = await req.json();
     const ad = await Ad.create({ title, description, adUrl });
     return NextResponse.json({ success: true, data: ad }, { status: 201 });
-  } catch (error) {
-    return NextResponse.json({ success: false }, { status: 400 });
+  } catch (error: any) {
+    return NextResponse.json({ success: false, error: error.message }, { status: 400 });
   }
 }

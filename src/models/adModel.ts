@@ -3,7 +3,7 @@ import mongoose, { Schema, Document } from "mongoose";
 export interface IAd extends Document {
   title: string;
   description: string;
-  adUrl: string;
+  imageUrl: string;
   createdAt: Date;
   updatedAt: Date;
 }
