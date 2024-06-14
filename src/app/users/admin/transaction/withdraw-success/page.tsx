@@ -7,7 +7,7 @@ function Page() {
   const router = useRouter();
 
   const handleBackToHome = () => {
-    router.push('/users/creator/transaction');
+    router.push('/users/admin/transaction');
   };
 
   return (

@@ -37,7 +37,7 @@ function Page() {
       }
 
       toast.success('Withdrawal successful');
-      router.push('/users/creator/transaction/withdraw-success');
+      router.push('/users/admin/transaction/withdraw-success');
     } catch (error) {
       console.error('Error during withdrawal:', error);
       toast.error('Failed to withdraw');

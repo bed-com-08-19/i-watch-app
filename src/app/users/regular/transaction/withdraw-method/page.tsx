@@ -7,7 +7,7 @@ function Page() {
   const router = useRouter();
 
   const handleMethodSelect = (method: string) => {
-    router.push(`/users/creator/transaction/withdraw-details?method=${method}`);
+    router.push(`/users/regular/transaction/withdraw-details`);
   };
 
   return (
