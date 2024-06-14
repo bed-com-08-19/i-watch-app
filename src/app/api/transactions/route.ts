@@ -25,14 +25,3 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ success: false, error: error.message }, { status: 500 });
   }
 }
-
-export default async function handler(req: NextRequest, res: NextResponse) {
-  switch (req.method) {
-    case 'GET':
-      return await GET(req);
-    case 'POST':
-      return await POST(req);
-    default:
-      return NextResponse.json({ success: false, error: `Method ${req.method} Not Allowed` }, { status: 405 });
-  }
-}

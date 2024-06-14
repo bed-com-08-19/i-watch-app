@@ -1,21 +1,24 @@
-import { NextApiRequest, NextApiResponse } from "next";
+import { NextRequest, NextResponse } from 'next/server';
+import { connect } from "@/dbConfig/dbConfig";
+import Ad from "@/models/adModel";
 
-export default function handler(req: NextApiRequest, res: NextApiResponse) {
-  res.status(200).json({
-    ads: [
-      {
-        _id: "1",
-        title: "Ad Title 1",
-        description: "This is a description for Ad 1.",
-        adUrl: "https://via.placeholder.com/300x200",
-      },
-      {
-        _id: "2",
-        title: "Ad Title 2",
-        description: "This is a description for Ad 2.",
-        adUrl: "https://via.placeholder.com/300x200",
-      },
-      
-    ],
-  });
+export async function GET(req: NextRequest) {
+  await connect();
+  try {
+    const ads = await Ad.find().sort({ createdAt: -1 });
+    return NextResponse.json({ success: true, data: ads });
+  } catch (error: any) {
+    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+  }
+}
+
+export async function POST(req: NextRequest) {
+  await connect();
+  try {
+    const { title, description, adUrl } = await req.json();
+    const ad = await Ad.create({ title, description, adUrl });
+    return NextResponse.json({ success: true, data: ad }, { status: 201 });
+  } catch (error) {
+    return NextResponse.json({ success: false }, { status: 400 });
+  }
 }

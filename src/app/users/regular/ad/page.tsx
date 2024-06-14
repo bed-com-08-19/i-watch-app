@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import Header from "./../_components/Header";
+import Header from "../_components/Header";
 import Footer from "../../../../components/Footer";
 import { toast } from "react-hot-toast";
 import axios from "axios";
@@ -44,7 +44,6 @@ const AdsPage = () => {
     // Here you can add logic to record the ad view or display ad details
   };
 
-  if (loading) return <div className="text-center mt-8">Loading...</div>;
   if (error) return <div className="text-center mt-8">Error: {error}</div>;
 
   return (
