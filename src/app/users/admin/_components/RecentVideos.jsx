@@ -57,9 +57,7 @@ const RecentVideos = () => {
         <thead>
           <tr className="text-left border-b border-gray-700">
             <th className="pb-2 cursor-pointer" onClick={() => handleSort('title')}>Title</th>
-            <th className="pb-2 cursor-pointer" onClick={() => handleSort('size')}>Size</th>
-            <th className="pb-2 cursor-pointer" onClick={() => handleSort('uploadedOn')}>Uploaded On</th>
-            <th className="pb-2 cursor-pointer" onClick={() => handleSort('earned')}>Earned</th>
+            <th className="pb-2 cursor-pointer" onClick={() => handleSort('earned')}>Views</th>
           </tr>
         </thead>
         <tbody>
