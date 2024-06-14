@@ -15,7 +15,7 @@ const AdminFundsPage = () => {
 
   const fetchAdminBalance = async () => {
     try {
-      const response = await axios.get("/api/admin/balance");
+      const response = await axios.get("/api/users/me");
       setBalance(response.data.data.balance); // Assuming balance is fetched as a number
     } catch (error) {
       console.error('Failed to fetch admin balance:', error.message);
