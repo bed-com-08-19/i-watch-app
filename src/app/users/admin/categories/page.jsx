@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { toast } from "react-hot-toast";
 import { FaTrash, FaEdit } from "react-icons/fa";
-import Sidebar from "./Sidebar";
+import Sidebar from "./_components/Sidebar";
 
 const Categories = () => {
   const [categories, setCategories] = useState([]);
