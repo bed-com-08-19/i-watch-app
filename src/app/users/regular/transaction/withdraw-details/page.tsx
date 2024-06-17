@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/navigation'; // Correct import for app directory
 import { toast } from 'react-hot-toast';
 
-function Page() {
+function WithdrawDetails() {
   const router = useRouter();
   const [mobileNumber, setMobileNumber] = useState('');
   const [amount, setAmount] = useState('');
@@ -17,7 +17,7 @@ function Page() {
       }
 
       const requestBody = {
-        mobileNumber: mobileNumber.trim(),
+        phoneNumber: mobileNumber.trim(), // Corrected field name to phoneNumber
         amount: parseFloat(amount.trim()),
       };
 
@@ -72,4 +72,4 @@ function Page() {
   );
 }
 
-export default Page;
+export default WithdrawDetails;
