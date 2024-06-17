@@ -106,7 +106,7 @@ const Dashboard = () => {
           <div className="flex justify-around text-center py-4">
             <div className="flex items-center">
               <RiCoinLine className="mr-1" />
-              <span className="text-lg font-bold">icoins: {balance}</span>
+              <span className="text-lg font-bold">{balance} icoins</span>
               <span className="block text-gray-500 ml-1"></span>
             </div>
             {/* <div>
