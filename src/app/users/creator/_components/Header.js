@@ -1,8 +1,8 @@
-
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { toast } from "react-hot-toast";
 import Image from "next/image";
+import Select from "react-select";  // for multi-select dropdown
 
 const Header = () => {
   const [username, setUsername] = useState("null");
@@ -11,10 +11,23 @@ const Header = () => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [videoFile, setVideoFile] = useState(null);
+  const [categories, setCategories] = useState([]);
+  const [selectedCategories, setSelectedCategories] = useState([]);
 
   useEffect(() => {
     getUserDetails();
+    fetchCategories();  // fetch categories on component mount
   }, []);
+
+  const fetchCategories = async () => {
+    try {
+      const res = await axios.get("/api/categories");
+      setCategories(res.data.data.map(category => ({ value: category._id, label: category.name })));
+    } catch (error) {
+      console.error(error.message);
+      toast.error("Failed to fetch categories");
+    }
+  };
 
   const logout = async () => {
     try {
@@ -54,6 +67,10 @@ const Header = () => {
     }
   };
 
+  const handleCategoryChange = (selectedOptions) => {
+    setSelectedCategories(selectedOptions);
+  };
+
   const handleUpload = async (event) => {
     event.preventDefault();
   
@@ -66,7 +83,7 @@ const Header = () => {
     formData.append("video", videoFile);
     formData.append("title", title);
     formData.append("description", description);
-    formData.append("creator", username);
+    formData.append("categories", selectedCategories.map(option => option.value).join(','));  // add selected categories
   
     try {
       await axios.post("/api/videos/upload", formData, {
@@ -119,8 +136,7 @@ const Header = () => {
           <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-75 flex items-center justify-center z-50">
             <div className="bg-white p-6 rounded-lg">
               <h2 className="text-lg font-semibold mb-4">Upload Video</h2>
-              {/* <form onSubmit={handleUpload}> */}
-              <form >
+              <form onSubmit={handleUpload}>
                 <div className="mb-4">
                   <label htmlFor="title" className="block text-sm font-medium text-gray-700">
                     Video Title
@@ -159,6 +175,19 @@ const Header = () => {
                     name="video"
                     className="mt-1 p-2 block w-full border border-gray-300 rounded-md text-black"
                     onChange={handleFileChange}
+                  />
+                </div>
+                <div className="mb-4">
+                  <label htmlFor="categories" className="block text-sm font-medium text-gray-700">
+                    Select Categories
+                  </label>
+                  <Select
+                    id="categories"
+                    isMulti
+                    options={categories}
+                    value={selectedCategories}
+                    onChange={handleCategoryChange}
+                    className="mt-1"
                   />
                 </div>
                 <div className="flex justify-end">
