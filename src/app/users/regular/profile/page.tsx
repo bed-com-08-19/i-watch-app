@@ -7,7 +7,7 @@ import { FaUserEdit, FaShareAlt, FaPlusCircle } from 'react-icons/fa';
 import { FiLogOut, FiSettings, FiHelpCircle, FiCheckCircle } from 'react-icons/fi';
 import { BiUpload, BiUser } from 'react-icons/bi';
 import { AiOutlineHome } from 'react-icons/ai';
-import { RiMoneyDollarCircleLine } from 'react-icons/ri';
+import { RiMoneyDollarCircleLine, RiCoinLine } from 'react-icons/ri';
 
 const Dashboard = () => {
   const [user, setUser] = useState({
@@ -36,7 +36,6 @@ const Dashboard = () => {
       setBio(res.data.data.bio);
       setViews(res.data.data.views);
     } catch (error) {
-      
       toast.error("Failed to fetch user details");
     }
   };
@@ -105,9 +104,10 @@ const Dashboard = () => {
             </div>
           </div>
           <div className="flex justify-around text-center py-4">
-            <div>
-              <span className="block text-lg font-bold">K{balance}</span>
-              <span className="block text-gray-500">Balance</span>
+            <div className="flex items-center">
+              <RiCoinLine className="mr-1" />
+              <span className="text-lg font-bold text-red-600">{balance} icoins</span>
+              <span className="block text-gray-500 ml-1"></span>
             </div>
             {/* <div>
               <span className="block text-lg font-bold">{bio}</span>

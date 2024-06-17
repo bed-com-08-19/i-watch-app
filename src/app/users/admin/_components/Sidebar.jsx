@@ -1,5 +1,5 @@
 "use client";
-import { FaVideo, FaUser, FaCog, FaChartLine, FaDashcube, FaMoneyBillWave } from 'react-icons/fa';
+import { FaVideo, FaUser, FaCog, FaChartLine, FaDashcube, FaMoneyBillWave, FaTags } from 'react-icons/fa';
 import React from "react";
 import axios from "axios";
 import Link from "next/link";
@@ -8,7 +8,6 @@ const Sidebar = () => {
   const logout = async () => {
     try {
       await axios.get("/api/users/logout");
-      // Redirect to login page after logout
       window.location.href = "/auth/signin";
     } catch (error) {
       console.error(error.message);
@@ -62,6 +61,12 @@ const Sidebar = () => {
             <Link href="/users/admin/reports" className="flex items-center block py-2.5 px-4 rounded hover:bg-gray-700">
               <FaChartLine className="mr-2" />
               <span>Reports</span>
+            </Link>
+          </li>
+          <li className="my-4 flex items-center">
+            <Link href="/users/admin/categories" className="flex items-center block py-2.5 px-4 rounded hover:bg-gray-700">
+              <FaTags className="mr-2" />
+              <span>Categories</span>
             </Link>
           </li>
         </ul>

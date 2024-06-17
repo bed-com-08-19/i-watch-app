@@ -6,7 +6,8 @@ export interface IVideo extends Document {
   url: string;
   creator: mongoose.Types.ObjectId;
   playCount: number;  // for view count
-  awardedViewers: mongoose.Types.ObjectId[]; // Users who have been awarded
+  creditedUserCount: number;  // to track credited users
+  categories: mongoose.Types.ObjectId[]; // add categories field
   createdAt: Date;
   updatedAt: Date;
 }
@@ -18,7 +19,8 @@ const VideoSchema: Schema = new Schema(
     url: { type: String, required: true },
     creator: { type: Schema.Types.ObjectId, ref: 'User', required: true },
     playCount: { type: Number, default: 0 },
-    awardedViewers: [{ type: Schema.Types.ObjectId, ref: 'User', default: [] }],
+    creditedUserCount: { type: Number, default: 0 },  // initialize to 0
+    categories: [{ type: Schema.Types.ObjectId, ref: 'Category' }],  // reference to categories
   },
   { timestamps: true }
 );

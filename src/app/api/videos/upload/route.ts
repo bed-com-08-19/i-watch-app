@@ -1,12 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { connect } from '@/dbConfig/dbConfig';
 import Video, { IVideo } from '@/models/videoModel';
+import Category from '@/models/categoryModel';
 import { v4 as uuidv4 } from 'uuid';
 import path from 'path';
 import { createWriteStream } from 'fs';
 import { getDataFromToken } from '@/helper/getDataFromToken';
-
-
 
 export async function POST(req: NextRequest) {
   await connect();
@@ -16,8 +15,8 @@ export async function POST(req: NextRequest) {
     const file = formData.get('video') as File;
     const title = formData.get('title') as string;
     const description = formData.get('description') as string;
+    const categoryNames = formData.get('categories') as string; // comma-separated category names
 
-    // Get user ID from token or session
     const userId = await getDataFromToken(req);
 
     if (!file) {
@@ -37,8 +36,19 @@ export async function POST(req: NextRequest) {
 
     const url = `/uploads/videos/${path.basename(filePath)}`;
 
-    // Create Video object with creator as userId
-    const video: IVideo = new Video({ title, description, url, creator: userId });
+    // Find or create categories
+    const categoryNamesArray = categoryNames.split(',').map(name => name.trim());
+    const categories = await Promise.all(categoryNamesArray.map(async (name) => {
+      let category = await Category.findOne({ name });
+      if (!category) {
+        category = new Category({ name, description: `${name} description` });
+        await category.save();
+      }
+      return category._id;
+    }));
+
+    // Create Video object with creator as userId and categories
+    const video: IVideo = new Video({ title, description, url, creator: userId, categories });
     await video.save();
 
     return NextResponse.json({ success: true, data: video }, { status: 200 });
