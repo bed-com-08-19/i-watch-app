@@ -107,7 +107,7 @@ const Dashboard = () => {
             <div className="flex items-center">
               <RiCoinLine className="mr-1" />
               <span className="text-lg font-bold">icoins: {balance}</span>
-              <span className="block text-gray-500 ml-1">Balance</span>
+              <span className="block text-gray-500 ml-1"></span>
             </div>
             {/* <div>
               <span className="block text-lg font-bold">{bio}</span>
