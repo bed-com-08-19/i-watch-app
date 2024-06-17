@@ -50,7 +50,7 @@ const Categories = () => {
 
   return (
     <div className="flex">
-      <Sidebar>
+      <Sidebar/>
       <div className="flex-1 bg-black-900">
         <Header />
           <div className="p-6 bg-black text-white min-h-screen">
