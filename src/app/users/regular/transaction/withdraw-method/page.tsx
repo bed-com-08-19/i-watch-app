@@ -1,7 +1,7 @@
 "use client";
 
 import React from 'react';
-import { useRouter } from 'next/navigation'; // Correct import
+import { useRouter } from 'next/navigation'; // Correct import for app directory
 
 function Page() {
   const router = useRouter();
