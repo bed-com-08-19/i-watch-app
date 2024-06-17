@@ -15,7 +15,6 @@ interface Ad {
 
 const AdsPage = () => {
   const [ads, setAds] = useState<Ad[]>([]);
-  const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -45,24 +44,24 @@ const AdsPage = () => {
     // Here you can add logic to record the ad view or display ad details
   };
 
-  if (error) return <div className="text-center mt-8">Error: {error}</div>;
+  if (error) return <div className="text-center mt-8 text-white">Error: {error}</div>;
 
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen bg-black text-white">
       <Header />
       <main className="flex-1 p-4">
         <div className="max-w-5xl mx-auto">
-          <h1 className="text-2xl font-semibold text-gray-800 mb-4">Ads Page</h1>
+          <h1 className="text-2xl font-semibold text-red-500 mb-4">Ads Page</h1>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
             {ads.map((ad) => (
-              <div key={ad._id} className="relative group p-4 border rounded-lg shadow-md">
+              <div key={ad._id} className="relative group p-4 border border-gray-700 rounded-lg shadow-md bg-gray-800">
                 <Image
                   src={ad.adUrl}
                   alt={ad.title}
                   className="object-cover w-full h-48 rounded-lg mb-4"
                 />
-                <h2 className="text-lg font-semibold mb-2">{ad.title}</h2>
-                <p className="text-gray-600 mb-4">{ad.description}</p>
+                <h2 className="text-lg font-semibold mb-2 text-white">{ad.title}</h2>
+                <p className="text-gray-400 mb-4">{ad.description}</p>
                 <div className="flex justify-between">
                   <button
                     onClick={() => handleClickAd(ad._id)}

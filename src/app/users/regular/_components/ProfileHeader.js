@@ -1,3 +1,4 @@
+// ProfileHeader Component
 import React, { useState } from 'react';
 import Image from "next/image";
 
@@ -7,9 +8,9 @@ const ProfileHeader = ({ user, onViewImage, onChangeImage, onDeleteImage }) => {
   const toggleDropdown = () => setDropdownOpen(!dropdownOpen);
 
   return (
-    <div className="flex items-center justify-center w-full p-4 relative">
-      <div className="flex items-center">
-        <div className="relative h-16 w-16 sm:h-20 sm:w-20 rounded-full overflow-hidden">
+    <div className="flex items-center justify-center w-full p-4 relative bg-black">
+      <div className="flex items-center justify-center w-full">
+        <div className="relative h-20 w-20 sm:h-24 sm:w-24 rounded-full overflow-hidden">
           <Image
             src={user.image || "/noavatar.png"}
             alt="Profile Picture"
@@ -29,7 +30,7 @@ const ProfileHeader = ({ user, onViewImage, onChangeImage, onDeleteImage }) => {
             </div>
           )}
         </div>
-        <div className="ml-4 text-white">
+        <div className="ml-4 text-white text-center">
           <h1 className="text-xl font-semibold">{user.name}</h1>
           <p className="text-sm text-gray-500">{user.bio}</p>
         </div>

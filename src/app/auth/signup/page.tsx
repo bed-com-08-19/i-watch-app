@@ -1,14 +1,20 @@
 "use client";
 import Link from "next/link";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, FormEvent } from "react";
 import axios from "axios";
-import { useRouter } from "next/navigation"; // Correct import for useRouter
+import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
-import Loader from "../../../components/Loader"; // Import the Loader component
+import Loader from "../../../components/Loader";
+
+interface User {
+  username: string;
+  email: string;
+  password: string;
+}
 
 export default function RegisterPage() {
   const router = useRouter();
-  const [user, setUser] = useState({
+  const [user, setUser] = useState<User>({
     username: "",
     email: "",
     password: "",
@@ -16,7 +22,7 @@ export default function RegisterPage() {
   const [buttonDisabled, setButtonDisabled] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const validateForm = () => {
+  const validateForm = (): boolean => {
     return (
       user.email.length > 0 &&
       user.password.length > 6 &&
@@ -24,7 +30,7 @@ export default function RegisterPage() {
     );
   };
 
-  const onSignup = async (e: { preventDefault: () => void; }) => {
+  const onSignup = async (e: FormEvent) => {
     e.preventDefault();
     if (!validateForm()) {
       toast.error("Please fill out all fields and ensure the password is at least 7 characters long.");
@@ -37,9 +43,13 @@ export default function RegisterPage() {
       console.log("Signup success", response.data);
       toast.success("Sign up successful!");
       router.push("/auth/signin");
-    } catch (error) {
-      console.error("Signup failed");
-      toast.error("An error occurred during signup. Please try again.");
+    } catch (error: any) {
+      console.error("Signup failed", error);
+      if (error.response && error.response.status === 400) {
+        toast.error("Access denied, check your credentials");
+      } else {
+        toast.error("An error occurred during signup. Please try again.");
+      }
     } finally {
       setLoading(false);
     }
@@ -53,7 +63,6 @@ export default function RegisterPage() {
     <div className="bg-black text-white min-h-screen flex justify-center items-center">
       {loading && <Loader />}
       <div className="bg-black bg-opacity-70 px-10 py-16 rounded-md w-full max-w-md">
-        {/* Logo */}
         <p className="font-bold text-3xl text-red-600 hidden sm:block text-center">
           <span className="text-white">i</span>
           <span>WATCH</span>
@@ -72,7 +81,7 @@ export default function RegisterPage() {
               placeholder="Email"
               value={user.email}
               onChange={(e) => setUser({ ...user, email: e.target.value })}
-              className="px-4 py-2 rounded-md bg-gray-800 border border-gray-700 focus:outline-none focus:border-red-500"
+              className="px-4 py-2 rounded-md bg-gray-800 border border-gray-700 focus:outline-none focus:border-red-600"
               required
             />
           </div>
@@ -86,7 +95,7 @@ export default function RegisterPage() {
               placeholder="Full Name"
               value={user.username}
               onChange={(e) => setUser({ ...user, username: e.target.value })}
-              className="px-4 py-2 rounded-md bg-gray-800 border border-gray-700 focus:outline-none focus:border-red-500"
+              className="px-4 py-2 rounded-md bg-gray-800 border border-gray-700 focus:outline-none focus:border-red-600"
               required
             />
           </div>
@@ -100,7 +109,7 @@ export default function RegisterPage() {
               placeholder="Password"
               value={user.password}
               onChange={(e) => setUser({ ...user, password: e.target.value })}
-              className="px-4 py-2 rounded-md bg-gray-800 border border-gray-700 focus:outline-none focus:border-red-500"
+              className="px-4 py-2 rounded-md bg-gray-800 border border-gray-700 focus:outline-none focus:border-red-600"
               required
             />
           </div>
@@ -108,9 +117,7 @@ export default function RegisterPage() {
             <button
               type="submit"
               className={`w-full px-4 py-3 font-bold text-white rounded-md ${
-                buttonDisabled
-                  ? "bg-gray-400 cursor-not-allowed"
-                  : "bg-red-500 hover:bg-red-600"
+                buttonDisabled ? "bg-gray-400 cursor-not-allowed" : "bg-red-600 hover:bg-red-700"
               } focus:outline-none focus:shadow-outline`}
               disabled={buttonDisabled}
             >

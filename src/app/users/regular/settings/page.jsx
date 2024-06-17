@@ -29,16 +29,16 @@ const Settings = () => {
     const [showProfilePhotoForm, setShowProfilePhotoForm] = useState(false);
 
     return (
-        <div className="container mx-auto p-4">
-            <div className="absolute top-4 left-4 flex space-x-4">
+        <div className="container mx-auto p-4 bg-black text-white">
+            <div className="absolute top-4 left-4 flex space-x-4 ">
                 <a href="/users/regular"><FiHome /></a>
                 <a href="/users/regular/profile"><BiArrowBack /></a>
             </div>
-            <h2 className="text-2xl mb-4">Settings</h2>
+            <h2 className="text-2xl mb-4 ">Settings</h2>
             <div className="mb-4">
                 <button
                     onClick={() => setShowUsernameForm(!showUsernameForm)}
-                    className="bg-gray-300 text-black py-2 px-4 rounded"
+                    className="bg-red-600 text-white py-2 px-4 rounded w-56 hover:bg-red-700"
                 >
                     {showUsernameForm ? 'Hide Change Username' : 'Change Username'}
                 </button>
@@ -47,7 +47,7 @@ const Settings = () => {
             <div className="mb-4">
                 <button
                     onClick={() => setShowProfilePhotoForm(!showProfilePhotoForm)}
-                    className="bg-gray-300 text-black py-2 px-4 rounded"
+                    className="bg-red-600 text-white py-2 px-4 rounded w-56 hover:bg-red-700"
                 >
                     {showProfilePhotoForm ? 'Hide Change Profile Photo' : 'Change Profile Photo'}
                 </button>

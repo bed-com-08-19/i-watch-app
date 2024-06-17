@@ -1,3 +1,4 @@
+// Dashboard Component
 "use client";
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
@@ -80,7 +81,7 @@ const Dashboard = () => {
           </a>
         </nav>
         <button
-          className="flex items-center w-cover mt-auto mb-4 px-4 py-2 text-sm text-white bg-red-500 hover:bg-red-800 focus:outline-none cursor-pointer"
+          className="flex items-center w-full mt-auto mb-4 px-4 py-2 text-sm text-white bg-red-600 hover:bg-red-700 focus:outline-none cursor-pointer"
           onClick={logout}
         >
           <FiLogOut className="mr-2" />
@@ -88,8 +89,8 @@ const Dashboard = () => {
         </button>
       </aside>
       <div className="flex-grow p-6 bg-black text-white ml-64">
-        <div className="max-w-md mx-auto">
-          <div className="flex items-center justify-between py-4">
+        <div className="max-w-md mx-auto text-center">
+          <div className="flex items-center justify-center py-4">
             <h1 className="text-xl font-semibold">{username}</h1>
             <div className="p-4 flex items-center justify-center">
               <div className="relative h-16 w-16 rounded-full overflow-hidden">
@@ -109,32 +110,24 @@ const Dashboard = () => {
               <span className="text-lg font-bold text-red-600">{balance} icoins</span>
               <span className="block text-gray-500 ml-1"></span>
             </div>
-            {/* <div>
-              <span className="block text-lg font-bold">{bio}</span>
-              <span className="block text-gray-500">Viewers</span>
-            </div>
-            <div>
-              <span className="block text-lg font-bold">{views}</span>
-              <span className="block text-gray-500">Likes</span>
-            </div> */}
           </div>
           <div className="flex justify-around py-4">
-            <button className="flex items-center bg-gray-200 px-4 py-2 rounded">
+            <button className="flex items-center bg-red-600 px-4 py-2 rounded text-white hover:bg-red-700">
               <FaUserEdit className="mr-2" />
               Edit profile
             </button>
-            <button className="flex items-center bg-gray-200 px-4 py-2 rounded">
+            <button className="flex items-center bg-gray-600 px-4 py-2 rounded text-white hover:bg-gray-700">
               <FaShareAlt className="mr-2" />
               Share profile
             </button>
-            <button className="flex items-center bg-gray-200 px-4 py-2 rounded">
+            <button className="flex items-center bg-gray-600 px-4 py-2 rounded text-white hover:bg-gray-700">
               <FaPlusCircle className="mr-2" />
               Add bio
             </button>
           </div>
-          <div className="border-t border-gray-300 py-4 text-center">
+          <div className="border-t border-gray-600 py-4 text-center">
             <p>Subscribe to upload videos and make more money</p>
-            <button className="bg-pink-500 text-white px-4 py-2 rounded mt-2">Subscribe</button>
+            <button className="bg-red-600 text-white px-4 py-2 rounded mt-2 hover:bg-red-700">Subscribe</button>
           </div>
         </div>
       </div>

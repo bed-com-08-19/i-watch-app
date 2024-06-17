@@ -1,14 +1,16 @@
-// pages/withdraw.js or equivalent
+// pages/withdraw.tsx
 "use client";
 
 import React, { useState } from 'react';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 import { toast } from 'react-hot-toast';
+import { BiArrowBack } from 'react-icons/bi';
+import { FiHome } from 'react-icons/fi';
 
-function Page() {
+const Page: React.FC = () => {
   const router = useRouter();
-  const [mobileNumber, setMobileNumber] = useState('');
-  const [amount, setAmount] = useState('');
+  const [mobileNumber, setMobileNumber] = useState<string>('');
+  const [amount, setAmount] = useState<string>('');
 
   const handleWithdraw = async () => {
     try {
@@ -50,6 +52,10 @@ function Page() {
 
   return (
     <div className='bg-black text-white min-h-screen flex justify-center items-center'>
+      <div className="absolute top-4 left-4 flex space-x-4">
+       <a href="/users/regular"><FiHome /></a>
+       <a href="/users/regular/transaction"><BiArrowBack /></a>
+      </div>
       <div className="bg-black bg-opacity-70 px-10 py-16 rounded-md w-full max-w-md">
         <h1 className="text-4xl mb-8 font-semibold text-center">Enter Withdrawal Details</h1>
         <input
@@ -67,7 +73,7 @@ function Page() {
           className="mt-4 px-4 py-2 rounded-md bg-gray-800 border border-gray-700 text-white focus:outline-none focus:border-red-500 w-full"
         />
         <button
-          className="mt-4 px-4 py-2 text-white bg-red-500 hover:bg-red-600 rounded-lg w-full"
+          className="mt-4 px-4 py-2 text-white bg-red-600 hover:bg-red-700 rounded-lg w-full"
           onClick={handleWithdraw}
         >
           Proceed to Withdraw

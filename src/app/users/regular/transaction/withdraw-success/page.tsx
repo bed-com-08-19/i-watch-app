@@ -7,6 +7,10 @@ function Page() {
   const router = useRouter();
 
   const handleBackToHome = () => {
+    router.push('/users/regular/profile');
+  };
+
+  const handleMakeTransaction = () => {
     router.push('/users/regular/transaction');
   };
 
@@ -20,6 +24,12 @@ function Page() {
           onClick={handleBackToHome}
         >
           Back to Home
+        </button>
+        <button
+          className="mt-4 px-4 py-2 text-white bg-red-500 hover:bg-red-600 rounded-lg w-full"
+          onClick={handleMakeTransaction}
+        >
+          Make another Transaction
         </button>
       </div>
     </div>

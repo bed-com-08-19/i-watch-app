@@ -1,14 +1,25 @@
-"use client"
+"use client";
 import Link from "next/link";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, FormEvent } from "react";
 import Loader from "../../../components/Loader";
 
-export default function RegisterPage() {
+interface Credentials {
+  email: string;
+  password: string;
+}
+
+interface LoginResponse {
+  user: {
+    role: string;
+  };
+}
+
+export default function LoginPage() {
   const router = useRouter();
-  const [credentials, setCredentials] = useState({
+  const [credentials, setCredentials] = useState<Credentials>({
     email: "",
     password: "",
   });
@@ -16,15 +27,12 @@ export default function RegisterPage() {
   const [buttonDisabled, setButtonDisabled] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const onLogin = async (e: { preventDefault: () => void; }) => {
+  const onLogin = async (e: FormEvent) => {
     e.preventDefault();
     try {
       setLoading(true);
-      // Make a request to your server to handle login
-      const response = await axios.post("/api/users/login", credentials);
-      console.log("User logged in successfully:", response.data);
+      const response = await axios.post<LoginResponse>("/api/users/login", credentials);
 
-      // Redirect based on user role
       switch (response.data.user.role) {
         case "admin":
           router.push("/users/admin");
@@ -39,12 +47,14 @@ export default function RegisterPage() {
           break;
       }
 
-      toast.success("Login success");
-    } catch (error) {
+      toast.success("User login successful");
+    } catch (error: any) {
       console.error("Error logging in:", error);
-      // Handle errors (e.g., display error messages to the user)
-      const errorMessage = "An error occurred during login.";
-      toast.error(errorMessage);
+      if (error.response && error.response.status === 401) {
+        toast.error("Access denied, check your credentials");
+      } else {
+        toast.error("An error occurred during login.");
+      }
     } finally {
       setLoading(false);
     }
@@ -62,13 +72,10 @@ export default function RegisterPage() {
     <div className="bg-black text-white min-h-screen flex justify-center items-center">
       {loading && <Loader />}
       <div className="bg-black bg-opacity-70 px-10 py-16 rounded-md w-full max-w-md">
-
-        {/* logo */}
         <p className="font-bold text-3xl text-red-600 hidden sm:block text-center">
           <span className="text-white">i</span>
-          <span className="text">WATCH</span>
+          <span>WATCH</span>
         </p>
-
         <h2 className="text-4xl mb-8 font-semibold text-center">
           Sign In to your Account
         </h2>
@@ -82,10 +89,8 @@ export default function RegisterPage() {
               id="email"
               placeholder="Email"
               value={credentials.email}
-              onChange={(e) =>
-                setCredentials({ ...credentials, email: e.target.value })
-              }
-              className="px-4 py-2 rounded-md bg-gray-800 border border-gray-700 focus:outline-none focus:border-red-500"
+              onChange={(e) => setCredentials({ ...credentials, email: e.target.value })}
+              className="px-4 py-2 rounded-md bg-gray-800 border border-gray-700 focus:outline-none focus:border-red-600"
               required
             />
           </div>
@@ -98,9 +103,7 @@ export default function RegisterPage() {
               id="password"
               placeholder="Password"
               value={credentials.password}
-              onChange={(e) =>
-                setCredentials({ ...credentials, password: e.target.value })
-              }
+              onChange={(e) => setCredentials({ ...credentials, password: e.target.value })}
               className="px-4 py-2 rounded-md bg-gray-800 border border-gray-700 focus:outline-none focus:border-red-500"
               required
             />
@@ -109,9 +112,7 @@ export default function RegisterPage() {
             <button
               type="submit"
               className={`w-full px-4 py-3 font-bold text-white rounded-md ${
-                buttonDisabled
-                  ? "bg-gray-400 cursor-not-allowed"
-                  : "bg-red-500 hover:bg-red-600"
+                buttonDisabled ? "bg-gray-400 cursor-not-allowed" : "bg-red-600 hover:bg-red-700"
               } focus:outline-none focus:shadow-outline-indigo focus:border-indigo-700`}
               disabled={buttonDisabled || loading}
             >
@@ -120,8 +121,8 @@ export default function RegisterPage() {
           </div>
           <div className="text-sm text-center">
             <p className="tc-grey t-center">
-              Dont have an account?
-              <Link className="link font-bold" href={`/auth/signup`}>
+              Dont have an account?{" "}
+              <Link className="link font-bold bg-red" href={`/auth/signup`}>
                 Sign Up
               </Link>
             </p>
