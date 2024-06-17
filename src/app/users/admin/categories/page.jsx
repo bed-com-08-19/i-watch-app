@@ -33,8 +33,8 @@ const Categories = () => {
     try {
       await axios.post("/api/categories", { name: newCategory, description: newDescription });
       toast.success("Category added successfully");
-      setNewCategory("");
-      setNewDescription("");
+      setNewCategory(newCategory);
+      setNewDescription(newDescription);
       fetchCategories();
     } catch (error) {
       toast.error("Failed to add category");
