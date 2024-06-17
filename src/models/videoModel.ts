@@ -6,6 +6,7 @@ export interface IVideo extends Document {
   url: string;
   creator: mongoose.Types.ObjectId;
   playCount: number;  // for view count
+  creditedUserCount: number;  // new field to track credited users
   createdAt: Date;
   updatedAt: Date;
 }
@@ -17,6 +18,7 @@ const VideoSchema: Schema = new Schema(
     url: { type: String, required: true },
     creator: { type: Schema.Types.ObjectId, ref: 'User', required: true },
     playCount: { type: Number, default: 0 },
+    creditedUserCount: { type: Number, default: 0 },  // initialize to 0
   },
   { timestamps: true }
 );
