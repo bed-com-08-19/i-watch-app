@@ -26,18 +26,27 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'User not found' }, { status: 404 });
     }
 
-    // Increment playCount for the video
-    video.playCount += 1;
-    await video.save();
+    if (video.playCount < 10 && !video.awardedViewers.includes(userId)) {
+      // Increment playCount for the video
+      video.playCount += 1;
+      video.awardedViewers.push(userId);
+      await video.save();
 
-    // Increment playCount for the video creator (user)
-    const videoOwner = await User.findById(video.creator);
-    if (videoOwner) {
-      videoOwner.playCount += 1;
-      await videoOwner.save();
+      // Increment playCount for the video creator (user)
+      const videoOwner = await User.findById(video.creator);
+      if (videoOwner) {
+        videoOwner.playCount += 1;
+        await videoOwner.save();
+      }
+
+      // Award user (e.g., update user's balance or credited videos)
+      user.creditedVideos.push(videoId);
+      await user.save();
+
+      return NextResponse.json({ message: 'Video play count updated and user awarded successfully' }, { status: 200 });
+    } else {
+      return NextResponse.json({ message: 'Video has already been viewed by 10 users' }, { status: 400 });
     }
-
-    return NextResponse.json({ message: 'Video play count updated successfully' }, { status: 200 });
   } catch (error) {
     console.error('Error updating play count:', error);
     return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });

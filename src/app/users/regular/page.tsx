@@ -14,9 +14,11 @@ interface Video {
   description: string;
   url: string;
   playCount: number;
+  awardedViewers: string[];
 }
 
 interface UserData {
+  _id: string;
   username: string;
   creditedVideos: string[];
 }
@@ -26,7 +28,6 @@ const RegularUser: React.FC = () => {
   const [data, setData] = useState<UserData | null>(null);
   const [videos, setVideos] = useState<Video[]>([]);
   const [filteredVideos, setFilteredVideos] = useState<Video[]>([]);
-  const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [sortBy, setSortBy] = useState<string>("");
@@ -56,17 +57,16 @@ const RegularUser: React.FC = () => {
       const response = await axios.get("/api/videos");
       setVideos(response.data.data);
       setFilteredVideos(response.data.data); // Show all videos initially
-      setLoading(false);
     } catch (error) {
       toast.error("Failed to fetch videos");
       setError("Failed to fetch videos");
-      setLoading(false);
     }
   };
 
   const handleVideoPlaybackCompletion = async (videoId: string) => {
+    if (!data) return;
     try {
-      await axios.post("/api/videos/playback", { videoId });
+      await axios.post("/api/videos/playcount", { videoId, userId: data._id });
       toast.success("Credits have been awarded!");
       fetchVideos();
     } catch (error) {
@@ -76,24 +76,14 @@ const RegularUser: React.FC = () => {
   };
 
   const handleVideoClick = async (videoId: string) => {
+    if (!data) return;
     try {
-      await axios.post("/api/videos/playcount", { videoId });
+      await axios.post("/api/videos/playcount", { videoId, userId: data._id });
       toast.success("Play count updated!");
       fetchVideos();
     } catch (error) {
       console.error("Error updating play count:", error);
       toast.error("Failed to update play count");
-    }
-  };
-
-  const handleSubtractBalance = async (videoId: string) => {
-    try {
-      await axios.post("/api/users/subtract", { videoId });
-      toast.success("Balance subtracted successfully!");
-      getUserDetails(); // Refresh user details to update balance
-    } catch (error) {
-      console.error("Error subtracting balance:", error);
-      toast.error("Failed to subtract balance");
     }
   };
 
@@ -150,10 +140,6 @@ const RegularUser: React.FC = () => {
   }, [searchTerm, sortBy]);
 
   if (error) return <div className="text-center mt-8">Error: {error}</div>;
-  const handleVideoEnd = (videoId: string) => {
-    handleSubtractBalance(videoId);
-    handleVideoPlaybackCompletion(videoId);
-  };
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -200,8 +186,7 @@ const RegularUser: React.FC = () => {
                     src={video.url}
                     controls
                     onClick={() => handleVideoClick(video._id)}
-                    onEnded={() => handleVideoEnd(video._id)}
-                  
+                    onEnded={() => handleVideoPlaybackCompletion(video._id)}
                   />
                   <div className="">
                     <p className="text-lg font-semibold">{video.title || "Untitled"}</p>
