@@ -147,7 +147,7 @@ const Header = ({ setSearchTerm }) => {
         <div className="relative ml-4">
           <button onClick={toggleDropdown} className="focus:outline-none">
             <Image
-              src="/path/to/profile-image.jpg" // Placeholder image path
+              src="/noavatar.png" // Placeholder image path
               alt={username}
               className="w-10 h-10 rounded-full cursor-pointer"
               width={40}

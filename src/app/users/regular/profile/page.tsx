@@ -49,7 +49,7 @@ const UserProfile = () => {
             <div className="p-4 flex items-center justify-center">
               <div className="relative h-16 w-16 rounded-full overflow-hidden">
                 <Image
-                  src={image}
+                  src={image || "/noavatar.png"}
                   alt="Profile Picture"
                   layout="fill"
                   objectFit="cover"

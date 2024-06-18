@@ -50,7 +50,7 @@ const Header = () => {
         </nav>
         {/* User profile */}
         <div className="flex items-center text-[10px] sm:text-sm md:text-lg">
-          <Image className="h-10 w-10 rounded-full" src="#" alt="User Profile" />
+          <Image className="h-10 w-10 rounded-full" src="/noavatar.png" alt="User Profile" />
           <Link className="link font-bold" href={`../dashboard`}>
             <span className="text-white ml-2 hidden md:block">{username}</span>
           </Link>
