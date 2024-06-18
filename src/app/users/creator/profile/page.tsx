@@ -48,7 +48,6 @@ const Dashboard: React.FC = () => {
       const res = await axios.get('/api/users/me');
       setUserDetails(res.data.data);
     } catch (error) {
-      
       toast.error('Failed to fetch user details');
     }
   };
@@ -59,15 +58,17 @@ const Dashboard: React.FC = () => {
       toast.success('Logout successful');
       window.location.href = '/auth/signin';
     } catch (error) {
-      toast.error("Failed to Logout. ");
+      toast.error("Failed to Logout.");
     }
   };
 
   const toggleUploadForm = () => setShowUploadForm(!showUploadForm);
   const toggleBioForm = () => setShowBioForm(!showBioForm);
-
   const handleTitleChange = (event: ChangeEvent<HTMLInputElement>) => setTitle(event.target.value);
-  const handleDescriptionChange = (event: ChangeEvent<HTMLInputElement>) => setDescription(event.target.value);
+const handleDescriptionChange = (event: ChangeEvent<HTMLTextAreaElement>) => setDescription(event.target.value);
+
+
+ 
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
       setVideoFile(event.target.files[0]);
@@ -95,7 +96,6 @@ const Dashboard: React.FC = () => {
       toggleUploadForm();
       fetchVideos();
     } catch (error) {
-      console.error(error.message);
       toast.error('Failed to upload video');
     }
   };
@@ -105,7 +105,6 @@ const Dashboard: React.FC = () => {
       const response = await axios.get('/api/videos/user');
       setVideos(response.data.data);
     } catch (error) {
-      console.error(error.message);
       toast.error('Failed to fetch videos');
     }
   };
@@ -116,7 +115,6 @@ const Dashboard: React.FC = () => {
       toast.success('Video deleted successfully');
       fetchVideos();
     } catch (error) {
-      console.error(error.message);
       toast.error('Failed to delete video');
     }
   };
