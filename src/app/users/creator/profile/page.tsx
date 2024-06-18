@@ -9,6 +9,7 @@ import Sidebar from '../_components/Sidebar';
 import Image from 'next/image';
 import { FaUserEdit, FaShareAlt, FaPlusCircle } from 'react-icons/fa';
 import { RiCoinLine } from 'react-icons/ri';
+import VideoCard from '@/components/VideoCard';
 
 interface UserDetails {
   playCount: number;
