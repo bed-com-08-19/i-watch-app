@@ -1,4 +1,6 @@
+// src/app/users/creator/profile/page.tsx
 "use client";
+
 import React, { useEffect, useState, ChangeEvent, FormEvent } from 'react';
 import Image from 'next/image';
 import axios from "axios";
@@ -9,7 +11,6 @@ import { BiUpload, BiUser } from 'react-icons/bi';
 import { AiOutlineHome } from 'react-icons/ai';
 import { RiCoinLine, RiMoneyDollarCircleLine } from 'react-icons/ri';
 import Sidebar from '../_components/Sidebar';
-import image from 'next/image';
 
 interface User {
   followers: number;
@@ -160,224 +161,192 @@ const BioForm: React.FC<{ bio: string, handleChange: (e: ChangeEvent<HTMLInputEl
           />
         </div>
         <div className="flex justify-end">
-          <button type="submit" className="px-4 py-2 text-white bg-green-500 hover:bg-green-600 rounded-lg">Save</button>
+          <button type="submit" className="px-4 py-2 text-white bg-green-500 hover:bg-green-600 rounded-lg">Submit</button>
         </div>
       </form>
     </div>
   </div>
 );
 
-const Dashboard: React.FC = () => {
-  const [user, setUser] = useState<User>({ followers: 48, following: 467, likes: 0, profileImage: "/path-to-your-image.jpg" });
-  const [username, setUsername] = useState<string>("");
-  const [balance, setBalance] = useState<string>("");
-  const [profileImage, setProfileImage] = useState<string>("");
-  const [bio, setBio] = useState<string>("");
-  const [playcount, setPlaycount] = useState<number>(0); 
-  const [showUploadForm, setShowUploadForm] = useState<boolean>(false);
-  const [title, setTitle] = useState<string>("");
-  const [description, setDescription] = useState<string>("");
-  const [videoFile, setVideoFile] = useState<File | null>(null);
+const CreatorProfilePage: React.FC = () => {
+  const [showUploadForm, setShowUploadForm] = useState(false);
+  const [title, setTitle] = useState('');
+  const [description, setDescription] = useState('');
+  const [file, setFile] = useState<File | null>(null);
+  const [playCount, setPlayCount] = useState(0);
+  const [user, setUser] = useState<UserDetails | null>(null);
+  const [showBioForm, setShowBioForm] = useState(false);
+  const [bio, setBio] = useState('');
   const [videos, setVideos] = useState<Video[]>([]);
-  const [selectedVideo, setSelectedVideo] = useState<Video | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string>("");
-  const [showBioForm, setShowBioForm] = useState<boolean>(false);
-
-  useEffect(() => {
-    getUserDetails();
-    fetchVideos();
-  }, []);
-
-  const getUserDetails = async () => {
-    try {
-      const res = await axios.get("/api/users/me");
-      const userDetails: UserDetails = res.data.data;
-      setUsername(userDetails.username);
-      setBalance(userDetails.balance);
-      setProfileImage(userDetails.profileImage); 
-      setPlaycount(userDetails.playCount);
-      setBio(userDetails.bio);
-    } catch (error: any) {
-      console.error(error.message);
-      toast.error("Failed to fetch user details");
-    }
-  };
-
-  const logout = async () => {
-    try {
-      await axios.get("/api/users/logout");
-      toast.success("Logout successful");
-      window.location.href = "/auth/signin";
-    } catch (error: any) {
-      console.error(error.message);
-      toast.error(error.message);
-    }
-  };
 
   const toggleUploadForm = () => setShowUploadForm(!showUploadForm);
   const toggleBioForm = () => setShowBioForm(!showBioForm);
 
-  const handleTitleChange = (event: ChangeEvent<HTMLInputElement>) => setTitle(event.target.value);
-  const handleDescriptionChange = (event: ChangeEvent<HTMLInputElement>) => setDescription(event.target.value);
-  const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
-    if (event.target.files && event.target.files[0]) {
-      setVideoFile(event.target.files[0]);
-    }
-  };
+  const handleTitleChange = (e: ChangeEvent<HTMLInputElement>) => setTitle(e.target.value);
+  const handleDescriptionChange = (e: ChangeEvent<HTMLInputElement>) => setDescription(e.target.value);
+  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => setFile(e.target.files?.[0] || null);
 
-  const handleUpload = async (event: FormEvent) => {
-    event.preventDefault();
-    if (!videoFile) {
-      toast.error("Please select a video file to upload.");
-      return;
-    }
+  const handleUpload = async (e: FormEvent) => {
+    e.preventDefault();
+    if (!file) return;
 
     const formData = new FormData();
-    formData.append("video", videoFile);
-    formData.append("title", title);
-    formData.append("description", description);
-    formData.append("creator", username);
+    formData.append('video', file);
+    formData.append('title', title);
+    formData.append('description', description);
 
     try {
-      await axios.post("/api/videos/upload", formData, { headers: { "Content-Type": "multipart/form-data" } });
-      toast.success("Video uploaded successfully");
-      toggleUploadForm();
-      fetchVideos();
-    } catch (error: any) {
-      console.error(error.message);
-      toast.error("Failed to upload video");
-    }
-  };
-
-  const fetchVideos = async () => {
-    try {
-      const response = await axios.get("/api/videos/user");
-      setVideos(response.data.data);
-      setLoading(false);
-    } catch (error: any) {
-      setError(error.message);
-      setLoading(false);
+      const response = await axios.post('/api/upload', formData, {
+        headers: { 'Content-Type': 'multipart/form-data' }
+      });
+      if (response.status === 200) {
+        toast.success('Video uploaded successfully');
+        setVideos(prevVideos => [...prevVideos, response.data]);
+        toggleUploadForm();
+        setTitle('');
+        setDescription('');
+        setFile(null);
+      } else {
+        toast.error('Video upload failed');
+      }
+    } catch (error) {
+      console.error('Upload error', error);
+      toast.error('Error uploading video');
     }
   };
 
   const handleDelete = async (id: string) => {
     try {
-      await axios.delete(`/api/videos/${id}`);
-      toast.success('Video deleted successfully!');
-      fetchVideos();
-    } catch (error: any) {
-      console.error(error.message);
-      toast.error('Failed to delete video');
+      const response = await axios.delete(`/api/video/${id}`);
+      if (response.status === 200) {
+        toast.success('Video deleted successfully');
+        setVideos(videos.filter(video => video._id !== id));
+      } else {
+        toast.error('Failed to delete video');
+      }
+    } catch (error) {
+      console.error('Delete error', error);
+      toast.error('Error deleting video');
     }
   };
 
-  const handleViewStatistics = (video: Video) => setSelectedVideo(video);
+  const handleViewStatistics = (video: Video) => {
+    toast(`Video views: ${video.views}`);
+  };
 
-  const handleBioChange = (event: ChangeEvent<HTMLInputElement>) => setBio(event.target.value);
-
-  const handleBioSubmit = async (event: FormEvent) => {
-    event.preventDefault();
+  const handleLogout = async () => {
     try {
-      await axios.put('/api/users/updatebio', { userId: 'logged-in-user-id', bio });
-      toast.success("Bio updated successfully");
-      toggleBioForm();
-    } catch (error: any) {
-      console.error(error.message);
-      toast.error("Failed to update bio");
+      const response = await axios.post('/api/auth/logout');
+      if (response.status === 200) {
+        toast.success('Logged out successfully');
+        window.location.href = '/';
+      } else {
+        toast.error('Logout failed');
+      }
+    } catch (error) {
+      console.error('Logout error', error);
+      toast.error('Error logging out');
     }
   };
 
-  if (error) {
-    return <div className="text-red-500 text-center">{error}</div>;
-  }
+  const handleBioChange = (e: ChangeEvent<HTMLInputElement>) => setBio(e.target.value);
+
+  const handleBioSubmit = async (e: FormEvent) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post('/api/user/bio', { bio });
+      if (response.status === 200) {
+        toast.success('Bio updated successfully');
+        setUser(prevUser => prevUser ? { ...prevUser, bio } : null);
+        toggleBioForm();
+      } else {
+        toast.error('Failed to update bio');
+      }
+    } catch (error) {
+      console.error('Bio update error', error);
+      toast.error('Error updating bio');
+    }
+  };
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const response = await axios.get('/api/user');
+        if (response.status === 200) {
+          setUser(response.data);
+          setPlayCount(response.data.playCount);
+        } else {
+          toast.error('Failed to fetch user data');
+        }
+      } catch (error) {
+        console.error('Fetch user data error', error);
+        toast.error('Error fetching user data');
+      }
+    };
+
+    const fetchVideos = async () => {
+      try {
+        const response = await axios.get('/api/videos');
+        if (response.status === 200) {
+          setVideos(response.data);
+        } else {
+          toast.error('Failed to fetch videos');
+        }
+      } catch (error) {
+        console.error('Fetch videos error', error);
+        toast.error('Error fetching videos');
+      }
+    };
+
+    fetchUserData();
+    fetchVideos();
+  }, []);
 
   return (
-    <div className="min-h-screen flex bg-black">
-      <Sidebar toggleUploadForm={toggleUploadForm} logout={logout} playcount={playcount} />
-      <div className="flex-grow p-6 ml-64 bg-black">
-        <div className="max-w-md mx-auto text-center">
-          <div className="flex items-center justify-center py-4">
-            <h1 className="text-xl font-semibold">{username}</h1>
-            <div className="p-4 flex items-center justify-center">
-              <div className="relative h-16 w-16 rounded-full overflow-hidden">
-                <Image
-                  src={image}
-                  alt="Profile Picture"
-                  layout="fill"
-                  objectFit="cover"
-                  objectPosition="center"
-                />
+    <div className="flex">
+      <Sidebar toggleUploadForm={toggleUploadForm} logout={handleLogout} playcount={playCount} />
+      <div className="flex-1 p-8 bg-gray-100">
+        <h1 className="text-3xl font-semibold mb-8">Creator Profile</h1>
+        {user && (
+          <div className="bg-white shadow rounded-lg p-6 mb-8">
+            <div className="flex items-center">
+              <Image src={user.profileImage} alt="Profile Image" width={80} height={80} className="rounded-full mr-6" />
+              <div>
+                <h2 className="text-xl font-semibold">{user.username}</h2>
+                <p className="text-gray-600">{user.bio}</p>
+                <button onClick={toggleBioForm} className="mt-2 px-4 py-2 text-white bg-blue-500 hover:bg-blue-600 rounded-lg">Edit Bio</button>
               </div>
             </div>
-          </div>
-          <div className="flex justify-around text-center py-4">
-            <div>
-              <RiCoinLine className="mr-1" />
-              <span className="block text-lg font-bold text-red-600">{balance} icoins</span>
-              <span className="block text-white">Balance</span>
-            </div>
-          </div>
-          <div className="flex justify-around py-4">
-            <button className="flex items-center bg-red-600 px-4 py-2 rounded text-white hover:bg-red-700">
-              <FaUserEdit className="mr-2" />
-              Edit profile
-            </button>
-            <button className="flex items-center bg-gray-600 px-4 py-2 rounded text-white hover:bg-gray-700">
-              <FaShareAlt className="mr-2" />
-              Share profile
-            </button>
-            <button className="flex items-center bg-gray-600 px-4 py-2 rounded text-white hover:bg-gray-700">
-              <FaPlusCircle className="mr-2" />
-              Add bio
-            </button>
-          </div>
-          <div className="border-t border-gray-300 py-4 text-center">
-            <p className="text-white">What are some good videos you’ve taken recently?</p>
-            <button onClick={toggleUploadForm} className="bg-red-600 text-white px-4 py-2 rounded mt-2">Upload</button>
-          </div>
-        </div>
-        <div className="max-w-5xl mx-auto mt-6">
-          <h2 className="text-xl font-semibold text-white">Your Videos</h2>
-          {videos.length === 0 ? (
-            <p className="text-red-500">No videos uploaded yet.</p>
-          ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-4">
-              {videos.map((video) => (
-                <VideoCard key={video._id} video={video} handleDelete={handleDelete} handleViewStatistics={handleViewStatistics} />
-              ))}
-            </div>
-          )}
-        </div>
-        {selectedVideo && (
-          <div className="max-w-md mx-auto mt-6">
-            <h2 className="text-xl font-semibold text-white">Video Statistics</h2>
-            <div className="relative bg-gray-800 rounded-lg overflow-hidden shadow-md">
-              <video className="object-cover w-full h-64" src={selectedVideo.url} controls />
-              <div className="px-4 py-2 bg-black bg-opacity-75 text-white">
-                <p className="text-lg font-semibold">{selectedVideo.title}</p>
-                <p className="mt-2">Description: {selectedVideo.description}</p>
-                <p className="mt-2">Views: {selectedVideo.playCount}</p>
-              </div>
+            <div className="mt-6">
+              <h3 className="text-lg font-semibold mb-2">Balance: ${user.balance}</h3>
+              <h3 className="text-lg font-semibold mb-2">Play Count: {playCount}</h3>
             </div>
           </div>
         )}
+        <h2 className="text-2xl font-semibold mb-4">Videos</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {videos.map(video => (
+            <VideoCard key={video._id} video={video} handleDelete={handleDelete} handleViewStatistics={handleViewStatistics} />
+          ))}
+        </div>
+        {showUploadForm && (
+          <UploadForm
+            showUploadForm={showUploadForm}
+            toggleUploadForm={toggleUploadForm}
+            handleUpload={handleUpload}
+            handleTitleChange={handleTitleChange}
+            handleDescriptionChange={handleDescriptionChange}
+            handleFileChange={handleFileChange}
+            title={title}
+            description={description}
+          />
+        )}
+        {showBioForm && (
+          <BioForm bio={bio} handleChange={handleBioChange} handleSubmit={handleBioSubmit} />
+        )}
       </div>
-      <UploadForm
-        showUploadForm={showUploadForm}
-        toggleUploadForm={toggleUploadForm}
-        handleUpload={handleUpload}
-        handleTitleChange={handleTitleChange}
-        handleDescriptionChange={handleDescriptionChange}
-        handleFileChange={handleFileChange}
-        title={title}
-        description={description}
-      />
-      {showBioForm && (
-        <BioForm bio={bio} handleChange={handleBioChange} handleSubmit={handleBioSubmit} />
-      )}
     </div>
   );
 };
 
-export default Dashboard;
+export default CreatorProfilePage;
