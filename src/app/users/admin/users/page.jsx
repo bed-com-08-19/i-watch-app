@@ -72,41 +72,41 @@ const ManageUsers = () => {
     );
 
     return (
-        <div className="flex">
+        <div className="flex min-h-screen bg-black text-white">
             <Sidebar />
-            <div className="flex-1 bg-black-900">
+            <div className="flex-1 p-6">
                 <Header />
-                <div className="bg-black-800 text-white p-4 rounded-lg shadow-md">
-                    <h2 className="text-lg font-bold mb-4">Manage Users</h2>
+                <div className="bg-gray-800 text-white p-6 rounded-lg shadow-md">
+                    <h2 className="text-2xl font-bold mb-4 text-red-500">Manage Users</h2>
                     <input
                         type="text"
                         placeholder="Search users..."
                         value={searchTerm}
                         onChange={handleSearch}
-                        className="mb-4 p-2 rounded bg-gray-700 text-white"
+                        className="mb-4 p-2 w-full rounded bg-gray-700 text-white placeholder-gray-400"
                     />
                     <table className="w-full text-left bg-gray-900">
                         <thead>
-                            <tr>
-                                <th onClick={() => handleSort('username')}>Username</th>
-                                <th onClick={() => handleSort('email')}>Email</th>
-                                <th onClick={() => handleSort('role')}>Role</th>
-                                <th onClick={() => handleSort('isVerified')}>Verified</th>
-                                <th onClick={() => handleSort('balance')}>Balance</th>
-                                <th onClick={() => handleSort('createdAt')}>Created At</th>
-                                <th>Actions</th>
+                            <tr className="bg-gray-800">
+                                <th onClick={() => handleSort('username')} className="cursor-pointer py-2 px-4">Username</th>
+                                <th onClick={() => handleSort('email')} className="cursor-pointer py-2 px-4">Email</th>
+                                <th onClick={() => handleSort('role')} className="cursor-pointer py-2 px-4">Role</th>
+                                <th onClick={() => handleSort('isVerified')} className="cursor-pointer py-2 px-4">Verified</th>
+                                <th onClick={() => handleSort('balance')} className="cursor-pointer py-2 px-4">Balance</th>
+                                <th onClick={() => handleSort('createdAt')} className="cursor-pointer py-2 px-4">Created At</th>
+                                <th className="py-2 px-4">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
                             {filteredUsers.map((user) => (
-                                <tr key={user._id}>
-                                    <td>{user.username}</td>
-                                    <td>{user.email}</td>
-                                    <td>{user.role}</td>
-                                    <td>{user.isVerified ? 'Yes' : 'No'}</td>
-                                    <td>{user.balance}</td>
-                                    <td>{new Date(user.createdAt).toLocaleDateString()}</td>
-                                    <td>
+                                <tr key={user._id} className="border-t border-gray-700">
+                                    <td className="py-2 px-4">{user.username}</td>
+                                    <td className="py-2 px-4">{user.email}</td>
+                                    <td className="py-2 px-4">{user.role}</td>
+                                    <td className="py-2 px-4">{user.isVerified ? 'Yes' : 'No'}</td>
+                                    <td className="py-2 px-4">{user.balance}</td>
+                                    <td className="py-2 px-4">{new Date(user.createdAt).toLocaleDateString()}</td>
+                                    <td className="py-2 px-4">
                                         <button
                                             onClick={() => handleDelete(user._id)}
                                             className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded mr-2"

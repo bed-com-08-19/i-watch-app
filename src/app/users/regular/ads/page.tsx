@@ -25,12 +25,12 @@ const AdsPage = () => {
     try {
       const response = await axios.get("/api/ads"); // Assuming you have an API route to fetch ads
       setAds(response.data.ads);
-      setLoading(false);
+      
     } catch (error) {
       console.error("Failed to fetch ads:", error);
       toast.error("Failed to fetch ads");
       setError("Failed to fetch ads");
-      setLoading(false);
+      
     }
   };
 

@@ -20,7 +20,7 @@ function Page() {
         <h1 className="text-4xl mb-8 font-semibold text-center">Withdrawal Successful</h1>
         <p className="text-xl mb-8">Your withdrawal has been processed successfully.</p>
         <button
-          className="mt-4 px-4 py-2 text-white bg-red-500 hover:bg-red-600 rounded-lg w-full"
+          className="mt-4 px-4 py-2 text-black bg-white hover:bg-gray-400 rounded-lg w-full"
           onClick={handleBackToHome}
         >
           Back to Home

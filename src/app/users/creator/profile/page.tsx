@@ -7,7 +7,9 @@ import { FaUserEdit, FaShareAlt, FaPlusCircle } from 'react-icons/fa';
 import { FiLogOut, FiSettings, FiHelpCircle, FiCheckCircle } from 'react-icons/fi';
 import { BiUpload, BiUser } from 'react-icons/bi';
 import { AiOutlineHome } from 'react-icons/ai';
-import { RiMoneyDollarCircleLine } from 'react-icons/ri';
+import { RiCoinLine, RiMoneyDollarCircleLine } from 'react-icons/ri';
+import Sidebar from '../_components/Sidebar';
+import image from 'next/image';
 
 interface User {
   followers: number;
@@ -30,52 +32,8 @@ interface Video {
   title: string;
   description: string;
   views: number;
-  playCount: number; // Ensure this matches the server-side Video interface
+  playCount: number;
 }
-
-const Sidebar: React.FC<{ toggleUploadForm: () => void; logout: () => void; playcount: number }> = ({ toggleUploadForm, logout, playcount }) => (
-  <div className="min-h-screen flex bg-black">
-    <aside className="fixed top-0 left-0 w-64 h-screen bg-gray-900 text-white flex flex-col overflow-y-auto">
-      <nav className="flex-grow mt-6">
-        <a href="/users/creator" className="flex items-center block py-2.5 px-4 rounded hover:bg-gray-700">
-          <AiOutlineHome className="mr-2" />
-          Home
-        </a>
-        <a href="/users/creator/profile" className="flex items-center block py-2.5 px-4 rounded hover:bg-gray-700">
-          <BiUser className="mr-2" />
-          Profile
-        </a>
-        <a href="/users/creator/subscribe" className="flex items-center block py-2.5 px-4 rounded hover:bg-gray-700">
-          <BiUpload className="mr-2" />
-          Upload
-        </a>
-        <a href="/users/creator/subscribe" className="flex items-center block py-2.5 px-4 rounded hover:bg-gray-700">
-          <FiCheckCircle className="mr-2" />
-          Subscribe
-        </a>
-        <a href="/users/creator/transaction" className="flex items-center block py-2.5 px-4 rounded hover:bg-gray-700">
-          <RiMoneyDollarCircleLine className="mr-2" />
-          Withdraw
-        </a>
-        <a href="/users/creator/settings" className="flex items-center block py-2.5 px-4 rounded hover:bg-gray-700">
-          <FiSettings className="mr-2" />
-          Settings
-        </a>
-        <a href="/users/creator/help" className="flex items-center block py-2.5 px-4 rounded hover:bg-gray-700">
-          <FiHelpCircle className="mr-2" />
-          Help
-        </a>
-      </nav>
-      <button
-        className="flex items-center w-cover mt-auto mb-4 px-4 py-2 text-sm text-white bg-red-500 hover:bg-red-800 focus:outline-none cursor-pointer"
-        onClick={logout}
-      >
-        <FiLogOut className="mr-2" />
-        Logout
-      </button>
-    </aside>
-  </div>
-);
 
 const UploadForm: React.FC<{
   showUploadForm: boolean;
@@ -99,11 +57,11 @@ const UploadForm: React.FC<{
   if (!showUploadForm) return null;
   return (
     <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-75 flex items-center justify-center z-50">
-      <div className="bg-black p-6 rounded-lg border border-white">
-        <h2 className="text-lg font-semibold mb-4">Upload Video</h2>
+      <div className="bg-red-700 p-6 rounded-lg border border-white">
+        <h2 className="text-lg font-semibold mb-4 text-white">Upload Video</h2>
         <form onSubmit={handleUpload}>
           <div className="mb-4">
-            <label htmlFor="title" className="block text-sm font-medium text-red-700">
+            <label htmlFor="title" className="block text-sm font-medium text-white">
               Video Title
             </label>
             <input
@@ -117,7 +75,7 @@ const UploadForm: React.FC<{
             />
           </div>
           <div className="mb-4">
-            <label htmlFor="description" className="block text-sm font-medium text-red-700">
+            <label htmlFor="description" className="block text-sm font-medium text-white">
               Video Description
             </label>
             <input
@@ -131,7 +89,7 @@ const UploadForm: React.FC<{
             />
           </div>
           <div className="mb-4">
-            <label htmlFor="video" className="block text-sm font-medium text-red-700">
+            <label htmlFor="video" className="block text-sm font-medium text-white">
               Upload Video File
             </label>
             <input
@@ -158,15 +116,10 @@ const VideoCard: React.FC<{
   handleViewStatistics: (video: Video) => void;
 }> = ({ video, handleDelete, handleViewStatistics }) => (
   <div className="relative bg-gray-800 rounded-lg overflow-hidden shadow-md">
-    {/* Title */}
     <div className="px-4 py-2 bg-black bg-opacity-75 text-white">
       <h3 className="text-lg font-semibold">{video.title}</h3>
     </div>
-
-    {/* Video Player */}
     <video className="object-cover w-full h-48 sm:h-64" src={video.url} controls />
-
-    {/* Action Buttons */}
     <div className="px-4 py-2 bg-black bg-opacity-75 text-white flex justify-between">
       <button
         className="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600 focus:outline-none"
@@ -181,8 +134,6 @@ const VideoCard: React.FC<{
         View Stats
       </button>
     </div>
-
-    {/* Video Description */}
     <div className="px-4 py-2 bg-black bg-opacity-75 text-white">
       <p className="text-sm">{video.description}</p>
     </div>
@@ -191,11 +142,11 @@ const VideoCard: React.FC<{
 
 const BioForm: React.FC<{ bio: string, handleChange: (e: ChangeEvent<HTMLInputElement>) => void, handleSubmit: (e: FormEvent) => void }> = ({ bio, handleChange, handleSubmit }) => (
   <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-75 flex items-center justify-center z-50">
-    <div className="bg-black p-6 rounded-lg border border-white">
-      <h2 className="text-lg font-semibold mb-4">Add Bio</h2>
+    <div className="bg-red-700 p-6 rounded-lg border border-white">
+      <h2 className="text-lg font-semibold mb-4 text-white">Add Bio</h2>
       <form onSubmit={handleSubmit}>
         <div className="mb-4">
-          <label htmlFor="bio" className="block text-sm font-medium text-red-700">
+          <label htmlFor="bio" className="block text-sm font-medium text-white">
             Bio
           </label>
           <input
@@ -222,7 +173,7 @@ const Dashboard: React.FC = () => {
   const [balance, setBalance] = useState<string>("");
   const [profileImage, setProfileImage] = useState<string>("");
   const [bio, setBio] = useState<string>("");
-  const [playcount, setPlaycount] = useState<number>(0); // State for playcount
+  const [playcount, setPlaycount] = useState<number>(0); 
   const [showUploadForm, setShowUploadForm] = useState<boolean>(false);
   const [title, setTitle] = useState<string>("");
   const [description, setDescription] = useState<string>("");
@@ -231,7 +182,7 @@ const Dashboard: React.FC = () => {
   const [selectedVideo, setSelectedVideo] = useState<Video | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string>("");
-  const [showBioForm, setShowBioForm] = useState<boolean>(false); // State for showing bio form
+  const [showBioForm, setShowBioForm] = useState<boolean>(false);
 
   useEffect(() => {
     getUserDetails();
@@ -244,7 +195,7 @@ const Dashboard: React.FC = () => {
       const userDetails: UserDetails = res.data.data;
       setUsername(userDetails.username);
       setBalance(userDetails.balance);
-      setProfileImage(userDetails.profileImage); // Corrected to set profileImage
+      setProfileImage(userDetails.profileImage); 
       setPlaycount(userDetails.playCount);
       setBio(userDetails.bio);
     } catch (error: any) {
@@ -265,12 +216,10 @@ const Dashboard: React.FC = () => {
   };
 
   const toggleUploadForm = () => setShowUploadForm(!showUploadForm);
-  const toggleBioForm = () => setShowBioForm(!showBioForm); // Function to toggle bio form
+  const toggleBioForm = () => setShowBioForm(!showBioForm);
 
   const handleTitleChange = (event: ChangeEvent<HTMLInputElement>) => setTitle(event.target.value);
-
   const handleDescriptionChange = (event: ChangeEvent<HTMLInputElement>) => setDescription(event.target.value);
-
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
       setVideoFile(event.target.files[0]);
@@ -325,12 +274,12 @@ const Dashboard: React.FC = () => {
 
   const handleViewStatistics = (video: Video) => setSelectedVideo(video);
 
-  const handleBioChange = (event: ChangeEvent<HTMLInputElement>) => setBio(event.target.value); // Function to handle bio input change
+  const handleBioChange = (event: ChangeEvent<HTMLInputElement>) => setBio(event.target.value);
 
   const handleBioSubmit = async (event: FormEvent) => {
     event.preventDefault();
     try {
-      await axios.put('/api/users/updatebio', { userId: 'logged-in-user-id', bio }); // Replace 'logged-in-user-id' with the actual user ID
+      await axios.put('/api/users/updatebio', { userId: 'logged-in-user-id', bio });
       toast.success("Bio updated successfully");
       toggleBioForm();
     } catch (error: any) {
@@ -338,7 +287,6 @@ const Dashboard: React.FC = () => {
       toast.error("Failed to update bio");
     }
   };
-
 
   if (error) {
     return <div className="text-red-500 text-center">{error}</div>;
@@ -348,52 +296,51 @@ const Dashboard: React.FC = () => {
     <div className="min-h-screen flex bg-black">
       <Sidebar toggleUploadForm={toggleUploadForm} logout={logout} playcount={playcount} />
       <div className="flex-grow p-6 ml-64 bg-black">
-        <div className="max-w-md mx-auto">
-          <div className="flex items-center justify-between py-4">
-            <h1 className="text-xl font-semibold text-white">{username}</h1>
+        <div className="max-w-md mx-auto text-center">
+          <div className="flex items-center justify-center py-4">
+            <h1 className="text-xl font-semibold">{username}</h1>
             <div className="p-4 flex items-center justify-center">
               <div className="relative h-16 w-16 rounded-full overflow-hidden">
-                <Image src={profileImage} alt="Profile Picture" layout="fill" objectFit="cover" objectPosition="center" />
+                <Image
+                  src={image}
+                  alt="Profile Picture"
+                  layout="fill"
+                  objectFit="cover"
+                  objectPosition="center"
+                />
               </div>
             </div>
           </div>
           <div className="flex justify-around text-center py-4">
             <div>
-              <span className="block text-lg font-bold text-white">{balance}</span>
-              <span className="block text-gray-500">Balance</span>
-            </div>
-            <div>
-              <span className="block text-lg font-bold text-white">{playcount}</span>
-              <span className="block text-gray-500">Likes</span>
-            </div>
-            <div>
-              <span className="block text-lg font-bold text-white">{playcount}</span>
-              <span className="block text-gray-500">Viewers</span>
+              <RiCoinLine className="mr-1" />
+              <span className="block text-lg font-bold text-red-600">{balance} icoins</span>
+              <span className="block text-white">Balance</span>
             </div>
           </div>
           <div className="flex justify-around py-4">
-            <button className="flex items-center bg-gray-200 px-4 py-2 rounded">
+            <button className="flex items-center bg-red-600 px-4 py-2 rounded text-white hover:bg-red-700">
               <FaUserEdit className="mr-2" />
               Edit profile
             </button>
-            <button className="flex items-center bg-gray-200 px-4 py-2 rounded">
+            <button className="flex items-center bg-gray-600 px-4 py-2 rounded text-white hover:bg-gray-700">
               <FaShareAlt className="mr-2" />
               Share profile
             </button>
-            <button className="flex items-center bg-gray-200 px-4 py-2 rounded" onClick={toggleBioForm}>
+            <button className="flex items-center bg-gray-600 px-4 py-2 rounded text-white hover:bg-gray-700">
               <FaPlusCircle className="mr-2" />
               Add bio
             </button>
           </div>
           <div className="border-t border-gray-300 py-4 text-center">
             <p className="text-white">What are some good videos you’ve taken recently?</p>
-            <button onClick={toggleUploadForm} className="bg-pink-500 text-white px-4 py-2 rounded mt-2">Upload</button>
+            <button onClick={toggleUploadForm} className="bg-red-600 text-white px-4 py-2 rounded mt-2">Upload</button>
           </div>
         </div>
         <div className="max-w-5xl mx-auto mt-6">
           <h2 className="text-xl font-semibold text-white">Your Videos</h2>
           {videos.length === 0 ? (
-            <p className="text-gray-500">No videos uploaded yet.</p>
+            <p className="text-red-500">No videos uploaded yet.</p>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mt-4">
               {videos.map((video) => (
@@ -404,19 +351,16 @@ const Dashboard: React.FC = () => {
         </div>
         {selectedVideo && (
           <div className="max-w-md mx-auto mt-6">
-          <h2 className="text-xl font-semibold text-white">Video Statistics</h2>
-          <div className="relative bg-gray-800 rounded-lg overflow-hidden shadow-md">
-            {/* Video Player */}
-            <video className="object-cover w-full h-64" src={selectedVideo.url} controls />
-      
-            {/* Statistics Details */}
-            <div className="px-4 py-2 bg-black bg-opacity-75 text-white">
-              <p className="text-lg font-semibold">{selectedVideo.title}</p>
-              <p className="mt-2">Description: {selectedVideo.description}</p>
-              <p className="mt-2">Views: {selectedVideo.playCount}</p>
+            <h2 className="text-xl font-semibold text-white">Video Statistics</h2>
+            <div className="relative bg-gray-800 rounded-lg overflow-hidden shadow-md">
+              <video className="object-cover w-full h-64" src={selectedVideo.url} controls />
+              <div className="px-4 py-2 bg-black bg-opacity-75 text-white">
+                <p className="text-lg font-semibold">{selectedVideo.title}</p>
+                <p className="mt-2">Description: {selectedVideo.description}</p>
+                <p className="mt-2">Views: {selectedVideo.playCount}</p>
+              </div>
             </div>
           </div>
-        </div>
         )}
       </div>
       <UploadForm

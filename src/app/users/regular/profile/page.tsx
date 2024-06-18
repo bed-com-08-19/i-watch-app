@@ -5,12 +5,10 @@ import Image from 'next/image';
 import axios from "axios";
 import { toast } from "react-hot-toast";
 import { FaUserEdit, FaShareAlt, FaPlusCircle } from 'react-icons/fa';
-import { FiLogOut, FiSettings, FiHelpCircle, FiCheckCircle } from 'react-icons/fi';
-import { BiUpload, BiUser } from 'react-icons/bi';
-import { AiOutlineHome } from 'react-icons/ai';
-import { RiMoneyDollarCircleLine, RiCoinLine } from 'react-icons/ri';
+import { RiCoinLine } from 'react-icons/ri';
+import Sidebar from '../_components/Sidebar';  // Adjust the import path as necessary
 
-const Dashboard = () => {
+const UserProfile = () => {
   const [user, setUser] = useState({
     followers: 48,
     following: 467,
@@ -41,53 +39,9 @@ const Dashboard = () => {
     }
   };
 
-  const logout = async () => {
-    try {
-      await axios.get("/api/users/logout");
-      toast.success("Logout successful");
-      window.location.href = "/auth/signin";
-    } catch (error) {
-      toast.error("Logout failed");
-    }
-  };
-
   return (
     <div className="min-h-screen flex bg-black">
-      <aside className="fixed top-0 left-0 w-64 h-screen bg-gray-900 text-white flex flex-col overflow-y-auto">
-        <nav className="flex-grow mt-6">
-          <a href="/users/regular" className="flex items-center block py-2.5 px-4 rounded hover:bg-gray-700">
-            <AiOutlineHome className="mr-2" />
-            Home
-          </a>
-          <a href="/users/regular/profile" className="flex items-center block py-2.5 px-4 rounded hover:bg-gray-700">
-            <BiUser className="mr-2" />
-            Profile
-          </a>
-          <a href="/users/regular/subscribe" className="flex items-center block py-2.5 px-4 rounded hover:bg-gray-700">
-            <FiCheckCircle className="mr-2" />
-            Subscribe
-          </a>
-          <a href="/users/regular/transaction" className="flex items-center block py-2.5 px-4 rounded hover:bg-gray-700">
-            <RiMoneyDollarCircleLine className="mr-2" />
-            Withdraw
-          </a>
-          <a href="/users/regular/settings" className="flex items-center block py-2.5 px-4 rounded hover:bg-gray-700">
-            <FiSettings className="mr-2" />
-            Settings
-          </a>
-          <a href="/users/regular/help" className="flex items-center block py-2.5 px-4 rounded hover:bg-gray-700">
-            <FiHelpCircle className="mr-2" />
-            Help
-          </a>
-        </nav>
-        <button
-          className="flex items-center w-full mt-auto mb-4 px-4 py-2 text-sm text-white bg-red-600 hover:bg-red-700 focus:outline-none cursor-pointer"
-          onClick={logout}
-        >
-          <FiLogOut className="mr-2" />
-          Logout
-        </button>
-      </aside>
+      <Sidebar />
       <div className="flex-grow p-6 bg-black text-white ml-64">
         <div className="max-w-md mx-auto text-center">
           <div className="flex items-center justify-center py-4">
@@ -135,4 +89,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+export default UserProfile;

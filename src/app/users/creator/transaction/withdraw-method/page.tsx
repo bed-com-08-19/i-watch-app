@@ -15,13 +15,13 @@ function Page() {
       <div className="bg-black bg-opacity-70 px-10 py-16 rounded-md w-full max-w-md">
         <h1 className="text-4xl mb-8 font-semibold text-center">Select Withdrawal Method</h1>
         <button
-          className="mt-4 px-4 py-2 text-white bg-red-500 hover:bg-red-600 rounded-lg w-full"
+          className="mt-4 px-4 py-2 text-black bg-white hover:bg-gray-400 rounded-lg w-full"
           onClick={() => handleMethodSelect('mobile')}
         >
           Mobile
         </button>
         <button
-          className="mt-4 px-4 py-2 text-white bg-red-500 hover:bg-red-600 rounded-lg w-full"
+          className="mt-4 px-4 py-2 text-black bg-white hover:bg-gray-400 rounded-lg w-full"
           onClick={() => handleMethodSelect('bank')}
         >
           Bank

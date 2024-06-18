@@ -73,7 +73,7 @@ const Sidebar = () => {
       </div>
       <button
         onClick={logout}
-        className="mt-4 px-4 py-2 text-sm text-white bg-red-500 hover:bg-red-800 focus:outline-none cursor-pointer"
+        className="mt-4 px-4 py-2 text-sm text-white bg-red-600 hover:bg-red-800 focus:outline-none cursor-pointer"
       >
         Logout
       </button>
