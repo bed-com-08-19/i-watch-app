@@ -9,6 +9,7 @@ interface IUser extends Document {
   favoriteVideos: mongoose.Types.ObjectId[];
   bio: string;
   preferredCategories: string[];
+  icoins: number;
   balance: number;
   createdAt: Date;
   imgUrl: string;
@@ -30,6 +31,7 @@ const UserSchema: Schema<IUser> = new Schema({
   subscription: { type: String },
   credits: { type: Number, default: 0 },
   preferredCategories: [{ type: String }],
+  icoins: { type: Number, default: 0 },
   balance: { type: Number, default: 0 },
   createdAt: { type: Date, default: Date.now },
   creditedVideos: [{ type: Schema.Types.ObjectId, ref: 'Video' }],

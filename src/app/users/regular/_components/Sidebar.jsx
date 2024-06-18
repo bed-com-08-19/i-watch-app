@@ -34,6 +34,12 @@ const Sidebar = () => {
             </Link>
           </li>
           <li className="my-4">
+            <Link href="/users/regular/topup" className="flex items-center py-2.5 px-4 rounded hover:bg-gray-700">
+              <FaMoneyBillWave className="mr-2" />
+              <span>Top Up Coins</span>
+            </Link>
+          </li>
+          <li className="my-4">
             <Link href="/users/regular/subscribe" className="flex items-center py-2.5 px-4 rounded hover:bg-gray-700">
               <FaCheckCircle className="mr-2" />
               <span>Subscribe</span>
