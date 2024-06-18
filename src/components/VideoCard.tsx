@@ -1,4 +1,5 @@
 // src/app/users/creator/profile/VideoCard.tsx
+import { Video } from 'lucide-react';
 import React from 'react';
 import { FaTrashAlt, FaEye } from 'react-icons/fa';
 

@@ -172,7 +172,7 @@ const Header = ({ setSearchTerm }) => {
           <h2 className="text-lg font-semibold mb-4 text-white">Upload Video</h2>
           <form onSubmit={handleUpload}>
             <div className="mb-4">
-              <label htmlFor="title" className="block text-sm font-medium text-red-500">
+              <label htmlFor="title" className="block text-sm font-medium text-white">
                 Video Title
               </label>
               <input
@@ -180,13 +180,13 @@ const Header = ({ setSearchTerm }) => {
                 id="title"
                 name="title"
                 placeholder="Video Title"
-                className="mt-1 p-2 block w-full border border-red-500 rounded-md bg-black text-white"
+                className="mt-1 p-2 block w-full border rounded-md bg-black text-white"
                 value={title}
                 onChange={handleTitleChange}
               />
             </div>
             <div className="mb-4">
-              <label htmlFor="description" className="block text-sm font-medium text-red-500">
+              <label htmlFor="description" className="block text-sm font-medium text-white">
                 Video Description
               </label>
               <input
@@ -194,25 +194,25 @@ const Header = ({ setSearchTerm }) => {
                 id="description"
                 name="description"
                 placeholder="Video Description"
-                className="mt-1 p-2 block w-full border border-red-500 rounded-md bg-black text-white"
+                className="mt-1 p-2 block w-full border rounded-md bg-black text-white"
                 value={description}
                 onChange={handleDescriptionChange}
               />
             </div>
             <div className="mb-4">
-              <label htmlFor="video" className="block text-sm font-medium text-red-500">
+              <label htmlFor="video" className="block text-sm font-medium text-white">
                 Upload Video File
               </label>
               <input
                 type="file"
                 id="video"
                 name="video"
-                className="mt-1 p-2 block w-full border border-red-500 rounded-md bg-black text-white"
+                className="mt-1 p-2 block w-full border rounded-md bg-black text-white"
                 onChange={handleFileChange}
               />
             </div>
             <div className="mb-4">
-              <label htmlFor="categories" className="block text-sm font-medium text-red-500">
+              <label htmlFor="categories" className="block text-sm font-medium text-white">
                 Select Categories
               </label>
               <Select
@@ -226,34 +226,47 @@ const Header = ({ setSearchTerm }) => {
                   control: (provided) => ({
                     ...provided,
                     backgroundColor: 'black',
-                    borderColor: 'red',
-                    color: 'white'
+                    color: 'white',
                   }),
                   menu: (provided) => ({
                     ...provided,
                     backgroundColor: 'black',
-                    color: 'white'
+                    color: 'white',
                   }),
                   multiValue: (provided) => ({
                     ...provided,
-                    backgroundColor: 'red',
-                    color: 'white'
+                    backgroundColor: 'grey',
+                    color: 'white',
                   }),
                   input: (provided) => ({
                     ...provided,
-                    color: 'white'
+                    color: 'white',
                   }),
                   singleValue: (provided) => ({
                     ...provided,
-                    color: 'white'
+                    color: 'white',
+                  }),
+                  option: (provided, state) => ({
+                    ...provided,
+                    backgroundColor: state.isFocused ? 'red' : 'black',
+                    color: state.isFocused ? 'white' : 'white',
                   }),
                 }}
               />
             </div>
-            <div className="flex justify-end">
-              <button type="button" className="mr-2 px-4 py-2 text-white bg-red-500 hover:bg-red-600 rounded-lg" onClick={toggleUploadForm}>Cancel</button>
-              <button type="submit" className="px-4 py-2 text-white bg-red-500 hover:bg-red-600 rounded-lg">Upload</button>
-            </div>
+            <button
+              type="submit"
+              className="w-full bg-red-600 text-white px-4 py-2 rounded mt-2 hover:bg-red-700"
+            >
+              Upload
+            </button>
+            <button
+              type="button"
+              className="mt-4 px-4 py-2 text-black bg-white hover:bg-gray-400 rounded-lg w-full"
+              onClick={toggleUploadForm}
+            >
+              Cancel
+            </button>
           </form>
         </div>
       </div>      
@@ -263,3 +276,5 @@ const Header = ({ setSearchTerm }) => {
 };
 
 export default Header;
+
+

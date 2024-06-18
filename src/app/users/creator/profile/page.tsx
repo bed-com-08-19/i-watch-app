@@ -10,6 +10,7 @@ import Image from 'next/image';
 import { FaUserEdit, FaShareAlt, FaPlusCircle } from 'react-icons/fa';
 import { RiCoinLine } from 'react-icons/ri';
 import VideoCard from '@/components/VideoCard';
+import Select from 'react-select';
 
 interface UserDetails {
   playCount: number;
@@ -28,6 +29,19 @@ interface Video {
   playCount: number;
 }
 
+interface CategoryOption {
+  value: string;
+  label: string;
+}
+
+const categories: CategoryOption[] = [
+  { value: 'music', label: 'Music' },
+  { value: 'sports', label: 'Sports' },
+  { value: 'gaming', label: 'Gaming' },
+  { value: 'news', label: 'News' },
+  // Add more categories as needed
+];
+
 const Dashboard: React.FC = () => {
   const [userDetails, setUserDetails] = useState<UserDetails | null>(null);
   const [videos, setVideos] = useState<Video[]>([]);
@@ -37,6 +51,7 @@ const Dashboard: React.FC = () => {
   const [videoFile, setVideoFile] = useState<File | null>(null);
   const [selectedVideo, setSelectedVideo] = useState<Video | null>(null);
   const [showBioForm, setShowBioForm] = useState<boolean>(false);
+  const [selectedCategories, setSelectedCategories] = useState<CategoryOption[]>([]);
 
   useEffect(() => {
     getUserDetails();
@@ -48,7 +63,6 @@ const Dashboard: React.FC = () => {
       const res = await axios.get('/api/users/me');
       setUserDetails(res.data.data);
     } catch (error) {
-      console.error(error.message);
       toast.error('Failed to fetch user details');
     }
   };
@@ -59,8 +73,7 @@ const Dashboard: React.FC = () => {
       toast.success('Logout successful');
       window.location.href = '/auth/signin';
     } catch (error) {
-      console.error(error.message);
-      toast.error(error.message);
+      toast.error("failed to logout");
     }
   };
 
@@ -75,6 +88,10 @@ const Dashboard: React.FC = () => {
     }
   };
 
+  const handleCategoryChange = (selectedOptions: CategoryOption[]) => {
+    setSelectedCategories(selectedOptions);
+  };
+
   const handleUpload = async (event: FormEvent) => {
     event.preventDefault();
     if (!videoFile) {
@@ -87,6 +104,7 @@ const Dashboard: React.FC = () => {
     formData.append('title', title);
     formData.append('description', description);
     formData.append('creator', userDetails?.username || '');
+    formData.append('categories', JSON.stringify(selectedCategories.map(category => category.value)));
 
     try {
       await axios.post('/api/videos/upload', formData, {
@@ -96,7 +114,6 @@ const Dashboard: React.FC = () => {
       toggleUploadForm();
       fetchVideos();
     } catch (error) {
-      console.error(error.message);
       toast.error('Failed to upload video');
     }
   };
@@ -106,7 +123,6 @@ const Dashboard: React.FC = () => {
       const response = await axios.get('/api/videos/user');
       setVideos(response.data.data);
     } catch (error) {
-      console.error(error.message);
       toast.error('Failed to fetch videos');
     }
   };
@@ -117,7 +133,6 @@ const Dashboard: React.FC = () => {
       toast.success('Video deleted successfully');
       fetchVideos();
     } catch (error) {
-      console.error(error.message);
       toast.error('Failed to delete video');
     }
   };
@@ -197,17 +212,108 @@ const Dashboard: React.FC = () => {
           </div>
         )}
         {showUploadForm && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-            <form onSubmit={handleUpload} className="bg-gray-800 p-6 rounded shadow-md">
-              <h2 className="text-xl font-semibold text-white mb-4">Upload Video</h2>
-              <input type="text" value={title} onChange={handleTitleChange} placeholder="Title" className="w-full px-3 py-2 mb-4 border rounded" />
-              <textarea value={description} onChange={handleDescriptionChange} placeholder="Description" className="w-full px-3 py-2 mb-4 border rounded" />
-              <input type="file" onChange={handleFileChange} className="w-full px-3 py-2 mb-4 border rounded" />
-              <div className="flex justify-end">
-                <button type="button" onClick={toggleUploadForm} className="px-4 py-2 mr-2 bg-gray-600 text-white rounded hover:bg-gray-700">Cancel</button>
-                <button type="submit" className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700">Upload</button>
-              </div>
-            </form>
+          <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-75 flex items-center justify-center z-50">
+            <div className="bg-black p-6 rounded-lg w-full max-w-md border-2 border-red-500">
+              <h2 className="text-lg font-semibold mb-4 text-white">Upload Video</h2>
+              <form onSubmit={handleUpload}>
+                <div className="mb-4">
+                  <label htmlFor="title" className="block text-sm font-medium text-white">
+                    Video Title
+                  </label>
+                  <input
+                    type="text"
+                    id="title"
+                    name="title"
+                    placeholder="Video Title"
+                    className="mt-1 p-2 block w-full border rounded-md bg-black text-white"
+                    value={title}
+                    onChange={handleTitleChange}
+                  />
+                </div>
+                <div className="mb-4">
+                  <label htmlFor="description" className="block text-sm font-medium text-white">
+                    Video Description
+                  </label>
+                  <input
+                    type="text"
+                    id="description"
+                    name="description"
+                    placeholder="Video Description"
+                    className="mt-1 p-2 block w-full border rounded-md bg-black text-white"
+                    value={description}
+                    onChange={handleDescriptionChange}
+                  />
+                </div>
+                <div className="mb-4">
+                  <label htmlFor="video" className="block text-sm font-medium text-white">
+                    Upload Video File
+                  </label>
+                  <input
+                    type="file"
+                    id="video"
+                    name="video"
+                    className="mt-1 p-2 block w-full border rounded-md bg-black text-white"
+                    onChange={handleFileChange}
+                  />
+                </div>
+                <div className="mb-4">
+                  <label htmlFor="categories" className="block text-sm font-medium text-white">
+                    Select Categories
+                  </label>
+                  <Select
+                    id="categories"
+                    isMulti
+                    options={categories}
+                    value={selectedCategories}
+                    onChange={handleCategoryChange}
+                    className="mt-1"
+                    styles={{
+                      control: (provided) => ({
+                        ...provided,
+                        backgroundColor: 'black',
+                        color: 'white',
+                      }),
+                      menu: (provided) => ({
+                        ...provided,
+                        backgroundColor: 'black',
+                        color: 'white',
+                      }),
+                      multiValue: (provided) => ({
+                        ...provided,
+                        backgroundColor: 'grey',
+                        color: 'white',
+                      }),
+                      input: (provided) => ({
+                        ...provided,
+                        color: 'white',
+                      }),
+                      singleValue: (provided) => ({
+                        ...provided,
+                        color: 'white',
+                      }),
+                      option: (provided, state) => ({
+                        ...provided,
+                        backgroundColor: state.isFocused ? 'red' : 'black',
+                        color: state.isFocused ? 'white' : 'white',
+                      }),
+                    }}
+                  />
+                </div>
+                <button
+                  type="submit"
+                  className="w-full bg-red-600 text-white px-4 py-2 rounded mt-2 hover:bg-red-700"
+                >
+                  Upload
+                </button>
+                <button
+                  type="button"
+                  className="mt-4 px-4 py-2 text-black bg-white hover:bg-gray-400 rounded-lg w-full"
+                  onClick={toggleUploadForm}
+                >
+                  Cancel
+                </button>
+              </form>
+            </div>
           </div>
         )}
       </div>
