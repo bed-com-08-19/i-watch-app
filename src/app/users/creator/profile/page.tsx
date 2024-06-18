@@ -4,9 +4,6 @@ import Image from 'next/image';
 import axios from "axios";
 import { toast } from "react-hot-toast";
 import { FaUserEdit, FaShareAlt, FaPlusCircle } from 'react-icons/fa';
-import { FiLogOut, FiSettings, FiHelpCircle, FiCheckCircle } from 'react-icons/fi';
-import { BiUpload, BiUser } from 'react-icons/bi';
-import { AiOutlineHome } from 'react-icons/ai';
 import { RiCoinLine, RiMoneyDollarCircleLine } from 'react-icons/ri';
 import Sidebar from '../_components/Sidebar';
 import image from 'next/image';
@@ -312,12 +309,17 @@ const Dashboard: React.FC = () => {
             </div>
           </div>
           <div className="flex justify-around text-center py-4">
-            <div>
-              <RiCoinLine className="mr-1" />
-              <span className="block text-lg font-bold text-red-600">{balance} icoins</span>
-              <span className="block text-white">Balance</span>
+            <div className="flex flex-col items-center">
+              <div className="flex items-center">
+                <RiCoinLine className="mr-1 text-red-600" />
+                <span className="text-lg font-bold text-red-600">{balance} icoins</span>
+              </div>
+              <div className="flex items-center mt-2">
+                <span className="text-white">K {balance}</span>
+              </div>
             </div>
           </div>
+
           <div className="flex justify-around py-4">
             <button className="flex items-center bg-red-600 px-4 py-2 rounded text-white hover:bg-red-700">
               <FaUserEdit className="mr-2" />
