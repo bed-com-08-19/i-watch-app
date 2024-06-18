@@ -48,7 +48,7 @@ const Dashboard: React.FC = () => {
       const res = await axios.get('/api/users/me');
       setUserDetails(res.data.data);
     } catch (error) {
-      console.error(error.message);
+      
       toast.error('Failed to fetch user details');
     }
   };
@@ -59,8 +59,7 @@ const Dashboard: React.FC = () => {
       toast.success('Logout successful');
       window.location.href = '/auth/signin';
     } catch (error) {
-      console.error(error.message);
-      toast.error(error.message);
+      toast.error("Failed to Logout. ");
     }
   };
 

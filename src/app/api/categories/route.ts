@@ -1,4 +1,4 @@
-//pages/api/categories/route.ts
+// src/pages/api/categories/route.ts
 
 import { NextRequest, NextResponse } from "next/server";
 import { connect } from "@/dbConfig/dbConfig";
@@ -19,8 +19,8 @@ export async function GET(req: NextRequest) {
 export async function POST(req: NextRequest) {
   await connect();
   try {
-    const { name } = await req.json();
-    const newCategory = new Category({ name });
+    const { name, description } = await req.json(); // Add description
+    const newCategory = new Category({ name, description }); // Include description
     await newCategory.save();
     return NextResponse.json({ success: true, category: newCategory });
   } catch (error: any) {

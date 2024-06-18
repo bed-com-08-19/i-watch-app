@@ -90,12 +90,12 @@ const Categories = () => {
             </thead>
             <tbody>
               {categories.map((category) => (
-                <tr key={category.id}>
+                <tr key={category._id}>
                   <td className="py-2 px-4 border-b border-gray-600">{category.name}</td>
                   <td className="py-2 px-4 border-b border-gray-600">{category.description}</td>
                   <td className="py-2 px-4 border-b border-gray-600">
                     <button
-                      onClick={() => handleDeleteCategory(category.id)}
+                      onClick={() => handleDeleteCategory(category._id)}
                       className="text-red-500 hover:text-red-600 mr-2"
                     >
                       <FaTrash />
