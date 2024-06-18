@@ -1,5 +1,7 @@
 // src/app/users/creator/profile/page.tsx
 
+"use client";
+
 import React, { useEffect, useState, ChangeEvent, FormEvent } from 'react';
 import axios from 'axios';
 import { toast } from 'react-hot-toast';
