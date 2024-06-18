@@ -48,7 +48,7 @@ const AdsPage = () => {
 
   return (
     <div className="flex flex-col min-h-screen bg-black text-white">
-      <Header />
+      <Header setSearchTerm={undefined} />
       <main className="flex-1 p-4">
         <div className="max-w-5xl mx-auto">
           <h1 className="text-2xl font-semibold text-red-500 mb-4">Ads Page</h1>
