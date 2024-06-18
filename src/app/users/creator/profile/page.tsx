@@ -9,6 +9,7 @@ import Sidebar from '../_components/Sidebar';
 import Image from 'next/image';
 import { FaUserEdit, FaShareAlt, FaPlusCircle } from 'react-icons/fa';
 import { RiCoinLine } from 'react-icons/ri';
+import VideoCard from '@/components/VideoCard';
 
 interface UserDetails {
   playCount: number;
@@ -136,7 +137,7 @@ const Dashboard: React.FC = () => {
             <h1 className="text-xl font-semibold">{userDetails.username}</h1>
             <div className="p-4 flex items-center justify-center">
               <div className="relative h-16 w-16 rounded-full overflow-hidden">
-                <Image src={userDetails.profileImage} alt="Profile Picture" layout="fill" objectFit="cover" objectPosition="center" />
+                <Image src={userDetails.profileImage || "/noavatar.png"} alt="Profile Picture" layout="fill" objectFit="cover" objectPosition="center" />
               </div>
             </div>
           </div>
