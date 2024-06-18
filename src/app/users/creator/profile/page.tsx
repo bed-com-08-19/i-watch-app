@@ -12,7 +12,6 @@ import { RiCoinLine } from 'react-icons/ri';
 import VideoCard from '@/components/VideoCard';
 import Select from 'react-select';
 
-
 interface UserDetails {
   playCount: number;
   username: string;
@@ -50,9 +49,9 @@ const Dashboard: React.FC = () => {
   const [title, setTitle] = useState<string>('');
   const [description, setDescription] = useState<string>('');
   const [videoFile, setVideoFile] = useState<File | null>(null);
+  const [selectedCategories, setSelectedCategories] = useState<CategoryOption[]>([]);
   const [selectedVideo, setSelectedVideo] = useState<Video | null>(null);
   const [showBioForm, setShowBioForm] = useState<boolean>(false);
- 
 
   useEffect(() => {
     getUserDetails();
@@ -74,19 +73,16 @@ const Dashboard: React.FC = () => {
       toast.success('Logout successful');
       window.location.href = '/auth/signin';
     } catch (error) {
-      toast.error("Failed to Logout.");
+      toast.error('Failed to logout.');
     }
   };
 
   const toggleUploadForm = () => setShowUploadForm(!showUploadForm);
   const toggleBioForm = () => setShowBioForm(!showBioForm);
- 
 
   const handleTitleChange = (event: ChangeEvent<HTMLInputElement>) => setTitle(event.target.value);
-const handleDescriptionChange = (event: ChangeEvent<HTMLTextAreaElement>) => setDescription(event.target.value);
+  const handleDescriptionChange = (event: ChangeEvent<HTMLTextAreaElement>) => setDescription(event.target.value);
 
-
- 
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
       setVideoFile(event.target.files[0]);
@@ -144,6 +140,16 @@ const handleDescriptionChange = (event: ChangeEvent<HTMLTextAreaElement>) => set
 
   const handleViewStatistics = (video: Video) => setSelectedVideo(video);
 
+  const handleGiftCoins = async () => {
+    try {
+      await axios.post('/api/users/gift-coins', { amount: 100 }); // Example amount
+      toast.success('Coins gifted successfully');
+      getUserDetails();
+    } catch (error) {
+      toast.error('Failed to gift coins');
+    }
+  };
+
   if (!userDetails) {
     return <div className="text-red-500 text-center">Loading...</div>;
   }
@@ -151,19 +157,16 @@ const handleDescriptionChange = (event: ChangeEvent<HTMLTextAreaElement>) => set
   return (
     <div className="min-h-screen flex bg-black">
       <Sidebar toggleUploadForm={toggleUploadForm} logout={logout} playcount={userDetails.playCount} />
-  
+
       <div className="flex-grow p-6 ml-64 bg-black">
         <div className="max-w-md mx-auto text-center">
           <div className="flex flex-col items-center justify-center py-4">
-
             <div className="p-4 items-center justify-center relative h-16 w-16 rounded-full overflow-hidden">
               <Image src={userDetails.profileImage || "/noavatar.png"} alt="Profile Picture" layout="fill" objectFit="cover" objectPosition="center" />
             </div>
-
             <div className="p-4 items-center justify-center">
               <h1 className="text-xl font-semibold">{userDetails.username}</h1>
             </div>
-
           </div>
           <div className="flex justify-around text-center py-4">
             <div className="flex flex-col items-center">
@@ -205,18 +208,26 @@ const handleDescriptionChange = (event: ChangeEvent<HTMLTextAreaElement>) => set
           )}
         </div>
         {selectedVideo && (
-          <div className="max-w-md mx-auto mt-6">
-            <h2 className="text-xl font-semibold text-white">Video Statistics</h2>
-            <div className="relative bg-gray-800 rounded-lg overflow-hidden shadow-md">
-              <video className="object-cover w-full h-64" src={selectedVideo.url} controls />
-              <div className="px-4 py-2">
-                <h3 className="text-lg font-semibold text-white">{selectedVideo.title}</h3>
-                <p className="text-white">{selectedVideo.description}</p>
-                <div className="flex justify-between items-center mt-2">
-                  <span className="text-sm text-gray-400">Views: {selectedVideo.views}</span>
-                  <span className="text-sm text-gray-400">Play Count: {selectedVideo.playCount}</span>
+          <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50">
+            <div className="bg-gray-800 p-6 rounded-lg w-full max-w-md">
+              <h2 className="text-xl font-semibold text-white mb-4">Video Statistics</h2>
+              <div className="relative bg-gray-800 rounded-lg overflow-hidden shadow-md">
+                <video className="object-cover w-full h-64" src={selectedVideo.url} controls />
+                <div className="px-4 py-2">
+                  <h3 className="text-lg font-semibold text-white">{selectedVideo.title}</h3>
+                  <p className="text-white">{selectedVideo.description}</p>
+                  <div className="flex justify-between items-center mt-2">
+                    <span className="text-sm text-white-400">Views: {selectedVideo.playCount}</span>
+                  </div>
                 </div>
               </div>
+              <button
+                type="button"
+                className="mt-4 w-full bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700"
+                onClick={() => setSelectedVideo(null)}
+              >
+                Close
+              </button>
             </div>
           </div>
         )}

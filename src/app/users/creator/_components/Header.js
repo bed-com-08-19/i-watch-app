@@ -118,7 +118,7 @@ const Header = ({ setSearchTerm }) => {
           onClick={() => router.push("/users/creator")}
         >
           <span>i</span>
-          <span className="text-red-800">WATCH</span>
+          <span className="text-red-600">WATCH</span>
         </p>
 
         <nav className="md:flex space-x-4 text-sm md:text-lg">

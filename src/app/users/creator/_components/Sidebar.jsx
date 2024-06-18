@@ -1,5 +1,5 @@
 "use client";
-import { FaUser, FaCog, FaChartLine, FaMoneyBillWave, FaHome, FaQuestionCircle } from 'react-icons/fa';
+import { FaUser, FaCog, FaChartLine, FaMoneyBillWave, FaHome, FaQuestionCircle, FaCoins } from 'react-icons/fa';
 import React from "react";
 import axios from "axios";
 import Link from "next/link";
@@ -43,6 +43,12 @@ const CreatorSidebar = () => {
             <Link href="/users/creator/transaction" className="flex items-center py-2.5 px-4 rounded hover:bg-gray-700">
               <FaChartLine className="mr-2" />
               <span>Withdraw</span>
+            </Link>
+          </li>
+          <li className="my-4">
+            <Link href="/users/creator/topup" className="flex items-center py-2.5 px-4 rounded hover:bg-gray-700">
+              <FaCoins className="mr-2" />
+              <span>Top Up Coins</span>
             </Link>
           </li>
           <li className="my-4">

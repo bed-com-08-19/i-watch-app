@@ -1,4 +1,6 @@
-"use client"
+// src/app/users/regularUser/page.tsx
+
+"use client";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { toast } from "react-hot-toast";
@@ -6,6 +8,7 @@ import { useRouter } from "next/navigation";
 import Header from "./_components/Header";
 import Footer from "../../../components/Footer";
 import { FiEye } from "react-icons/fi";
+import { FaCoins } from "react-icons/fa";
 
 interface Video {
   createdAt: string | number | Date;
@@ -32,16 +35,6 @@ const RegularUser: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [sortBy, setSortBy] = useState<string>("");
   const [showWelcome, setShowWelcome] = useState<boolean>(true);
-
-  const logout = async () => {
-    try {
-      await axios.get("/api/users/logout");
-      toast.success("Logout successful");
-      router.push("/auth/signin");
-    } catch (error) {
-      toast.error("Logout failed");
-    }
-  };
 
   const getUserDetails = async () => {
     try {
@@ -90,6 +83,18 @@ const RegularUser: React.FC = () => {
 
   const handleSortChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSortBy(event.target.value);
+  };
+
+  const handleGiftCoins = async (videoId: string) => {
+    if (!data) return;
+    try {
+      await axios.post("/api/videos/giftcoins", { videoId, userId: data._id });
+      toast.success("Coins gifted successfully!");
+      fetchVideos();
+    } catch (error) {
+      console.error("Error gifting coins:", error);
+      toast.error("Failed to gift coins");
+    }
   };
 
   useEffect(() => {
@@ -160,7 +165,7 @@ const RegularUser: React.FC = () => {
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
               {filteredVideos.map((video) => (
-                <div key={video._id} className="bg-white p-4 shadow rounded-lg">
+                <div key={video._id} className="bg-white p-4 shadow rounded-lg relative">
                   <video
                     controls
                     src={video.url}
@@ -171,6 +176,12 @@ const RegularUser: React.FC = () => {
                   <h3 className="text-lg font-semibold text-black">{video.title}</h3>
                   <p className="text-gray-600">{video.description}</p>
                   <p className="text-gray-600 flex items-center"><FiEye className="mr-1" />{video.playCount}</p>
+                  <button
+                    onClick={() => handleGiftCoins(video._id)}
+                    className="absolute bottom-2 right-2 bg-red-600 text-white p-2 rounded-full hover:bg-red-700"
+                  >
+                    <FaCoins />
+                  </button>
                 </div>
               ))}
             </div>
