@@ -36,8 +36,8 @@ export async function POST(request: NextRequest) {
     }
 
     // Credit the user and video owner
-    user.balance += 10;
-    video.creator.balance += 10;
+    user.icoins += 2;
+    video.creator.icoins += 4;
     user.creditedVideos.push(videoId);
 
     // Increment the creditedUserCount
