@@ -133,13 +133,16 @@ const Dashboard: React.FC = () => {
       <Sidebar toggleUploadForm={toggleUploadForm} logout={logout} playcount={userDetails.playCount} />
       <div className="flex-grow p-6 ml-64 bg-black">
         <div className="max-w-md mx-auto text-center">
-          <div className="flex items-center justify-center py-4">
-            <h1 className="text-xl font-semibold">{userDetails.username}</h1>
-            <div className="p-4 flex items-center justify-center">
-              <div className="relative h-16 w-16 rounded-full overflow-hidden">
-                <Image src={userDetails.profileImage || "/noavatar.png"} alt="Profile Picture" layout="fill" objectFit="cover" objectPosition="center" />
-              </div>
+          <div className="flex flex-col items-center justify-center py-4">
+            
+            <div className="p-4 items-center justify-center relative h-16 w-16 rounded-full overflow-hidden">
+              <Image src={userDetails.profileImage || "/noavatar.png"} alt="Profile Picture" layout="fill" objectFit="cover" objectPosition="center" />
             </div>
+
+            <div className="p-4 items-center justify-center">
+              <h1 className="text-xl font-semibold">{userDetails.username}</h1>
+            </div>
+
           </div>
           <div className="flex justify-around text-center py-4">
             <div className="flex flex-col items-center">
