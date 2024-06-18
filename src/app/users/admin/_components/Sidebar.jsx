@@ -40,6 +40,12 @@ const Sidebar = () => {
             </Link>
           </li>
           <li className="my-4 flex items-center">
+            <Link href="/users/admin/categories" className="flex items-center block py-2.5 px-4 rounded hover:bg-gray-700">
+              <FaTags className="mr-2" />
+              <span>Categories</span>
+            </Link>
+          </li>
+          <li className="my-4 flex items-center">
             <Link href="/users/admin/ads" className="flex items-center block py-2.5 px-4 rounded hover:bg-gray-700">
               <FaMoneyBillWave className="mr-2" />
               <span>Ads</span>
@@ -61,12 +67,6 @@ const Sidebar = () => {
             <Link href="/users/admin/reports" className="flex items-center block py-2.5 px-4 rounded hover:bg-gray-700">
               <FaChartLine className="mr-2" />
               <span>Reports</span>
-            </Link>
-          </li>
-          <li className="my-4 flex items-center">
-            <Link href="/users/admin/categories" className="flex items-center block py-2.5 px-4 rounded hover:bg-gray-700">
-              <FaTags className="mr-2" />
-              <span>Categories</span>
             </Link>
           </li>
         </ul>

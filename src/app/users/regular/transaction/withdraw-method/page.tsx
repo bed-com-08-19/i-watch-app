@@ -1,9 +1,7 @@
 "use client";
 
 import React from 'react';
-import { useRouter } from 'next/navigation'; // Correct import
-import { BiArrowBack } from 'react-icons/bi';
-import { FiHome } from 'react-icons/fi';
+import { useRouter } from 'next/navigation'; // Correct import for app directory
 
 function Page() {
   const router = useRouter();

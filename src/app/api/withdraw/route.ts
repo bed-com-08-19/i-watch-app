@@ -1,21 +1,19 @@
-// pages/api/withdraw.ts
 import { NextRequest, NextResponse } from 'next/server';
-import User from '@/models/userModel';
+import mongoose from 'mongoose';
+import { connect } from '@/dbConfig/dbConfig';
 import Transaction from '@/models/transaction';
 import fetch from 'node-fetch';
-import { connect } from '@/dbConfig/dbConfig';
-import mongoose from 'mongoose';
 
 async function sendSMSNotification(phoneNumber: string, message: string) {
-  const apiKey = 'TTEPAiSawKA2Ia2w92Px'; // Replace with your TelcomW API key
-  const password = '12345678'; // Replace with your TelcomW API password
+  const apiKey = 'TTEPAiSawKA2Ia2w92Px';
+  const password = '12345678';
 
   const formData = new URLSearchParams();
   formData.append('api_key', apiKey);
   formData.append('password', password);
   formData.append('text', message);
   formData.append('numbers', phoneNumber);
-  formData.append('from', 'WGIT'); // Replace with your sender ID
+  formData.append('from', 'WGIT');
 
   const smsApiUrl = 'https://telcomw.com/api-v2/send';
 

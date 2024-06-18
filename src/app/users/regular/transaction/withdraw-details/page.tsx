@@ -1,32 +1,28 @@
-// pages/withdraw.tsx
 "use client";
 
 import React, { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation'; // Correct import for app directory
 import { toast } from 'react-hot-toast';
 import { BiArrowBack } from 'react-icons/bi';
 import { FiHome } from 'react-icons/fi';
 
-const Page: React.FC = () => {
+function WithdrawDetails() {
   const router = useRouter();
   const [mobileNumber, setMobileNumber] = useState<string>('');
   const [amount, setAmount] = useState<string>('');
 
   const handleWithdraw = async () => {
     try {
-      // Validate inputs
       if (!mobileNumber.trim() || !amount.trim()) {
         toast.error('Please enter both mobile number and amount');
         return;
       }
 
-      // Prepare request body
       const requestBody = {
-        mobileNumber: mobileNumber.trim(),
+        phoneNumber: mobileNumber.trim(), // Corrected field name to phoneNumber
         amount: parseFloat(amount.trim()),
       };
 
-      // Make API call to withdraw endpoint
       const response = await fetch('/api/withdraw', {
         method: 'POST',
         headers: {
@@ -41,9 +37,8 @@ const Page: React.FC = () => {
         return;
       }
 
-      // Successful withdrawal
       toast.success('Withdrawal successful');
-      router.push('/users/regular/transaction/withdraw-success');
+      router.push('/users/regular/transaction/withdraw-details');
     } catch (error) {
       console.error('Error during withdrawal:', error);
       toast.error('Failed to withdraw');
@@ -83,4 +78,4 @@ const Page: React.FC = () => {
   );
 }
 
-export default Page;
+export default WithdrawDetails;
