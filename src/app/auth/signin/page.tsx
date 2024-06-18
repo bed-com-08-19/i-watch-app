@@ -72,7 +72,7 @@ export default function LoginPage() {
     <div className="bg-black text-white min-h-screen flex justify-center items-center">
       {loading && <Loader />}
       <div className="bg-black bg-opacity-70 px-10 py-16 rounded-md w-full max-w-md">
-        <p className="font-bold text-3xl text-red-600 hidden sm:block text-center">
+        <p className="font-bold text-3xl text-red-500 hidden sm:block text-center">
           <span className="text-white">i</span>
           <span>WATCH</span>
         </p>
