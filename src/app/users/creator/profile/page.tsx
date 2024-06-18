@@ -157,15 +157,15 @@ const handleDescriptionChange = (event: ChangeEvent<HTMLTextAreaElement>) => set
           <div className="flex justify-around py-4">
             <button className="flex items-center bg-red-600 px-4 py-2 rounded text-white hover:bg-red-700">
               <FaUserEdit className="mr-2" />
-              Edit profile
+              <span className="hidden lg:block">Edit profile</span>
             </button>
             <button className="flex items-center bg-gray-600 px-4 py-2 rounded text-white hover:bg-gray-700">
               <FaShareAlt className="mr-2" />
-              Share profile
+              <span className="hidden lg:block">Share profile</span>
             </button>
             <button className="flex items-center bg-gray-600 px-4 py-2 rounded text-white hover:bg-gray-700" onClick={toggleBioForm}>
               <FaPlusCircle className="mr-2" />
-              Add bio
+              <span className="hidden lg:block">Add bio</span>
             </button>
           </div>
           <div className="border-t border-gray-300 py-4 text-center">
