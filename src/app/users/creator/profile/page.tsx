@@ -11,6 +11,7 @@ import { FaUserEdit, FaShareAlt, FaPlusCircle } from 'react-icons/fa';
 import { RiCoinLine } from 'react-icons/ri';
 import VideoCard from '@/components/VideoCard';
 
+
 interface UserDetails {
   playCount: number;
   username: string;
@@ -37,6 +38,7 @@ const Dashboard: React.FC = () => {
   const [videoFile, setVideoFile] = useState<File | null>(null);
   const [selectedVideo, setSelectedVideo] = useState<Video | null>(null);
   const [showBioForm, setShowBioForm] = useState<boolean>(false);
+ 
 
   useEffect(() => {
     getUserDetails();
@@ -65,6 +67,7 @@ const Dashboard: React.FC = () => {
 
   const toggleUploadForm = () => setShowUploadForm(!showUploadForm);
   const toggleBioForm = () => setShowBioForm(!showBioForm);
+ 
 
   const handleTitleChange = (event: ChangeEvent<HTMLInputElement>) => setTitle(event.target.value);
   const handleDescriptionChange = (event: ChangeEvent<HTMLInputElement>) => setDescription(event.target.value);
@@ -130,10 +133,11 @@ const Dashboard: React.FC = () => {
   return (
     <div className="min-h-screen flex bg-black">
       <Sidebar toggleUploadForm={toggleUploadForm} logout={logout} playcount={userDetails.playCount} />
+  
       <div className="flex-grow p-6 ml-64 bg-black">
         <div className="max-w-md mx-auto text-center">
           <div className="flex flex-col items-center justify-center py-4">
-            
+
             <div className="p-4 items-center justify-center relative h-16 w-16 rounded-full overflow-hidden">
               <Image src={userDetails.profileImage || "/noavatar.png"} alt="Profile Picture" layout="fill" objectFit="cover" objectPosition="center" />
             </div>
