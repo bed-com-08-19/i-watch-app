@@ -43,7 +43,7 @@ const TrendingVideos: React.FC = () => {
 
   return (
     <div className="flex flex-col min-h-screen bg-black text-white">
-      <Header />
+      <Header setSearchTerm={undefined} />
       <main className="flex-grow pt-16">
         <div className="container mx-auto p-4">
           <h2 className="text-2xl font-bold text-red-800 mb-4">Trending Videos</h2>
