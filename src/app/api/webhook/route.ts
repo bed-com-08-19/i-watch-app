@@ -10,8 +10,10 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 export async function POST(req: NextRequest) {
   await connect();
   const reqText = await req.text();
+  console.log('Received request body:', reqText);
   return webhooksHandler(reqText, req);
 }
+
 
 async function getCustomerEmail(customerId: string): Promise<string | null> {
   try {
@@ -23,16 +25,18 @@ async function getCustomerEmail(customerId: string): Promise<string | null> {
   }
 }
 
-async function handleSubscriptionEvent(
-  event: Stripe.Event,
-  type: 'created' | 'updated' | 'deleted'
-) {
+async function handleSubscriptionEvent(event: Stripe.Event, type: 'created' | 'updated' | 'deleted') {
+  console.log(`Handling subscription ${type} event`);
   const subscription = event.data.object as Stripe.Subscription;
   const customerEmail = await getCustomerEmail(subscription.customer as string);
 
   if (!customerEmail) {
+    console.error('Customer email could not be fetched.');
     return NextResponse.json({ status: 500, error: 'Customer email could not be fetched' });
   }
+
+  // Log subscription data
+  console.log('Subscription data:', subscription);
 
   const subscriptionData = {
     subscription_id: subscription.id,
@@ -62,12 +66,14 @@ async function handleSubscriptionEvent(
       );
     }
 
+    console.log(`Subscription ${type} handled successfully`);
     return NextResponse.json({ status: 200, message: `Subscription ${type} success` });
   } catch (error) {
     console.error(`Error during subscription ${type}:`, error);
     return NextResponse.json({ status: 500, error: `Error during subscription ${type}` });
   }
 }
+
 
 async function handleInvoiceEvent(event: Stripe.Event, status: 'succeeded' | 'failed') {
   const invoice = event.data.object as Stripe.Invoice;
@@ -154,8 +160,14 @@ async function handleCheckoutSessionCompleted(event: Stripe.Event) {
 async function webhooksHandler(reqText: string, request: NextRequest): Promise<NextResponse> {
   const sig = request.headers.get('Stripe-Signature');
 
+  if (!sig) {
+    console.error('No Stripe signature found in headers.');
+    return NextResponse.json({ status: 400, error: 'No Stripe signature found in headers.' });
+  }
+
   try {
-    const event = stripe.webhooks.constructEvent(reqText, sig!, process.env.STRIPE_WEBHOOK_SECRET!);
+    const event = stripe.webhooks.constructEvent(reqText, sig, process.env.STRIPE_WEBHOOK_SECRET!);
+    console.log('Stripe event constructed:', event.type);
 
     switch (event.type) {
       case 'customer.subscription.created':
