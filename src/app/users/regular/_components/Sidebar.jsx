@@ -1,6 +1,6 @@
 // Sidebar.js or Sidebar.jsx
 import React from "react";
-import { FaHome, FaUser, FaCheckCircle, FaMoneyBillWave, FaCog, FaQuestionCircle } from 'react-icons/fa';
+import { FaHome, FaUser, FaCheckCircle, FaMoneyBillWave, FaCog, FaQuestionCircle, FaCoins } from 'react-icons/fa';
 import axios from "axios";
 import Link from "next/link";
 
@@ -40,7 +40,7 @@ const Sidebar = () => {
             </Link>
           </li>
           <li className="my-4">
-            <Link href="/users/regular/subscribe" className="flex items-center py-2.5 px-4 rounded hover:bg-gray-700">
+            <Link href="/users/regular/subscription" className="flex items-center py-2.5 px-4 rounded hover:bg-gray-700">
               <FaCheckCircle className="mr-2" />
               <span>Subscribe</span>
             </Link>
