@@ -59,8 +59,8 @@ const SubscribePage = () => {
   return (
     <div className="min-h-screen bg-black text-white p-8">
        <div className="absolute top-4 left-4 flex space-x-4 ">
-              <a href="/users/regular"><FiHome /></a>
-              <a href="/users/regular/profile"><BiArrowBack /></a>
+              <a href="/users/creator"><FiHome /></a>
+              <a href="/users/creator/profile"><BiArrowBack /></a>
         </div>
       <h1 className="text-3xl mb-8">Manage Subscription</h1>
       <div className="mb-4">

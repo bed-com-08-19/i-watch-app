@@ -5,8 +5,8 @@ import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
 import { toast } from "react-hot-toast";
 import { useRouter } from "next/navigation";
-import Header from "./_components/Header";
-import Footer from "../../../components/Footer";
+import Header from "../_components/Header";
+import Footer from "@/components/Footer";
 import { FiEye } from "react-icons/fi";
 import { FaCoins } from "react-icons/fa";
 
@@ -18,6 +18,7 @@ interface Video {
   url: string;
   playCount: number;
   awardedViewers: string[];
+  category: string;
 }
 
 interface UserData {
@@ -26,7 +27,7 @@ interface UserData {
   creditedVideos: string[];
 }
 
-const RegularUser: React.FC = () => {
+const Category: React.FC = () => {
   const router = useRouter();
   const [data, setData] = useState<UserData | null>(null);
   const [videos, setVideos] = useState<Video[]>([]);
@@ -38,6 +39,7 @@ const RegularUser: React.FC = () => {
   const [showPopup, setShowPopup] = useState<boolean>(false);
   const [selectedVideo, setSelectedVideo] = useState<string | null>(null);
   const [coinAmount, setCoinAmount] = useState<number>(0);
+  const [selectedCategory, setSelectedCategory] = useState<string>("");
   const timerRef = useRef<NodeJS.Timeout | null>(null);
 
   const getUserDetails = async () => {
@@ -89,6 +91,10 @@ const RegularUser: React.FC = () => {
     setSortBy(event.target.value);
   };
 
+  const handleCategoryChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedCategory(event.target.value);
+  };
+
   const handleGiftCoins = async (videoId: string, amount: number) => {
     if (!data) return;
     try {
@@ -138,7 +144,8 @@ const RegularUser: React.FC = () => {
   useEffect(() => {
     const filterAndSortVideos = () => {
       let filtered = videos.filter((video) =>
-        video.title.toLowerCase().includes(searchTerm.toLowerCase())
+        video.title.toLowerCase().includes(searchTerm.toLowerCase()) &&
+        (selectedCategory === "" || video.category === selectedCategory)
       );
 
       switch (sortBy) {
@@ -162,7 +169,7 @@ const RegularUser: React.FC = () => {
     };
 
     filterAndSortVideos();
-  }, [searchTerm, sortBy, videos]);
+  }, [searchTerm, sortBy, videos, selectedCategory]);
 
   if (error) return <div className="text-center mt-8 text-white">Error: {error}</div>;
 
@@ -170,26 +177,38 @@ const RegularUser: React.FC = () => {
     <div className="flex flex-col min-h-screen bg-black text-white">
       <Header setSearchTerm={setSearchTerm} />
       <main className="flex-grow pt-16">
-        {showWelcome && (
-          <div className="bg-green-500 text-white p-4 text-center">
-            Welcome back, {data?.username}!
-          </div>
-        )}
         <div className="container mx-auto p-4">
-          <div className="mb-4 flex justify-end">
-            <label htmlFor="sort" className="mr-2">Sort by:</label>
-            <select
-              id="sort"
-              value={sortBy}
-              onChange={handleSortChange}
-              className="border border-gray-300 rounded-lg p-2 text-black"
-            >
-              <option value="">Select</option>
-              <option value="title-asc">Title (A-Z)</option>
-              <option value="title-desc">Title (Z-A)</option>
-              <option value="date-asc">Date (Oldest first)</option>
-              <option value="date-desc">Date (Newest first)</option>
-            </select>
+          <div className="mb-4 flex justify-between">
+            <div>
+              <label htmlFor="category" className="mr-2">Category:</label>
+              <select
+                id="category"
+                value={selectedCategory}
+                onChange={handleCategoryChange}
+                className="border border-gray-300 rounded-lg p-2 text-black"
+              >
+                <option value="">All</option>
+                <option value="sports">Sports</option>
+                <option value="education">Education</option>
+                <option value="food">Food</option>
+                <option value="music">Music</option>
+              </select>
+            </div>
+            <div>
+              <label htmlFor="sort" className="mr-2">Sort by:</label>
+              <select
+                id="sort"
+                value={sortBy}
+                onChange={handleSortChange}
+                className="border border-gray-300 rounded-lg p-2 text-black"
+              >
+                <option value="">Select</option>
+                <option value="title-asc">Title (A-Z)</option>
+                <option value="title-desc">Title (Z-A)</option>
+                <option value="date-asc">Date (Oldest first)</option>
+                <option value="date-desc">Date (Newest first)</option>
+              </select>
+            </div>
           </div>
           {filteredVideos.length === 0 ? (
             <div className="text-center text-gray-600">No videos found</div>
@@ -253,4 +272,4 @@ const RegularUser: React.FC = () => {
   );
 };
 
-export default RegularUser;
+export default Category;

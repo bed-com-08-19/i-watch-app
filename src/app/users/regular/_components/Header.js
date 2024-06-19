@@ -62,6 +62,7 @@ const Header = ({ setSearchTerm }) => {
           <a href="/users/regular" className="text-white hover:text-gray-300 hover:border-red-500 border-b-2 transition duration-300">HOME</a>
           <a href="/users/regular/trending" className="text-white hover:text-gray-300 hover:border-red-500 border-b-2 transition duration-300">TRENDING</a>
           <a href="/users/regular/ads" className="text-white hover:text-gray-300 hover:border-red-500 border-b-2 transition duration-300">ADS</a>
+          <a href="/users/regular/category" className="text-white hover:text-gray-300 hover:border-red-500 border-b-2 transition duration-300">CATEGORY</a>
         </nav>
 
         {/* Search Icon and Input */}
@@ -99,7 +100,7 @@ const Header = ({ setSearchTerm }) => {
           {dropdownOpen && (
             <div className="absolute right-0 mt-2 w-48 bg-black rounded-md shadow-lg z-20">
               <a href="/users/regular/subscribe" className="block px-4 py-2 text-sm text-white hover:bg-gray-800">Subscribe</a>
-              <a href="/users/regular/creator" className="block px-4 py-2 text-sm text-white hover:bg-gray-800">Be a Creator</a>
+              <a href="#" className="block px-4 py-2 text-sm text-white hover:bg-gray-800">Be a Creator</a>
               <a href="/users/regular/profile" className="block px-4 py-2 text-sm text-white hover:bg-gray-800">Profile</a>
               <button
                 onClick={logout}

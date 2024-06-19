@@ -30,7 +30,7 @@ const Settings = () => {
 
     return (
         <div className="container mx-auto p-4 bg-black text-white">
-            <div className="absolute top-4 left-4 flex space-x-4 ">
+            <div className="absolute top-4 left-4 flex space-x-4">
                 <a href="/users/regular"><FiHome /></a>
                 <a href="/users/regular/profile"><BiArrowBack /></a>
             </div>
@@ -38,7 +38,7 @@ const Settings = () => {
             <div className="mb-4">
                 <button
                     onClick={() => setShowUsernameForm(!showUsernameForm)}
-                    className="bg-red-600 text-white py-2 px-4 rounded w-56 hover:bg-red-700"
+                    className="bg-white text-black py-2 px-4 rounded w-56 hover:bg-gray-400"
                 >
                     {showUsernameForm ? 'Hide Change Username' : 'Change Username'}
                 </button>
@@ -47,7 +47,7 @@ const Settings = () => {
             <div className="mb-4">
                 <button
                     onClick={() => setShowProfilePhotoForm(!showProfilePhotoForm)}
-                    className="bg-red-600 text-white py-2 px-4 rounded w-56 hover:bg-red-700"
+                    className="bg-white text-black py-2 px-4 rounded w-56 hover:bg-gray-400"
                 >
                     {showProfilePhotoForm ? 'Hide Change Profile Photo' : 'Change Profile Photo'}
                 </button>

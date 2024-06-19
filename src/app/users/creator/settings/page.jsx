@@ -38,7 +38,7 @@ const Settings = () => {
             <div className="mb-4">
                 <button
                     onClick={() => setShowUsernameForm(!showUsernameForm)}
-                    className="bg-gray-300 text-black py-2 px-4 rounded"
+                    className="bg-white text-black py-2 px-4 rounded"
                 >
                     {showUsernameForm ? 'Hide Change Username' : 'Change Username'}
                 </button>
@@ -47,7 +47,7 @@ const Settings = () => {
             <div className="mb-4">
                 <button
                     onClick={() => setShowProfilePhotoForm(!showProfilePhotoForm)}
-                    className="bg-gray-300 text-black py-2 px-4 rounded"
+                    className="bg-white text-black py-2 px-4 rounded"
                 >
                     {showProfilePhotoForm ? 'Hide Change Profile Photo' : 'Change Profile Photo'}
                 </button>
