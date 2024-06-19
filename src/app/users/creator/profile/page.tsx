@@ -5,12 +5,13 @@
 import React, { useEffect, useState, ChangeEvent, FormEvent } from 'react';
 import axios from 'axios';
 import { toast } from 'react-hot-toast';
-import Sidebar from '../_components/Sidebar';
+import { SideBar } from '../_components/Sidebar';
 import Image from 'next/image';
 import { FaUserEdit, FaShareAlt, FaPlusCircle } from 'react-icons/fa';
 import { RiCoinLine } from 'react-icons/ri';
 import VideoCard from '@/components/VideoCard';
 import Select from 'react-select';
+import Header from './header';
 
 interface UserDetails {
   playCount: number;
@@ -156,9 +157,9 @@ const Dashboard: React.FC = () => {
 
   return (
     <div className="min-h-screen flex bg-black">
-      <Sidebar toggleUploadForm={toggleUploadForm} logout={logout} playcount={userDetails.playCount} />
-
-      <div className="flex-grow p-6 ml-64 bg-black">
+      {/* <SideBar /> */}
+      {/* <Header /> */}
+      <div className="flex-grow p-6 ml-4 bg-black">
         <div className="max-w-md mx-auto text-center">
           <div className="flex flex-col items-center justify-center py-4">
             <div className="p-4 items-center justify-center relative h-16 w-16 rounded-full overflow-hidden">
