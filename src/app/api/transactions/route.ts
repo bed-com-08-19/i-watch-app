@@ -5,7 +5,7 @@ import Transaction from '@/models/transaction';
 export async function GET(req: NextRequest) {
   try {
     await connect();
-    const transactions = await Transaction.find().populate('user');
+    const transactions = await Transaction.find({}).populate('user', 'email');
     return NextResponse.json({ success: true, transactions });
   } catch (error: any) {
     console.error('Error fetching transactions:', error);
