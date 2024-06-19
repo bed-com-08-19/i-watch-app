@@ -85,7 +85,7 @@ import classNames from 'classnames';
 import React, { useEffect, useState } from 'react'
 import { useSideBarToggle } from '../../../../../hooks/use-sidebar-toggle';
 import SideBarMenuGroup from '../../../../../components/sidebar-menu-group';
-import { FaUser, FaCog, FaChartLine, FaMoneyBillWave, FaHome, FaQuestionCircle, FaCoins } from 'react-icons/fa';
+import { FaUser, FaCog, FaChartLine, FaMoneyBillWave, FaHome, FaQuestionCircle, FaCoins, FaSignOutAlt } from 'react-icons/fa';
 // import { SideBarLogo } from '../../../../../components/sidebar-logo';
 
 
@@ -126,9 +126,9 @@ export const SideBar = () => {
                 </div>
                 <button
                     onClick={logout}
-                    className="m-4 px-4 py-2 text-sm text-white bg-red-600 hover:bg-red-700 focus:outline-none cursor-pointer"
+                    className="flex items-center justify-center rounded m-4 px-4 py-2 text-sm text-white bg-red-600 hover:bg-red-700 focus:outline-none cursor-pointer"
                 >
-                    <span>Logout</span>
+                    <FaSignOutAlt className="mr-2" size={20}/> <span>Logout</span>
                 </button>
             </nav>
         </aside>
