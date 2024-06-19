@@ -5,7 +5,7 @@ import { BiArrowBack } from "react-icons/bi";
 const Help = () => {
   return (
     <div className="min-h-screen bg-black-100 p-6">
-         <div className="relative top-4 left-4 flex space-x-4">
+         <div className="absolute top-4 left-4 flex space-x-4">
                 <a href="/users/regular"><FiHome /></a>
                 <a href="/users/regular/profile"><BiArrowBack /></a>
             </div>

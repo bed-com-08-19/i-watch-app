@@ -44,7 +44,7 @@ function Page() {
           K{balance}
         </p>
         <button
-          className="mt-4 px-4 py-2 text-white bg-red-500 hover:bg-red-600 rounded-lg w-full"
+          className="mt-4 px-4 py-2 text-black bg-white hover:bg-gray-400 rounded-lg w-full"
           onClick={handleWithdraw}
         >
           Withdraw

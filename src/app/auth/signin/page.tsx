@@ -44,6 +44,7 @@ export default function LoginPage() {
           router.push("/users/regular");
           break;
         default:
+          toast.error("Unknown user role");
           break;
       }
 
@@ -61,11 +62,7 @@ export default function LoginPage() {
   };
 
   useEffect(() => {
-    if (credentials.email.length > 0 && credentials.password.length > 0) {
-      setButtonDisabled(false);
-    } else {
-      setButtonDisabled(true);
-    }
+    setButtonDisabled(credentials.email.length === 0 || credentials.password.length === 0);
   }, [credentials]);
 
   return (
@@ -92,6 +89,7 @@ export default function LoginPage() {
               onChange={(e) => setCredentials({ ...credentials, email: e.target.value })}
               className="px-4 py-2 rounded-md bg-gray-800 border border-gray-700 focus:outline-none focus:border-red-600"
               required
+              aria-label="Email"
             />
           </div>
           <div className="flex flex-col">
@@ -106,6 +104,7 @@ export default function LoginPage() {
               onChange={(e) => setCredentials({ ...credentials, password: e.target.value })}
               className="px-4 py-2 rounded-md bg-gray-800 border border-gray-700 focus:outline-none focus:border-red-500"
               required
+              aria-label="Password"
             />
           </div>
           <div className="flex flex-col">
@@ -115,14 +114,20 @@ export default function LoginPage() {
                 buttonDisabled ? "bg-gray-400 cursor-not-allowed" : "bg-red-600 hover:bg-red-700"
               } focus:outline-none focus:shadow-outline-indigo focus:border-indigo-700`}
               disabled={buttonDisabled || loading}
+              aria-label="Sign In"
             >
               {loading ? "Processing..." : "Sign In"}
             </button>
           </div>
-          <div className="text-sm text-center">
+          <div className="text-sm text-center mt-4">
+            <Link className="text-red-500 hover:underline" href="/auth/forgot-password" passHref>
+              Forgot Password?
+            </Link>
+          </div>
+          <div className="text-sm text-center mt-4">
             <p className="tc-grey t-center">
-              Dont have an account?{" "}
-              <Link className="link font-bold bg-red" href={`/auth/signup`}>
+              Don't have an account?{" "}
+              <Link className="link font-bold bg-red" href="/auth/signup" passHref>
                 Sign Up
               </Link>
             </p>

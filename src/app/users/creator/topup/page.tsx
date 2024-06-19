@@ -55,8 +55,8 @@ const TopUpIcoinsForm: React.FC = () => {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-black text-white">
       <div className="absolute top-4 left-4 flex space-x-4">
-        <a href="/users/regular" aria-label="Home"><FiHome className="text-white text-2xl" /></a>
-        <a href="/users/regular/profile" aria-label="Back"><BiArrowBack className="text-white text-2xl" /></a>
+        <a href="/users/creator" aria-label="Home"><FiHome className="text-white text-2xl" /></a>
+        <a href="/users/creator/profile" aria-label="Back"><BiArrowBack className="text-white text-2xl" /></a>
       </div>
       <div className="bg-gray-800 p-6 rounded-lg shadow-md w-full max-w-md">
         <h2 className="text-2xl font-semibold mb-4">Top-Up Icoins</h2>

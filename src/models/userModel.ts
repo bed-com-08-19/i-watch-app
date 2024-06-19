@@ -17,6 +17,7 @@ interface IUser extends Document {
   credits?: number;
   creditedVideos: mongoose.Types.ObjectId[];
   playCount: number;
+  isSubscribed: boolean;
 }
 
 const UserSchema: Schema<IUser> = new Schema({
@@ -35,7 +36,8 @@ const UserSchema: Schema<IUser> = new Schema({
   balance: { type: Number, default: 0 },
   createdAt: { type: Date, default: Date.now },
   creditedVideos: [{ type: Schema.Types.ObjectId, ref: 'Video' }],
-  playCount: { type: Number, default: 0 }
+  playCount: { type: Number, default: 0 },
+  isSubscribed: { type: Boolean, default: false }
 });
 
 // Adding an index on email for better performance

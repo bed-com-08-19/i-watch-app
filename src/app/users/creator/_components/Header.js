@@ -135,6 +135,7 @@ const Header = ({ setSearchTerm }) => {
           <a href="/users/creator" className="text-white hover:text-gray-300 hover:border-red-500 border-b-2 transition duration-300">HOME</a>
           <a href="/users/creator/trending" className="text-white hover:text-gray-300 hover:border-red-500 border-b-2 transition duration-300">TRENDING</a>
           <a href="/users/creator/ads" className="text-white hover:text-gray-300 hover:border-red-500 border-b-2 transition duration-300">ADS</a>
+          <a href="/users/creator/category" className="text-white hover:text-gray-300 hover:border-red-500 border-b-2 transition duration-300">CATEGORY</a>
         </nav>
 
         <div className="relative flex items-center">

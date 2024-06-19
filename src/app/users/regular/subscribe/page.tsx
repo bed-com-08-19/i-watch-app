@@ -7,15 +7,13 @@ import { CheckCircle2 } from "lucide-react"
 import React, { useState, useEffect } from "react"
 import { cn } from "../../../../lib/utils"
 import axios from "axios"
-import { loadStripe } from "@stripe/stripe-js"
 import { toast } from "react-hot-toast"
 import { FiHome } from "react-icons/fi";
 import { BiArrowBack } from "react-icons/bi";
 
 type PricingCardProps = {
   user: string
-  handleCheckout: (priceId: string, subscription: boolean) => void
-  priceIdMonthly: string
+  handleCheckout: (plan: string) => void
   title: string
   monthlyPrice: number
   description: string
@@ -25,7 +23,7 @@ type PricingCardProps = {
   exclusive?: boolean
 }
 
-const PricingCard = ({ user, handleCheckout, title, priceIdMonthly, monthlyPrice, description, features, actionLabel, popular, exclusive }: PricingCardProps) => (
+const PricingCard = ({ user, handleCheckout, title, monthlyPrice, description, features, actionLabel, popular, exclusive }: PricingCardProps) => (
   <Card
     className={cn(`w-72 flex flex-col justify-between py-1 ${popular ? "border-rose-400" : "border-zinc-700"} mx-auto sm:mx-0`, {
       "animate-background-shine bg-white dark:bg-[linear-gradient(110deg,#000103,45%,#1e2631,55%,#000103)] bg-[length:200%_100%] transition-colors":
@@ -46,19 +44,6 @@ const PricingCard = ({ user, handleCheckout, title, priceIdMonthly, monthlyPrice
         ))}
       </CardContent>
     </div>
-    <CardFooter className="mt-2">
-      {priceIdMonthly.startsWith("http") ? (
-        <a href={priceIdMonthly} target="_blank" rel="noopener noreferrer" className="relative inline-flex w-full items-center justify-center rounded-md bg-black text-white dark:bg-white px-6 font-medium dark:text-black transition-colors focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50">
-          <div className="absolute -inset-0.5 -z-10 rounded-lg bg-gradient-to-b from-[#c7d2fe] to-[#8678f9] opacity-75 blur" />
-          {actionLabel}
-        </a>
-      ) : (
-        <button onClick={() => handleCheckout(priceIdMonthly, true)} className="relative inline-flex w-full items-center justify-center rounded-md bg-black text-white dark:bg-white px-6 font-medium dark:text-black transition-colors focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50">
-          <div className="absolute -inset-0.5 -z-10 rounded-lg bg-gradient-to-b from-[#c7d2fe] to-[#8678f9] opacity-75 blur" />
-          {actionLabel}
-        </button>
-      )}
-    </CardFooter>
   </Card>
 )
 
@@ -68,14 +53,14 @@ const CheckItem = ({ text }: { text: string }) => (
     <p className="pt-0.5 text-zinc-700 dark:text-zinc-300 text-sm">{text}</p>
   </div>
 )
+
+
 const PricingHeader = ({ title }: { title: string; }) => (
   <section className="text-center">
     <h2 className="text-3xl lg:text-5xl font-bold">{title}</h2>
     <br />
   </section>
 )
-
-const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY!);
 
 export default function Pricing() {
   const [userId, setUserId] = useState("null");
@@ -95,34 +80,22 @@ export default function Pricing() {
     }
   };
 
-  const handleCheckout = async (priceId: string, subscription: boolean) => {
+  const handleCheckout = async (plan: string) => {
     try {
-      const { data } = await axios.post(`/api/payments/create-checkout-session`,
-        { userId: userId, email: email, priceId, subscription });
-
-      if (data.sessionId) {
-        const stripe = await stripePromise;
-
-        const response = await stripe?.redirectToCheckout({
-          sessionId: data.sessionId,
-        });
-
-        return response
-      } else {
-        console.error('Failed to create checkout session');
-        toast('Failed to create checkout session')
-        return
-      }
+      await axios.post(`/api/paypal/subscription-success`, {
+        userId: userId,
+        email: email,
+        plan: plan,
+      });
+      toast.success("Subscription successful");
     } catch (error) {
-      console.error('Error during checkout:', error);
-      toast('Error during checkout')
-      return
+      toast.error("Error during subscription");
     }
   };
 
   const plans = [
     {
-      title: "Basic",
+      title: "P-1WJ68935LL406420PUTENA2I",
       monthlyPrice: 5000,
       description: "Essential features you need to get started",
       features: [
@@ -132,11 +105,10 @@ export default function Pricing() {
         "Limited offline downloads",
         "Basic customer support"
       ],
-      actionLabel: "Get Started",
-      priceIdMonthly: "https://buy.stripe.com/test_dR68yWdWufjOfN614e",
+      actionLabel: "Get Started"
     },
     {
-      title: "Pro",
+      title: "P-2VY85228D7412973NTEGGYLI",
       monthlyPrice: 10000,
       description: "Perfect for owners of small & medium businesses",
       features: [
@@ -148,11 +120,10 @@ export default function Pricing() {
         "Priority customer support"
       ],
       actionLabel: "Get Started",
-      priceIdMonthly: "https://buy.stripe.com/test_9AQdTgaKi5JeasM3cn",
       popular: true,
     },
     {
-      title: "Enterprise",
+      title: "P-7AR45310V7783424WLNEBYVI",
       monthlyPrice: 15000,
       description: "Dedicated support and infrastructure to fit your needs",
       features: [
@@ -168,7 +139,6 @@ export default function Pricing() {
         "Special access to early releases and beta content"
       ],
       actionLabel: "Get Started",
-      priceIdMonthly: "https://buy.stripe.com/test_5kA02q9Ge2x21Wg008", // URL example
     }
   ];
 
