@@ -5,6 +5,7 @@ import Image from "next/image";
 import { FiSearch } from "react-icons/fi";
 import Select from "react-select";  // Importing Select component
 import { useRouter } from "next/navigation";
+import { useSideBarToggle } from "../../../../../hooks/use-sidebar-toggle";
 
 const Header = ({ setSearchTerm }) => {
   const [username, setUsername] = useState("null");
@@ -23,6 +24,11 @@ const Header = ({ setSearchTerm }) => {
     getUserDetails();
     fetchCategories();  // fetch categories on component mount
   }, []);
+
+  const { toggleCollapse, invokeToggleCollapse } = useSideBarToggle();
+  const sidebarToggle = () => {
+      invokeToggleCollapse();
+  }
 
   const fetchCategories = async () => {
     try {
@@ -120,6 +126,10 @@ const Header = ({ setSearchTerm }) => {
           <span>i</span>
           <span className="text-red-600">WATCH</span>
         </p>
+
+        {/* <button onClick={sidebarToggle} className="order-2 sm:order-1 shrink-btn float-right bg-sidebar-muted text-sidebar-muted-foreground hover:bg-foreground hover:text-background ml-3 rounded-md w-[30px] h-[30px] flex items-center justify-center shadow-md shadow-black/10  transition duration-300 ease-in-out">
+          <BsList />
+        </button> */}
 
         <nav className="md:flex space-x-4 text-sm md:text-lg">
           <a href="/users/creator" className="text-white hover:text-gray-300 hover:border-red-500 border-b-2 transition duration-300">HOME</a>
