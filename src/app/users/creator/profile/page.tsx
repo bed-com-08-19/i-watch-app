@@ -1,5 +1,4 @@
 "use client";
-
 import React, { useEffect, useState, ChangeEvent, FormEvent } from 'react';
 import axios from 'axios';
 import { toast } from 'react-hot-toast';
@@ -7,7 +6,7 @@ import Image from 'next/image';
 import { FaUserEdit, FaShareAlt, FaPlusCircle } from 'react-icons/fa';
 import { RiCoinLine } from 'react-icons/ri';
 import VideoCard from '@/components/VideoCard';
-import Select from 'react-select';
+import Select, { ValueType } from 'react-select';
 
 interface UserDetails {
   playCount: number;
@@ -27,23 +26,20 @@ interface Video {
 }
 
 interface CategoryOption {
-  value: string;
-  label: string;
+  _id: string;
+  name: string;
 }
 
-const categories: CategoryOption[] = [
-  { value: 'music', label: 'Music' },
-  { value: 'sports', label: 'Sports' },
-  { value: 'gaming', label: 'Gaming' },
-  { value: 'news', label: 'News' },
-  // Add more categories as needed
-];
-
 const Dashboard: React.FC = () => {
+  const [username, setUsername] = useState("null");
+  const [icoins, setIcoinsAmount] = useState("null");
+  const [bio, setBio] = useState("null");
+  const [views, setViews] = useState("null");
+
   const [userDetails, setUserDetails] = useState<UserDetails | null>(null);
   const [videos, setVideos] = useState<Video[]>([]);
   const [showUploadForm, setShowUploadForm] = useState<boolean>(false);
-  const [showPopup, setShowPopup] = useState<boolean>(false); // State for popup visibility
+  const [showPopup, setShowPopup] = useState<boolean>(false);
   const [title, setTitle] = useState<string>('');
   const [description, setDescription] = useState<string>('');
   const [videoFile, setVideoFile] = useState<File | null>(null);
@@ -51,15 +47,21 @@ const Dashboard: React.FC = () => {
   const [selectedVideo, setSelectedVideo] = useState<Video | null>(null);
   const [showBioForm, setShowBioForm] = useState<boolean>(false);
 
+  const [categories, setCategories] = useState<CategoryOption[]>([]);
+
   useEffect(() => {
     getUserDetails();
     fetchVideos();
+    fetchCategories(); // Fetch categories when component mounts
   }, []);
 
   const getUserDetails = async () => {
     try {
       const res = await axios.get('/api/users/me');
-      setUserDetails(res.data.data);
+      setUsername(res.data.data.username);
+      setIcoinsAmount(res.data.data.icoins);
+      setBio(res.data.data.bio);
+      setViews(res.data.data.views);
     } catch (error) {
       toast.error('Failed to fetch user details');
     }
@@ -76,7 +78,7 @@ const Dashboard: React.FC = () => {
   };
 
   const toggleUploadForm = () => setShowUploadForm(!showUploadForm);
-  const togglePopup = () => setShowPopup(!showPopup); // Toggle popup visibility
+  const togglePopup = () => setShowPopup(!showPopup);
   const toggleBioForm = () => setShowBioForm(!showBioForm);
 
   const handleTitleChange = (event: ChangeEvent<HTMLInputElement>) => setTitle(event.target.value);
@@ -88,8 +90,22 @@ const Dashboard: React.FC = () => {
     }
   };
 
-  const handleCategoryChange = (selectedOptions: CategoryOption[]) => {
-    setSelectedCategories(selectedOptions);
+  const fetchCategories = async () => {
+    try {
+      const res = await axios.get("/api/categories");
+      setCategories(res.data.categories);
+    } catch (error) {
+      toast.error("Failed to fetch categories");
+    }
+  };
+
+  const handleCategoryChange = (selectedOptions: ValueType<CategoryOption, true>) => {
+    if (selectedOptions) {
+      const selectedCategories = selectedOptions.map(option => option as CategoryOption);
+      setSelectedCategories(selectedCategories);
+    } else {
+      setSelectedCategories([]);
+    }
   };
 
   const handleUpload = async (event: FormEvent) => {
@@ -104,7 +120,7 @@ const Dashboard: React.FC = () => {
     formData.append('title', title);
     formData.append('description', description);
     formData.append('creator', userDetails?.username || '');
-    formData.append('categories', JSON.stringify(selectedCategories.map(category => category.value)));
+    formData.append('categories', JSON.stringify(selectedCategories.map(category => category._id)));
 
     try {
       await axios.post('/api/videos/upload', formData, {
@@ -139,27 +155,23 @@ const Dashboard: React.FC = () => {
 
   const handleViewStatistics = (video: Video) => setSelectedVideo(video);
 
-  if (!userDetails) {
-    return <div className="text-red-500 text-center">Loading...</div>;
-  }
-
   return (
     <div className="min-h-screen flex bg-black">
       <div className="flex-grow p-6 ml-4 bg-black">
         <div className="max-w-md mx-auto text-center">
           <div className="flex flex-col items-center justify-center py-4">
             <div className="p-4 items-center justify-center relative h-16 w-16 rounded-full overflow-hidden">
-              <Image src={userDetails.profileImage || "/noavatar.png"} alt="Profile Picture" layout="fill" objectFit="cover" objectPosition="center" />
+              <Image src={ "/noavatar.png"} alt="Profile Picture" layout="fill" objectFit="cover" objectPosition="center" />
             </div>
             <div className="p-4 items-center justify-center">
-              <h1 className="text-xl font-semibold">{userDetails.username}</h1>
+              <h1 className="text-xl font-semibold">{username}</h1>
             </div>
           </div>
           <div className="flex justify-around text-center py-4">
             <div className="flex flex-col items-center cursor-pointer" onClick={togglePopup}>
               <div className="flex items-center">
                 <RiCoinLine className="mr-1 text-red-600" />
-                <span className="text-lg font-bold text-red-600">{userDetails.balance} icoins</span>
+                <span className="text-lg font-bold text-red-600">{icoins} icoins</span>
               </div>
             </div>
           </div>
@@ -205,16 +217,13 @@ const Dashboard: React.FC = () => {
                 </video>
               </div>
               <p className="mt-2 text-white">
-                <strong>Title:</strong> {selectedVideo.title}
+                <strong>Title : </strong> {selectedVideo.title}
               </p>
               <p className="text-white">
-                <strong>Description:</strong> {selectedVideo.description}
+                <strong>Description : </strong> {selectedVideo.description}
               </p>
               <p className="text-white">
-                <strong>Views:</strong> {selectedVideo.views}
-              </p>
-              <p className="text-white">
-                <strong>Play Count:</strong> {selectedVideo.playCount}
+                <strong>Views : </strong> {selectedVideo.playCount}
               </p>
               <button
                 className="mt-4 bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700"
@@ -250,7 +259,7 @@ const Dashboard: React.FC = () => {
                 <div className="mb-4">
                   <label className="block text-white mb-2">Category</label>
                   <Select
-                    options={categories}
+                    options={categories.map(category => ({ value: category._id, label: category.name }))}
                     value={selectedCategories}
                     onChange={handleCategoryChange}
                     isMulti
@@ -323,7 +332,7 @@ const Dashboard: React.FC = () => {
         {showPopup && (
           <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50">
             <div className="bg-gray-800 p-6 rounded-lg w-full max-w-md">
-              <h2 className="text-xl font-semibold text-white mb-4">Choose of Option</h2>
+              <h2 className="text-xl font-semibold text-white mb-4">Choose an Option</h2>
               <ul className="text-white">
                 <li className="mb-2 cursor-pointer" onClick={() => { /* Handle Withdraw logic */ }}>Withdraw</li>
                 <li className="mb-2 cursor-pointer" onClick={() => { /* Handle Subscribe logic */ }}>Subscribe</li>
