@@ -83,8 +83,8 @@ import axios from "axios";
 import { SIDENAV_ITEMS } from '@/app/menu_constants';
 import classNames from 'classnames';
 import React, { useEffect, useState } from 'react'
-import { useSideBarToggle } from '../../../../../hooks/use-sidebar-toggle';
-import SideBarMenuGroup from '../../../../../components/sidebar-menu-group';
+import { useSideBarToggle } from '../../hooks/use-sidebar-toggle';
+import SideBarMenuGroup from '../../components/sidebar-menu-group';
 import { FaUser, FaCog, FaChartLine, FaMoneyBillWave, FaHome, FaQuestionCircle, FaCoins, FaSignOutAlt } from 'react-icons/fa';
 // import { SideBarLogo } from '../../../../../components/sidebar-logo';
 

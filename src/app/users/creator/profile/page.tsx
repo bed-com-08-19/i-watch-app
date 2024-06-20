@@ -5,13 +5,11 @@
 import React, { useEffect, useState, ChangeEvent, FormEvent } from 'react';
 import axios from 'axios';
 import { toast } from 'react-hot-toast';
-import { SideBar } from '../_components/Sidebar';
 import Image from 'next/image';
 import { FaUserEdit, FaShareAlt, FaPlusCircle } from 'react-icons/fa';
 import { RiCoinLine } from 'react-icons/ri';
 import VideoCard from '@/components/VideoCard';
 import Select from 'react-select';
-import Header from './header';
 
 interface UserDetails {
   playCount: number;
@@ -170,7 +168,7 @@ const Dashboard: React.FC = () => {
             </div>
           </div>
           <div className="flex justify-around text-center py-4">
-            <div className="flex flex-col items-center">
+            <div className="flex flex-col items-center cursor-pointer">
               <div className="flex items-center">
                 <RiCoinLine className="mr-1 text-red-600" />
                 <span className="text-lg font-bold text-red-600">{userDetails.balance} icoins</span>
@@ -178,7 +176,7 @@ const Dashboard: React.FC = () => {
             </div>
           </div>
           <div className="flex justify-around py-4">
-            <button className="flex items-center bg-white px-4 py-2 rounded text-black hover:bg-gray-400">
+            <button className="flex items-center bg-red-600 px-4 py-2 rounded text-white hover:bg-red-700">
               <FaUserEdit className="mr-2" />
               <span className="hidden lg:block">Edit profile</span>
             </button>
