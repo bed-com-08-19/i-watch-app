@@ -62,6 +62,7 @@ const TopUpIcoinsForm: React.FC = () => {
         <h2 className="text-2xl font-semibold mb-4">Top-Up Icoins</h2>
         <div className="mb-4">
           <label htmlFor="icoinsAmount" className="block text-sm font-medium text-gray-300">
+            1 Icoin = MK45.00<br/>
             Enter Number of Icoins:
           </label>
           <input
