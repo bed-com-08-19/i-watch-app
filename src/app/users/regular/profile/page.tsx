@@ -1,4 +1,3 @@
-// Dashboard Component
 "use client";
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
@@ -7,35 +6,41 @@ import { toast } from "react-hot-toast";
 import { FaUserEdit, FaShareAlt, FaPlusCircle } from 'react-icons/fa';
 import { RiCoinLine } from 'react-icons/ri';
 import Sidebar from '../_components/Sidebar';  // Adjust the import path as necessary
+import { icons } from 'lucide-react';
 
 const UserProfile = () => {
-  const [user, setUser] = useState({
-    followers: 48,
-    following: 467,
-    likes: 0,
-    profileImage: "/path-to-your-image.jpg",
-  });
 
   const [username, setUsername] = useState("null");
-  const [balance, setBalance] = useState("null");
+  const [icoins, setIcoinsAmount] = useState("null");
   const [image, setProfileImage] = useState("/path-to-your-image.jpg");
   const [bio, setBio] = useState("null");
   const [views, setViews] = useState("null");
+  const [watchedVideos, setWatchedVideos] = useState([]);
 
   useEffect(() => {
     getUserDetails();
+    fetchWatchedVideos();
   }, []);
 
   const getUserDetails = async () => {
     try {
       const res = await axios.get("/api/users/me");
       setUsername(res.data.data.username);
-      setBalance(res.data.data.balance);
+      setIcoinsAmount(res.data.data.icoins);
       setProfileImage(res.data.data.image);
       setBio(res.data.data.bio);
       setViews(res.data.data.views);
     } catch (error) {
       toast.error("Failed to fetch user details");
+    }
+  };
+
+  const fetchWatchedVideos = async () => {
+    try {
+      const res = await axios.get("/api/videos/history");
+      setWatchedVideos(res.data.data.slice(0, 15)); // Assuming endpoint returns last 15 videos
+    } catch (error) {
+      toast.error("Failed to fetch watched videos");
     }
   };
 
@@ -61,8 +66,7 @@ const UserProfile = () => {
           <div className="flex justify-around text-center py-4">
             <div className="flex items-center">
               <RiCoinLine className="mr-1" />
-              <span className="text-lg font-bold text-red-600">{balance} icoins</span>
-              <span className="block text-gray-500 ml-1"></span>
+              <span className="text-lg font-bold text-red-600">{icoins} icoins</span>
             </div>
           </div>
           <div className="flex justify-around py-4">
@@ -82,6 +86,18 @@ const UserProfile = () => {
           <div className="border-t border-gray-600 py-4 text-center">
             <p>Subscribe to upload videos and make more money</p>
             <button className="bg-red-600 text-white px-4 py-2 rounded mt-2 hover:bg-red-700">Subscribe</button>
+          </div>
+          <div className="mt-8">
+            <h2 className="text-xl mb-4">Recently Watched Videos</h2>
+            <div className="grid gap-4 grid-cols-1 sm:grid-cols-3">
+              {watchedVideos.map((video) => (
+                <div key={video.id} className="bg-gray-800 p-4 rounded shadow-md">
+                  <h3 className="text-lg font-semibold mb-2">{video.title}</h3>
+                  <p className="text-sm text-gray-400">{video.description}</p>
+                  <p className="text-sm text-gray-400">Watched on: {new Date(video.watchDate).toLocaleDateString()}</p>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </div>
