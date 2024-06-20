@@ -25,6 +25,7 @@
     "classnames": "^2.5.1",
     "clerk": "^0.8.3",
     "cloudinary": "^2.2.0",
+    "date-fns": "^3.6.0",
     "firebase": "^10.12.1",
     "firebase-admin": "^12.1.0",
     "formidable": "^3.5.1",
