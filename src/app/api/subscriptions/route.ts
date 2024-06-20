@@ -1,3 +1,5 @@
+///api/subscriptions/index.ts
+
 import { NextRequest, NextResponse } from 'next/server';
 import Subscription from '@/models/Subscription';
 import { connect } from '@/dbConfig/dbConfig'; // Ensure this path is correct based on your project structure

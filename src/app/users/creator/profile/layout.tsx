@@ -1,6 +1,6 @@
-import Header from "./header";
+import Header from "../_components/profile-header";
 import { SideBar } from "../_components/Sidebar";
-import PageWrapper from "../../../../../components/pagewrapper";
+import PageWrapper from "../_components/pagewrapper";
 
 export default function UserLayout({ children }: { children: React.ReactNode }) {
     return (
