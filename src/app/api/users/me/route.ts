@@ -14,7 +14,7 @@ export async function GET(request: NextRequest) {
       throw new Error("User not found");
     }
 
-    const { username, balance, email } = user.toObject();
+    const { username, balance, email, icoins } = user.toObject();
 
     return NextResponse.json({
       message: "User found",
@@ -22,6 +22,7 @@ export async function GET(request: NextRequest) {
         username,
         balance,
         email,
+        icoins,
       },
     });
   } catch (error: any) {

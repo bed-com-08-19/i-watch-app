@@ -5,6 +5,7 @@ interface ISubscription extends Document {
   stripe_user_id: string;
   status: string;
   start_date: Date;
+  end_date: Date;
   plan_id: string;
   user_id: string;
   email: string;
@@ -15,6 +16,7 @@ const SubscriptionSchema: Schema = new Schema({
   stripe_user_id: { type: String, required: true },
   status: { type: String, required: true },
   start_date: { type: Date, required: true },
+  end_date: { type: Date, required: true },
   plan_id: { type: String, required: true },
   user_id: { type: String, required: true },
   email: { type: String, required: true },

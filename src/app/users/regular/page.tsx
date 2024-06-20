@@ -1,5 +1,3 @@
-// src/app/users/regularUser/page.tsx
-
 "use client";
 import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
@@ -19,12 +17,14 @@ interface Video {
   url: string;
   playCount: number;
   awardedViewers: string[];
+  owner: string; // Assuming each video has an owner field
 }
 
 interface UserData {
   _id: string;
   username: string;
   creditedVideos: string[];
+  coins: number; // Assuming user has a coins field
 }
 
 const RegularUser: React.FC = () => {
@@ -90,10 +90,20 @@ const RegularUser: React.FC = () => {
     setSortBy(event.target.value);
   };
 
-  const handleGiftCoins = async (videoId: string, amount: number) => {
+  const handleCoinClick = async (videoId: string) => {
     if (!data) return;
+    
     try {
-      await axios.post("/api/videos/giftcoins", { videoId, userId: data._id, amount });
+      // Deduct coins from current user
+      // await axios.post("/api/users/coins/gift", { userId: data._id, amount });
+      await axios.post("/api/users/icoins/gift", { userId: data._id});
+
+      // Find video owner and add coins to their balance
+      // const video = videos.find((video) => video._id === videoId);
+      // if (video) {
+      //   await axios.post("/api/users/coins/add", { userId: video.owner});
+      // }
+
       toast.success("Coins gifted successfully!");
       fetchVideos();
     } catch (error) {
@@ -102,27 +112,22 @@ const RegularUser: React.FC = () => {
     }
   };
 
-  const handleMouseDown = (videoId: string) => {
-    timerRef.current = setTimeout(() => {
-      setSelectedVideo(videoId);
-      setShowPopup(true);
-    }, 1000); // 1 second delay for long press
-  };
 
-  const handleMouseUp = () => {
-    if (timerRef.current) {
-      clearTimeout(timerRef.current);
-      timerRef.current = null;
-    }
-  };
 
-  const handlePopupSubmit = () => {
-    if (selectedVideo) {
-      handleGiftCoins(selectedVideo, coinAmount);
-      setShowPopup(false);
-      setCoinAmount(0);
-    }
-  };
+  // const handleCoinClick = () => {
+  //   if (timerRef.current) {
+  //     clearTimeout(timerRef.current);
+  //     timerRef.current = null;
+  //   }
+  // };
+
+  // const handlePopupSubmit = () => {
+  //   if (selectedVideo) {
+  //     handleGiftCoins(selectedVideo, coinAmount);
+  //     setShowPopup(false);
+  //     setCoinAmount(0);
+  //   }
+  // };
 
   const handlePopupCancel = () => {
     setShowPopup(false);
@@ -209,8 +214,7 @@ const RegularUser: React.FC = () => {
                   <p className="text-gray-400">{video.description}</p>
                   <p className="text-gray-400 flex items-center"><FiEye className="mr-1" />{video.playCount}</p>
                   <button
-                    onMouseDown={() => handleMouseDown(video._id)}
-                    onMouseUp={handleMouseUp}
+                    onClick={() => handleCoinClick(video._id)}
                     className="absolute bottom-2 right-2 bg-red-600 text-white p-2 rounded-full hover:bg-red-700"
                   >
                     <FaCoins />
