@@ -90,7 +90,7 @@ const Header = ({ setSearchTerm }) => {
             className="focus:outline-none"
           >
             <Image
-              src="/path/to/profile-pic.jpg" // Placeholder image path
+              src="/noavatar.png" // Placeholder image path
               alt={username}
               className="w-10 h-10 rounded-full cursor-pointer"
               width={40}
