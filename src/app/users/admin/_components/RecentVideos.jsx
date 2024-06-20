@@ -9,7 +9,6 @@ const RecentVideos = () => {
   const [sortField, setSortField] = useState('uploadedOn');
   const [error, setError] = useState(null);
 
-
   useEffect(() => {
     fetchVideos();
   }, []);
@@ -45,7 +44,6 @@ const RecentVideos = () => {
     video.description?.toLowerCase().includes(searchTerm.toLowerCase())
   ).slice(0, 5); // Limit to 5 most recent videos
 
-
   if (error) {
     return <div className="text-center text-red-500">{error}</div>;
   }
@@ -57,16 +55,18 @@ const RecentVideos = () => {
         <thead>
           <tr className="text-left border-b border-gray-700">
             <th className="pb-2 cursor-pointer" onClick={() => handleSort('title')}>Title</th>
-            <th className="pb-2 cursor-pointer" onClick={() => handleSort('earned')}>Views</th>
+            <th className="pb-2 cursor-pointer" onClick={() => handleSort('playCount')}>Views</th>
+            <th className="pb-2 cursor-pointer" onClick={() => handleSort('creditedUserCount')}>Credited Users</th>
+            <th className="pb-2 cursor-pointer" onClick={() => handleSort('uploadedOn')}>Uploaded On</th>
           </tr>
         </thead>
         <tbody>
           {filteredVideos.map((video, index) => (
             <tr key={index} className="border-b border-gray-700">
               <td className="py-2">{video.title}</td>
-              <td className="py-2">{video.size}</td>
+              <td className="py-2">{video.playCount}</td>
+              <td className="py-2">{video.creditedUserCount}</td>
               <td className="py-2">{new Date(video.uploadedOn).toLocaleDateString()}</td>
-              <td className="py-2">{video.earned}</td>
             </tr>
           ))}
         </tbody>
