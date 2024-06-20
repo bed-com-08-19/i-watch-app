@@ -4,6 +4,8 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { toast } from 'react-hot-toast';
 import { PayPalButtons, PayPalScriptProvider } from '@paypal/react-paypal-js';
+import { BiArrowBack } from 'react-icons/bi';
+import { FiHome } from 'react-icons/fi';
 
 const SubscribePage = () => {
   const [subscription, setSubscription] = useState(null);

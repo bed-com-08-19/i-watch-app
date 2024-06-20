@@ -5,7 +5,7 @@ import Image from "next/image";
 import { FiSearch } from "react-icons/fi";
 import Select from "react-select";  // Importing Select component
 import { useRouter } from "next/navigation";
-import { useSideBarToggle } from "../../../../../hooks/use-sidebar-toggle";
+import { useSideBarToggle } from "../../../../../components/use-sidebar-toggle";
 
 const Header = ({ setSearchTerm }) => {
   const [username, setUsername] = useState("null");
