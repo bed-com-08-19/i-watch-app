@@ -7,6 +7,7 @@ import Header from "./_components/Header";
 import Footer from "../../../components/Footer";
 import { FiEye } from "react-icons/fi";
 import { FaCoins } from "react-icons/fa";
+import ScrollToTopButton from "./_components/scrollToTop";
 
 interface Video {
   createdAt: string | number | Date;
@@ -253,6 +254,7 @@ const RegularUser: React.FC = () => {
         )}
       </main>
       <Footer />
+      <ScrollToTopButton />
     </div>
   );
 };
