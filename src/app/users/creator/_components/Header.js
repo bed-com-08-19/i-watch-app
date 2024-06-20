@@ -3,7 +3,7 @@ import axios from "axios";
 import { toast } from "react-hot-toast";
 import Image from "next/image";
 import { FiSearch } from "react-icons/fi";
-import Select from "react-select";  // Importing Select component
+import Select from "react-select";
 import { useRouter } from "next/navigation";
 import { useSideBarToggle } from "../../hooks/use-sidebar-toggle";
 
@@ -18,17 +18,19 @@ const Header = ({ setSearchTerm }) => {
   const [videoFile, setVideoFile] = useState(null);
   const [categories, setCategories] = useState([]);
   const [selectedCategories, setSelectedCategories] = useState([]);
+
   const router = useRouter();
 
   useEffect(() => {
     getUserDetails();
-    fetchCategories();  // fetch categories on component mount
+    fetchCategories();
   }, []);
 
   const { toggleCollapse, invokeToggleCollapse } = useSideBarToggle();
+
   const sidebarToggle = () => {
-      invokeToggleCollapse();
-  }
+    invokeToggleCollapse();
+  };
 
   const fetchCategories = async () => {
     try {
@@ -65,28 +67,36 @@ const Header = ({ setSearchTerm }) => {
   const toggleSearch = () => setSearchOpen(!searchOpen);
   const toggleUploadForm = () => setShowUploadForm(!showUploadForm);
 
-  const handleSearchChange = (event) => {
+  const handleSearchChange = event => {
     setSearchValue(event.target.value);
     setSearchTerm(event.target.value);
   };
 
-  const handleTitleChange = (event) => {
+  const handleTitleChange = event => {
     setTitle(event.target.value);
   };
 
-  const handleDescriptionChange = (event) => {
+  const handleDescriptionChange = event => {
     setDescription(event.target.value);
   };
 
-  const handleFileChange = (event) => {
+  const handleFileChange = event => {
     if (event.target.files && event.target.files[0]) {
       setVideoFile(event.target.files[0]);
     }
   };
 
-  const handleCategoryChange = (selectedOptions) => {
-    setSelectedCategories(selectedOptions);
+  const handleCategoryChange = selectedOptions => {
+    if (selectedOptions) {
+      setSelectedCategories(selectedOptions.map(option => option));
+    } else {
+      setSelectedCategories([]);
+    }
   };
+
+  // const handleCategoryChange = (selectedOptions) => {
+  //   setSelectedCategories(selectedOptions);
+  // };
 
   const handleUpload = async (event) => {
     event.preventDefault();
@@ -100,7 +110,7 @@ const Header = ({ setSearchTerm }) => {
     formData.append("video", videoFile);
     formData.append("title", title);
     formData.append("description", description);
-    formData.append("categories", selectedCategories.map(option => option.value).join(','));  // add selected categories
+    formData.append('categories', JSON.stringify(selectedCategories.map(category => category._id)));  // add selected categories
 
     try {
       await axios.post("/api/videos/upload", formData, {
