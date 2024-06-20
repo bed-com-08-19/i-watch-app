@@ -8,6 +8,7 @@ import { FaUserEdit, FaShareAlt, FaPlusCircle } from 'react-icons/fa';
 import { RiCoinLine } from 'react-icons/ri';
 import VideoCard from '@/components/VideoCard';
 import Select from 'react-select';
+import ScrollToTopButton from '../_components/scrollToTop';
 
 interface UserDetails {
   playCount: number;
@@ -338,7 +339,7 @@ const Dashboard: React.FC = () => {
             </div>
           </div>
         )}
-
+        <ScrollToTopButton /> 
       </div>
     </div>
   );

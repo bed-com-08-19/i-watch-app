@@ -6,6 +6,7 @@ import axios from "axios";
 import { toast } from "react-hot-toast";
 import { FaUserEdit, FaShareAlt, FaPlusCircle } from 'react-icons/fa';
 import { RiCoinLine } from 'react-icons/ri';
+import ScrollToTopButton from '../_components/scrollToTop';
 
 const UserProfile = () => {
   const [user, setUser] = useState({
@@ -105,7 +106,7 @@ const UserProfile = () => {
             </div>
           </div>
         )}
-        
+         <ScrollToTopButton />
       </div>
     </div>
   );

@@ -248,7 +248,7 @@ const RegularUser: React.FC = () => {
         )}
       </main>
       <Footer />
-      <ScrollToTopButton /> {/* Add the ScrollToTopButton component here */}
+      <ScrollToTopButton />
     </div>
   );
 };
