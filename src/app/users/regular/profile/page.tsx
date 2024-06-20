@@ -6,7 +6,6 @@ import axios from "axios";
 import { toast } from "react-hot-toast";
 import { FaUserEdit, FaShareAlt, FaPlusCircle } from 'react-icons/fa';
 import { RiCoinLine } from 'react-icons/ri';
-import Sidebar from '../_components/Sidebar';  // Adjust the import path as necessary
 
 const UserProfile = () => {
   const [user, setUser] = useState({
@@ -21,6 +20,10 @@ const UserProfile = () => {
   const [image, setProfileImage] = useState("/path-to-your-image.jpg");
   const [bio, setBio] = useState("null");
   const [views, setViews] = useState("null");
+  const [showPopup, setShowPopup] = useState<boolean>(false); // State for popup visibility
+
+
+  const togglePopup = () => setShowPopup(!showPopup); // Toggle popup visibility
 
   useEffect(() => {
     getUserDetails();
@@ -41,11 +44,9 @@ const UserProfile = () => {
 
   return (
     <div className="min-h-screen flex bg-black">
-      <Sidebar />
-      <div className="flex-grow p-6 bg-black text-white ml-64">
+      <div className="flex-grow p-6 bg-black text-white ml-4">
         <div className="max-w-md mx-auto text-center">
-          <div className="flex items-center justify-center py-4">
-            <h1 className="text-xl font-semibold">{username}</h1>
+          <div className="flex flex-col items-center justify-center py-4">
             <div className="p-4 flex items-center justify-center">
               <div className="relative h-16 w-16 rounded-full overflow-hidden">
                 <Image
@@ -57,26 +58,28 @@ const UserProfile = () => {
                 />
               </div>
             </div>
+            <h1 className="text-xl font-semibold">{username}</h1>
           </div>
           <div className="flex justify-around text-center py-4">
-            <div className="flex items-center">
-              <RiCoinLine className="mr-1" />
-              <span className="text-lg font-bold text-red-600">{balance} icoins</span>
-              <span className="block text-gray-500 ml-1"></span>
+          <div className="flex flex-col items-center cursor-pointer" onClick={togglePopup}>
+              <div className="flex items-center">
+                <RiCoinLine className="mr-1 text-red-600" />
+                <span className="text-lg font-bold text-red-600">{balance} icoins</span>
+              </div>
             </div>
           </div>
           <div className="flex justify-around py-4">
             <button className="flex items-center bg-white px-4 py-2 rounded text-black hover:bg-gray-400">
               <FaUserEdit className="mr-2" />
-              Edit profile
+              <span className="hidden lg:block">Edit profile</span>
             </button>
             <button className="flex items-center bg-gray-600 px-4 py-2 rounded text-white hover:bg-gray-700">
               <FaShareAlt className="mr-2" />
-              Share profile
+              <span className="hidden lg:block">Share profile</span>
             </button>
             <button className="flex items-center bg-gray-600 px-4 py-2 rounded text-white hover:bg-gray-700">
               <FaPlusCircle className="mr-2" />
-              Add bio
+              <span className="hidden lg:block">Add bio</span>
             </button>
           </div>
           <div className="border-t border-gray-600 py-4 text-center">
@@ -84,6 +87,25 @@ const UserProfile = () => {
             <button className="bg-red-600 text-white px-4 py-2 rounded mt-2 hover:bg-red-700">Subscribe</button>
           </div>
         </div>
+        {showPopup && (
+          <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50">
+            <div className="bg-gray-800 p-6 rounded-lg w-full max-w-md">
+              <h2 className="text-xl font-semibold text-white mb-4">Choose of Option</h2>
+              <ul className="text-white">
+                <li className="mb-2 cursor-pointer" onClick={() => { /* Handle Withdraw logic */ }}>Withdraw</li>
+                <li className="mb-2 cursor-pointer" onClick={() => { /* Handle Subscribe logic */ }}>Subscribe</li>
+                <li className="mb-2 cursor-pointer" onClick={() => { /* Handle Top up coins logic */ }}>Top up coins</li>
+              </ul>
+              <button
+                className="mt-4 bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700"
+                onClick={togglePopup}
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        )}
+        
       </div>
     </div>
   );
