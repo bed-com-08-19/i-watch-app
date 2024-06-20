@@ -156,9 +156,9 @@ const Dashboard: React.FC = () => {
 
   const handleViewStatistics = (video: Video) => setSelectedVideo(video);
 
-  if (!userDetails) {
-    return <div className="text-red-500 text-center">Loading...</div>;
-  }
+  // if (!userDetails) {
+  //   return <div className="text-red-500 text-center">Loading...</div>;
+  // }
 
   return (
     <div className="min-h-screen flex bg-black">
@@ -334,7 +334,7 @@ const Dashboard: React.FC = () => {
           </div>
         )}
 
-        {showPopup && (
+        {/* {showPopup && (
           <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50">
             <div className="bg-gray-800 p-6 rounded-lg w-full max-w-md">
               <h2 className="text-xl font-semibold text-white mb-4">Choose an Option</h2>
@@ -351,8 +351,9 @@ const Dashboard: React.FC = () => {
               </button>
             </div>
           </div>
-        )}
+        )} */}
 
+        <ScrollToTopButton />
       </div>
     </div>
   );

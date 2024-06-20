@@ -5,8 +5,8 @@ import axios from "axios";
 import { toast } from "react-hot-toast";
 import { FaUserEdit, FaShareAlt, FaPlusCircle } from 'react-icons/fa';
 import { RiCoinLine } from 'react-icons/ri';
-import Sidebar from '../_components/Sidebar';  // Adjust the import path as necessary
 import { icons } from 'lucide-react';
+import ScrollToTopButton from '../_components/scrollToTop';
 
 const UserProfile = () => {
 
@@ -16,6 +16,7 @@ const UserProfile = () => {
   const [bio, setBio] = useState("null");
   const [views, setViews] = useState("null");
   const [watchedVideos, setWatchedVideos] = useState([]);
+  const [showPopup, setShowPopup] = useState<boolean>(false);
 
   useEffect(() => {
     getUserDetails();
@@ -44,13 +45,13 @@ const UserProfile = () => {
     }
   };
 
+  const togglePopup = () => setShowPopup(!showPopup);
+
   return (
     <div className="min-h-screen flex bg-black">
-      <Sidebar />
-      <div className="flex-grow p-6 bg-black text-white ml-64">
+      <div className="flex-grow p-6 bg-black text-white m-4">
         <div className="max-w-md mx-auto text-center">
-          <div className="flex items-center justify-center py-4">
-            <h1 className="text-xl font-semibold">{username}</h1>
+          <div className="flex flex-col items-center justify-center py-4">
             <div className="p-4 flex items-center justify-center">
               <div className="relative h-16 w-16 rounded-full overflow-hidden">
                 <Image
@@ -62,25 +63,28 @@ const UserProfile = () => {
                 />
               </div>
             </div>
+            <h1 className="text-xl font-semibold">{username}</h1>
           </div>
           <div className="flex justify-around text-center py-4">
-            <div className="flex items-center">
-              <RiCoinLine className="mr-1" />
-              <span className="text-lg font-bold text-red-600">{icoins} icoins</span>
+            <div className="flex flex-col items-center cursor-pointer" onClick={togglePopup}>
+              <div className="flex items-center">
+                <RiCoinLine className="mr-1 text-red-600" />
+                <span className="text-lg font-bold text-red-600">{icoins} icoins</span>
+              </div>
             </div>
           </div>
           <div className="flex justify-around py-4">
             <button className="flex items-center bg-white px-4 py-2 rounded text-black hover:bg-gray-400">
               <FaUserEdit className="mr-2" />
-              Edit profile
+              <span className="hidden lg:block">Edit profile</span>
             </button>
             <button className="flex items-center bg-gray-600 px-4 py-2 rounded text-white hover:bg-gray-700">
               <FaShareAlt className="mr-2" />
-              Share profile
+              <span className="hidden lg:block">Share profile</span>
             </button>
             <button className="flex items-center bg-gray-600 px-4 py-2 rounded text-white hover:bg-gray-700">
               <FaPlusCircle className="mr-2" />
-              Add bio
+              <span className="hidden lg:block">Add bio</span>
             </button>
           </div>
           <div className="border-t border-gray-600 py-4 text-center">
@@ -100,6 +104,7 @@ const UserProfile = () => {
             </div>
           </div>
         </div>
+        <ScrollToTopButton />
       </div>
     </div>
   );
