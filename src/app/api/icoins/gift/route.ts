@@ -1,42 +1,49 @@
-//\api\icoins\gift\route.ts
+// api/icoins/gift.ts
 
 import { NextRequest, NextResponse } from 'next/server';
-import { getSession } from 'next-auth/client';
-import User from '@/models/userModel';
-import Video from '@/models/videoModel';
+import User, { IUser } from '@/models/userModel'; // Adjust the import path based on your project structure
+import Video, { IVideo } from '@/models/videoModel'; // Adjust the import path based on your project structure
+import { getDataFromToken } from '@/helper/getDataFromToken'; // Assuming this function extracts user data from a token
 
-// POST: Gift icoins to creator
+// POST: Gift icoins to video creator
 export async function POST(req: NextRequest) {
-  const session = await getSession({ req });
-  if (!session) {
-    return NextResponse.json({ success: false, message: 'User not authenticated' }, { status: 401 });
-  }
-
-  const { viewerId, creatorId, icoinsAmount } = await req.json();
-
   try {
-    
-    const viewer = await User.findById(viewerId);
-    const creator = await User.findById(creatorId);
+    // Extract userId from token
+    const userId = await getDataFromToken(req);
 
-    if (!viewer || !creator) {
-      return NextResponse.json({ success: false, message: 'Viewer or creator not found' }, { status: 404 });
+    // Find the user (current user)
+    const user: IUser | null = await User.findById(userId);
+    if (!user) {
+      return NextResponse.json({ success: false, message: 'User not found' }, { status: 404 });
     }
 
-    
-    if (viewer.icoins < icoinsAmount) {
-      return NextResponse.json({ success: false, message: 'Insufficient icoins' }, { status: 400 });
+    const { videoId } = await req.json();
+
+    // Find the video and its creator
+    const video: IVideo | null = await Video.findById(videoId);
+    if (!video) {
+      return NextResponse.json({ success: false, message: 'Video not found' }, { status: 404 });
     }
 
-    
-    viewer.icoins -= icoinsAmount;
-    await viewer.save();
+    const creator: IUser | null = await User.findById(video.creator);
+    if (!creator) {
+      return NextResponse.json({ success: false, message: 'Creator not found' }, { status: 404 });
+    }
 
-    
-    creator.icoins += icoinsAmount;
+    // Check if user has enough coins
+    if (user.icoins < 1) {
+      return NextResponse.json({ success: false, message: 'Insufficient coins' }, { status: 400 });
+    }
+
+    // Deduct 1 coin from user
+    user.icoins -= 1;
+    await user.save();
+
+    // Add 1 coin to video creator
+    creator.icoins += 1;
     await creator.save();
 
-    return NextResponse.json({ success: true, message: `Successfully gifted ${icoinsAmount} icoins to the creator` });
+    return NextResponse.json({ success: true, message: 'Successfully gifted 1 coin to the video creator' });
   } catch (error: any) {
     return NextResponse.json({ success: false, error: error.message }, { status: 500 });
   }

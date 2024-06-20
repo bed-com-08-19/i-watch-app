@@ -1,15 +1,18 @@
+// pages/withdraw.js
+
 "use client";
 
+import router from 'next/router';
 import React, { useState } from 'react';
-import { useRouter } from 'next/navigation'; // Correct import for app directory
+
 import { toast } from 'react-hot-toast';
 import { BiArrowBack } from 'react-icons/bi';
 import { FiHome } from 'react-icons/fi';
 
-function WithdrawDetails() {
-  const router = useRouter();
-  const [mobileNumber, setMobileNumber] = useState<string>('');
-  const [amount, setAmount] = useState<string>('');
+function WithdrawPage() {
+  
+  const [mobileNumber, setMobileNumber] = useState('');
+  const [amount, setAmount] = useState('');
 
   const handleWithdraw = async () => {
     try {
@@ -19,7 +22,7 @@ function WithdrawDetails() {
       }
 
       const requestBody = {
-        phoneNumber: mobileNumber.trim(), // Corrected field name to phoneNumber
+        phoneNumber: mobileNumber.trim(),
         amount: parseFloat(amount.trim()),
       };
 
@@ -31,14 +34,23 @@ function WithdrawDetails() {
         body: JSON.stringify(requestBody),
       });
 
+      const data = await response.json();
+
       if (!response.ok) {
-        const data = await response.json();
-        toast.error(data.message || 'Failed to withdraw');
+        if (data.message === 'Insufficient balance') {
+          toast.error('Insufficient balance');
+        } else if (data.message === 'Invalid phone number format') {
+          toast.error('Invalid phone number format');
+        } else if (data.message === 'Failed to send SMS') {
+          toast.error('Failed to send SMS');
+        } else {
+          toast.error(data.message || 'Failed to withdraw');
+        }
         return;
       }
 
       toast.success('Withdrawal successful');
-      router.push('/users/regular/transaction/withdraw-details');
+      router.push('/users/regular/transaction/withdraw-success');
     } catch (error) {
       console.error('Error during withdrawal:', error);
       toast.error('Failed to withdraw');
@@ -57,7 +69,7 @@ function WithdrawDetails() {
           type="text"
           value={mobileNumber}
           onChange={(e) => setMobileNumber(e.target.value)}
-          placeholder="Enter your mobile number"
+          placeholder="Enter your mobile number(+265)"
           className="mt-4 px-4 py-2 rounded-md bg-gray-800 border border-gray-700 text-white focus:outline-none focus:border-red-500 w-full"
         />
         <input
@@ -68,7 +80,7 @@ function WithdrawDetails() {
           className="mt-4 px-4 py-2 rounded-md bg-gray-800 border border-gray-700 text-white focus:outline-none focus:border-red-500 w-full"
         />
         <button
-          className="mt-4 px-4 py-2 text-white bg-red-600 hover:bg-red-700 rounded-lg w-full"
+          className="mt-4 px-4 py-2 text-black bg-white hover:bg-gray-400 rounded-lg w-full"
           onClick={handleWithdraw}
         >
           Proceed to Withdraw
@@ -78,4 +90,4 @@ function WithdrawDetails() {
   );
 }
 
-export default WithdrawDetails;
+export default WithdrawPage;

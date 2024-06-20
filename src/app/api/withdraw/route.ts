@@ -2,49 +2,95 @@ import { NextRequest, NextResponse } from 'next/server';
 import mongoose from 'mongoose';
 import { connect } from '@/dbConfig/dbConfig';
 import Transaction from '@/models/transaction';
-import fetch from 'node-fetch';
+import User from '@/models/userModel';
+import jwt from 'jsonwebtoken';
+import twilio from 'twilio';
+import { parsePhoneNumberFromString } from 'libphonenumber-js';
+
+// Twilio configuration
+const accountSid = process.env.TWILIO_ACCOUNT_SID!;
+const authToken = process.env.TWILIO_AUTH_TOKEN!;
+const twilioPhoneNumber = process.env.TWILIO_PHONE_NUMBER!;
+const client = twilio(accountSid, authToken);
 
 async function sendSMSNotification(phoneNumber: string, message: string) {
-  const apiKey = 'TTEPAiSawKA2Ia2w92Px';
-  const password = '12345678';
+  try {
+    const phoneNumberObj = parsePhoneNumberFromString(phoneNumber, 'US'); // Replace 'US' with your default country code if necessary
+    if (!phoneNumberObj || !phoneNumberObj.isValid()) {
+      throw new Error('Invalid phone number');
+    }
 
-  const formData = new URLSearchParams();
-  formData.append('api_key', apiKey);
-  formData.append('password', password);
-  formData.append('text', message);
-  formData.append('numbers', phoneNumber);
-  formData.append('from', 'WGIT');
+    const formattedPhoneNumber = phoneNumberObj.format('E.164');
 
-  const smsApiUrl = 'https://telcomw.com/api-v2/send';
-
-  const response = await fetch(smsApiUrl, {
-    method: 'POST',
-    body: formData,
-  });
-
-  if (!response.ok) {
+    const response = await client.messages.create({
+      body: message,
+      from: twilioPhoneNumber,
+      to: formattedPhoneNumber,
+    });
+    return response;
+  } catch (error) {
+    console.error('Failed to send SMS:', error);
     throw new Error('Failed to send SMS');
   }
-
-  const responseData = await response.json();
-  return responseData;
 }
+
+export const getDataFromToken = (request: NextRequest) => {
+  try {
+    const token = request.cookies.get("token")?.value || "";
+    const decodedToken: any = jwt.verify(token, process.env.TOKEN_SECRET!);
+    return decodedToken.id;
+  } catch (error: any) {
+    throw new Error(error.message);
+  }
+};
 
 export async function POST(request: NextRequest) {
   try {
     const { phoneNumber, amount }: { phoneNumber: string; amount: number } = await request.json();
 
     if (!phoneNumber || !amount) {
+      console.error('Missing required fields:', { phoneNumber, amount });
       return NextResponse.json({ success: false, message: 'Phone number and amount are required' }, { status: 400 });
+    }
+
+    const userId = getDataFromToken(request);
+
+    if (!userId) {
+      console.error('Invalid token');
+      return NextResponse.json({ success: false, message: 'Invalid token' }, { status: 400 });
     }
 
     await connect();
 
-    // Fetch current user balance (replace with actual logic)
-    let userBalance = 20; // Example initial balance
-    userBalance -= amount;
+    // Validate the userId
+    if (!mongoose.Types.ObjectId.isValid(userId)) {
+      console.error('Invalid user ID:', userId);
+      return NextResponse.json({ success: false, message: 'Invalid user ID' }, { status: 400 });
+    }
 
-    const transaction = new Transaction({ user: new mongoose.Types.ObjectId('current_user_id'), amount, type: 'spending' });
+    // Fetch user by ID
+    const user = await User.findById(userId);
+    if (!user) {
+      console.error('User not found:', userId);
+      return NextResponse.json({ success: false, message: 'User not found' }, { status: 404 });
+    }
+
+    // Subtract the amount from the user's balance and admin's balance
+    let userBalance = user.balance;
+    if (userBalance < amount) {
+      console.error('Insufficient balance:', { userBalance, amount });
+      return NextResponse.json({ success: false, message: 'Insufficient balance' }, { status: 400 });
+    }
+    userBalance -= amount;
+    user.balance = userBalance;
+
+    await user.save();
+
+    const transaction = new Transaction({
+      user: user._id,
+      amount,
+      type: 'withdrawal'
+    });
     await transaction.save();
 
     const smsMessage = `Withdrawal of ${amount} successful from I-WATCH. Updated balance: ${userBalance}. KEEP MAKING MONEY with US`;

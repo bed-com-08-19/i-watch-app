@@ -34,9 +34,18 @@ function WithdrawPage() {
         body: JSON.stringify(requestBody),
       });
 
+      const data = await response.json();
+
       if (!response.ok) {
-        const data = await response.json();
-        toast.error(data.message || 'Failed to withdraw');
+        if (data.message === 'Insufficient balance') {
+          toast.error('Insufficient balance');
+        } else if (data.message === 'Invalid phone number format') {
+          toast.error('Invalid phone number format');
+        } else if (data.message === 'Failed to send SMS') {
+          toast.error('Failed to send SMS');
+        } else {
+          toast.error(data.message || 'Failed to withdraw');
+        }
         return;
       }
 
@@ -60,7 +69,7 @@ function WithdrawPage() {
           type="text"
           value={mobileNumber}
           onChange={(e) => setMobileNumber(e.target.value)}
-          placeholder="Enter your mobile number"
+          placeholder="Enter your mobile number(+265)"
           className="mt-4 px-4 py-2 rounded-md bg-gray-800 border border-gray-700 text-white focus:outline-none focus:border-red-500 w-full"
         />
         <input
