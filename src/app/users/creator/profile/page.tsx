@@ -9,6 +9,7 @@ import { RiCoinLine } from 'react-icons/ri';
 import VideoCard from '@/components/VideoCard';
 import Select from 'react-select';
 import ScrollToTopButton from '../_components/scrollToTop';
+import { useRouter } from "next/router";
 
 interface UserDetails {
   playCount: number;
@@ -143,6 +144,20 @@ const Dashboard: React.FC = () => {
   if (!userDetails) {
     return <div className="text-red-500 text-center">Loading...</div>;
   }
+
+  const router = useRouter();
+
+  const handleWithdraw = () => {
+    router.push("/transaction");
+  };
+
+  const handleSubscribe = () => {
+    router.push("/subscribe");
+  };
+
+  const handleTopUpCoins = () => {
+    router.push("/topup");
+  };
 
   return (
     <div className="min-h-screen flex bg-black">
@@ -326,9 +341,9 @@ const Dashboard: React.FC = () => {
             <div className="bg-gray-800 p-6 rounded-lg w-full max-w-md">
               <h2 className="text-xl font-semibold text-white mb-4">Choose of Option</h2>
               <ul className="text-white">
-                <li className="mb-2 cursor-pointer" onClick={() => { /* Handle Withdraw logic */ }}>Withdraw</li>
-                <li className="mb-2 cursor-pointer" onClick={() => { /* Handle Subscribe logic */ }}>Subscribe</li>
-                <li className="mb-2 cursor-pointer" onClick={() => { /* Handle Top up coins logic */ }}>Top up coins</li>
+                <li className="mb-2 cursor-pointer" onClick={handleWithdraw}>Withdraw</li>
+                <li className="mb-2 cursor-pointer" onClick={handleSubscribe}>Subscribe</li>
+                <li className="mb-2 cursor-pointer" onClick={handleTopUpCoins}>Top up coins</li>
               </ul>
               <button
                 className="mt-4 bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700"
