@@ -56,7 +56,7 @@ const DashboardChart = () => {
 
   const processData = (data, field) => {
     const countByDate = data.reduce((acc, item) => {
-      const date = new Date(item[field]).toLocaleDateString();
+      const date = new Date(item[field]).toLocaleDateString('en-US');
       acc[date] = (acc[date] || 0) + 1;
       return acc;
     }, {});
@@ -67,28 +67,46 @@ const DashboardChart = () => {
     };
   };
 
-  const videoUploadData = processData(videoData, 'uploadedOn');
+  const videoUploadData = processData(videoData, 'updatedAt');
   const subscriptionDataProcessed = processData(subscriptionData, 'start_date');
-  const transactionDataProcessed = processData(transactionData, 'date');
+  const transactionDataProcessed = processData(transactionData, 'createdAt');
+
+  // Ensure the labels are the same across all datasets
+  const allLabels = [
+    ...new Set([
+      ...videoUploadData.labels,
+      ...subscriptionDataProcessed.labels,
+      ...transactionDataProcessed.labels,
+    ]),
+  ].sort((a, b) => new Date(a) - new Date(b));
+
+  const alignData = (labels, data) => {
+    const dataMap = data.labels.reduce((acc, label, index) => {
+      acc[label] = data.data[index];
+      return acc;
+    }, {});
+
+    return labels.map(label => dataMap[label] || 0);
+  };
 
   const chartData = {
-    labels: videoUploadData.labels,
+    labels: allLabels,
     datasets: [
       {
         label: 'Video Uploads',
-        data: videoUploadData.data,
+        data: alignData(allLabels, videoUploadData),
         borderColor: 'rgb(75, 192, 192)',
         backgroundColor: 'rgba(75, 192, 192, 0.2)',
       },
       {
         label: 'User Subscriptions',
-        data: subscriptionDataProcessed.data,
+        data: alignData(allLabels, subscriptionDataProcessed),
         borderColor: 'rgb(54, 162, 235)',
         backgroundColor: 'rgba(54, 162, 235, 0.2)',
       },
       {
         label: 'Transactions',
-        data: transactionDataProcessed.data,
+        data: alignData(allLabels, transactionDataProcessed),
         borderColor: 'rgb(255, 99, 132)',
         backgroundColor: 'rgba(255, 99, 132, 0.2)',
       },

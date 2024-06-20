@@ -29,29 +29,29 @@ const EarningsReport = () => {
   const recentTransactions = transactions.slice(0, 5); // Limit to 5 most recent transactions
 
   return (
-    <div className="bg-gray-800 text-white p-4 rounded-lg shadow-md">
-      <h2 className="text-lg font-bold mb-4">Earnings Report</h2>
+    <div className="bg-gray-800 text-white p-6 rounded-lg shadow-lg">
+      <h2 className="text-2xl font-bold mb-6">Earnings Report</h2>
       {transactions.length === 0 ? (
-        <p>No transactions found.</p>
+        <p className="text-gray-400">No transactions found.</p>
       ) : (
-        <table className="min-w-full table-auto">
+        <table className="w-full table-auto">
           <thead>
-            <tr>
-              <th className="px-4 py-2">ID</th>
-              <th className="px-4 py-2">Amount</th>
-              <th className="px-4 py-2">Date</th>
-              <th className="px-4 py-2">Type</th>
-              <th className="px-4 py-2">Email</th>
+            <tr className="bg-gray-800">
+              <th className="px-4 py-2 text-left">ID</th>
+              <th className="px-4 py-2 text-left">Amount</th>
+              <th className="px-4 py-2 text-left">Date</th>
+              <th className="px-4 py-2 text-left">Type</th>
+              <th className="px-4 py-2 text-left">Email</th>
             </tr>
           </thead>
           <tbody>
-            {recentTransactions.map((transaction) => (
-              <tr key={transaction._id}>
-                <td className="border px-4 py-2">{transaction._id}</td>
-                <td className="border px-4 py-2">${transaction.amount.toFixed(2)}</td>
-                <td className="border px-4 py-2">{new Date(transaction.createdAt).toLocaleDateString()}</td>
-                <td className="border px-4 py-2">{transaction.type}</td>
-                <td className="border px-4 py-2">{transaction.user?.email || 'User not found'}</td>
+            {recentTransactions.map((transaction, index) => (
+              <tr key={transaction._id} className={index % 2 === 0 ? 'bg-gray-800' : 'bg-gray-700'}>
+                <td className="border-t border-gray-600 px-4 py-2">{transaction._id}</td>
+                <td className="border-t border-gray-600 px-4 py-2">${transaction.amount.toFixed(2)}</td>
+                <td className="border-t border-gray-600 px-4 py-2">{new Date(transaction.createdAt).toLocaleDateString()}</td>
+                <td className="border-t border-gray-600 px-4 py-2">{transaction.type}</td>
+                <td className="border-t border-gray-600 px-4 py-2">{transaction.user?.email || 'User not found'}</td>
               </tr>
             ))}
           </tbody>

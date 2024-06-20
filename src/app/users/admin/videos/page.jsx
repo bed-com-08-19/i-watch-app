@@ -53,10 +53,14 @@ const ManageVideos = () => {
 
   return (
     <div className="flex min-h-screen bg-black text-white">
-      <Sidebar className="fixed inset-y-0 left-0 w-64 bg-gray-900" />
+      <div className="fixed inset-y-0 left-0 w-64 bg-gray-900">
+        <Sidebar />
+      </div>
       <div className="flex-1 ml-64">
-        <Header className="fixed inset-x-0 top-0 left-64 h-16 bg-gray-900" />
-        <div className="pt-16 p-6 overflow-auto h-full">
+        <div className="fixed inset-x-0 top-0 left-64 h-16 bg-gray-900">
+          <Header />
+        </div>
+        <div className="pt-20 p-6 overflow-auto h-full">
           <div className="bg-gray-800 text-white rounded-lg shadow-md p-6">
             <h2 className="text-2xl font-bold mb-4 text-red-500">Uploaded Videos</h2>
             <input
