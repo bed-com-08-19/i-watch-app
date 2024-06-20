@@ -19,7 +19,7 @@ export const SideBarMenuItem = ({ item }: { item: SideNavItem }) => {
         setSubMenuOpen(!subMenuOpen);
     };
 
-    const inactiveLink = classNames("flex items-center min-h-[40px] h-full text-sidebar-foreground py-2 px-4 hover:text-sidebar-muted-foreground  hover:bg-sidebar-muted rounded-md transition duration-200",
+    const inactiveLink = classNames("hover:bg-gray-700 flex items-center min-h-[40px] h-full text-sidebar-foreground py-2 px-4 hover:text-sidebar-muted-foreground  hover:bg-sidebar-muted rounded-md transition duration-200",
         { ["justify-center"]: toggleCollapse }
     );
 
