@@ -1,4 +1,5 @@
 "use client";
+
 import React, { useEffect, useState, ChangeEvent, FormEvent } from 'react';
 import axios from 'axios';
 import { toast } from 'react-hot-toast';
@@ -6,7 +7,7 @@ import Image from 'next/image';
 import { FaUserEdit, FaShareAlt, FaPlusCircle } from 'react-icons/fa';
 import { RiCoinLine } from 'react-icons/ri';
 import VideoCard from '@/components/VideoCard';
-import Select from 'react-select';
+import Select, { MultiValue } from 'react-select';
 import ScrollToTopButton from '../_components/scrollToTop';
 
 interface UserDetails {
@@ -100,13 +101,9 @@ const Dashboard: React.FC = () => {
     }
   };
 
-  const handleCategoryChange = (selectedOptions: ValueType<CategoryOption, true>) => {
-    if (selectedOptions) {
-      const selectedCategories = selectedOptions.map(option => option as CategoryOption);
-      setSelectedCategories(selectedCategories);
-    } else {
-      setSelectedCategories([]);
-    }
+  const handleCategoryChange = (selectedOptions: MultiValue<CategoryOption>) => {
+    const selectedCategories = selectedOptions.map(option => option as CategoryOption);
+    setSelectedCategories(selectedCategories);
   };
 
   const handleUpload = async (event: FormEvent) => {
@@ -155,10 +152,6 @@ const Dashboard: React.FC = () => {
   };
 
   const handleViewStatistics = (video: Video) => setSelectedVideo(video);
-
-  // if (!userDetails) {
-  //   return <div className="text-red-500 text-center">Loading...</div>;
-  // }
 
   return (
     <div className="min-h-screen flex bg-black">
@@ -265,7 +258,7 @@ const Dashboard: React.FC = () => {
                   <label className="block text-white mb-2">Category</label>
                   <Select
                     options={categories.map(category => ({ value: category._id, label: category.name }))}
-                    value={selectedCategories}
+                    value={selectedCategories.map(category => ({ value: category._id, label: category.name }))}
                     onChange={handleCategoryChange}
                     isMulti
                     className="text-black"
