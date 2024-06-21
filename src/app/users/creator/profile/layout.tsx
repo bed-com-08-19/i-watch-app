@@ -8,8 +8,10 @@ export default function UserLayout({ children }: { children: React.ReactNode }) 
             <SideBar />
             <div className="flex flex-col h-full w-full">
                 <Header />
-                <PageWrapper children={children} />
+                <PageWrapper>
+                    {children}
+                </PageWrapper>
             </div>
         </>
-    )
+    );
 }
