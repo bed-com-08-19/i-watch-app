@@ -8,6 +8,8 @@ import { FiHome } from 'react-icons/fi';
 
 // Import statements remain unchanged
 
+// Import statements remain unchanged
+
 const TopUpIcoinsForm: React.FC = () => {
   const [icoinsAmount, setIcoinsAmount] = useState<number>(0);
   const [depositAmount, setDepositAmount] = useState<number | null>(null);
@@ -85,6 +87,7 @@ const TopUpIcoinsForm: React.FC = () => {
               style={{ layout: 'vertical' }}
               createOrder={(data, actions) => {
                 return actions.order.create({
+                  intent: 'CAPTURE', // Specify the intent here (CAPTURE or AUTHORIZE)
                   purchase_units: [{
                     amount: {
                       currency_code: 'USD', // Ensure to set the correct currency code
@@ -105,3 +108,4 @@ const TopUpIcoinsForm: React.FC = () => {
 };
 
 export default TopUpIcoinsForm;
+
