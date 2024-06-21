@@ -1,10 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getSession } from 'next-auth/react';
 import axios from 'axios';
 import Subscription from '@/models/Subscription';
 import User from '@/models/userModel'; // Import User model
 import { connect } from '@/dbConfig/dbConfig';
 import twilio from 'twilio';
+import { getDataFromToken } from "@/helper/getDataFromToken";
 
 // Twilio configuration
 const accountSid = process.env.TWILIO_ACCOUNT_SID!;
@@ -29,9 +29,9 @@ async function sendSMSNotification(phoneNumber: string, message: string) {
 export async function POST(req: NextRequest) {
   await connect();
   try {
-    const session = await getSession({ req });
+    const userId = getDataFromToken(req);
 
-    if (!session) {
+    if (!userId) {
       return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
     }
 
