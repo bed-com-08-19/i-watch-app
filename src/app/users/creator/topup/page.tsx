@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { toast } from 'react-hot-toast';
-import { PayPalButtons, PayPalScriptProvider, ReactPayPalScriptOptions, OnApproveData, OnApproveActions } from '@paypal/react-paypal-js';
+import { PayPalButtons, PayPalScriptProvider, ReactPayPalScriptOptions } from '@paypal/react-paypal-js';
 import { BiArrowBack } from 'react-icons/bi';
 import { FiHome } from 'react-icons/fi';
 
