@@ -1,5 +1,3 @@
-"use client";
-
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { toast } from 'react-hot-toast';
@@ -12,7 +10,7 @@ const TopUpIcoinsForm: React.FC = () => {
   const [depositAmount, setDepositAmount] = useState<number | null>(null);
 
   const initialOptions: ReactPayPalScriptOptions = {
-    "client-id": "Afpa-QQFIDP9sfkCURYtRGXCYGTFTkt9Pg2A9N5yugo2FYf-RTqOOp_beQ8FsT5iuSAslm0DNy_jU-7t",
+    clientId: "Afpa-QQFIDP9sfkCURYtRGXCYGTFTkt9Pg2A9N5yugo2FYf-RTqOOp_beQ8FsT5iuSAslm0DNy_jU-7t",
     currency: "USD"
   };
 
