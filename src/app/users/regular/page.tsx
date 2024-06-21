@@ -17,6 +17,7 @@ interface Video {
   url: string;
   playCount: number;
   awardedViewers: string[];
+  creator: string;
 }
 
 interface UserData {
@@ -36,6 +37,7 @@ const RegularUser: React.FC = () => {
   const [showWelcome, setShowWelcome] = useState<boolean>(true);
   const [showPopup, setShowPopup] = useState<boolean>(false);
   const [selectedVideo, setSelectedVideo] = useState<string | null>(null);
+  const [selectedCreator, setSelectedCreator] = useState<string | null>(null);
   const [coinAmount, setCoinAmount] = useState<number>(0);
   const [moneyValue, setMoneyValue] = useState<number>(0); // State for money value
   const timerRef = useRef<NodeJS.Timeout | null>(null);
@@ -93,7 +95,7 @@ const RegularUser: React.FC = () => {
   const handleGiftCoins = async (videoId: string, amount: number) => {
     if (!data) return;
     try {
-      await axios.post("/api/icoins/gift", { videoId, userId: data._id, amount });
+      const response = await axios.post("/api/icoins/gift", { videoId, userId: data._id, amount });
       toast.success("Coins gifted successfully!");
       fetchVideos();
     } catch (error) {
@@ -102,8 +104,15 @@ const RegularUser: React.FC = () => {
     }
   };
 
-  const handleMouseDown = (videoId: string) => {
-    timerRef.current = setTimeout(() => {
+  const handleMouseDown = (videoId: string, creatorId: string) => {
+    timerRef.current = setTimeout(async () => {
+      try {
+        const response = await axios.get(`/api/users/${creatorId}`);
+        setSelectedCreator(response.data.data.username);
+      } catch (error) {
+        console.error("Error fetching creator details:", error);
+        toast.error("Failed to fetch creator details");
+      }
       setSelectedVideo(videoId);
       setShowPopup(true);
     }, 1000); // 1 second delay for long press
@@ -116,12 +125,27 @@ const RegularUser: React.FC = () => {
     }
   };
 
+  const handleGiftCoinTap = async (videoId: string, creatorId: string) => {
+    if (!data) return;
+    try {
+      const response = await axios.post("/api/icoins/gift", { videoId, userId: data._id, amount: 1 });
+      const creatorResponse = await axios.get(`/api/users/${creatorId}`);
+      const creatorName = creatorResponse.data.data.username;
+      toast.success(`You have gifted an iCoin to ${creatorName}`);
+      fetchVideos();
+    } catch (error) {
+      console.error("Error gifting coin:", error);
+      toast.error("Failed to gift coin");
+    }
+  };
+
   const handlePopupSubmit = () => {
     if (selectedVideo) {
       handleGiftCoins(selectedVideo, coinAmount);
       setShowPopup(false);
       setCoinAmount(0);
       setMoneyValue(0);
+      setSelectedCreator(null);
     }
   };
 
@@ -129,6 +153,7 @@ const RegularUser: React.FC = () => {
     setShowPopup(false);
     setCoinAmount(0);
     setMoneyValue(0);
+    setSelectedCreator(null);
   };
 
   const handleCoinAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -217,8 +242,9 @@ const RegularUser: React.FC = () => {
                   <p className="text-gray-400">{video.description}</p>
                   <p className="text-gray-400 flex items-center"><FiEye className="mr-1" />{video.playCount}</p>
                   <button
-                    onMouseDown={() => handleMouseDown(video._id)}
+                    onMouseDown={() => handleMouseDown(video._id, video.creator)}
                     onMouseUp={handleMouseUp}
+                    onClick={() => handleGiftCoinTap(video._id, video.creator)}
                     className="absolute bottom-2 right-2 bg-red-600 text-white p-2 rounded-full hover:bg-red-700"
                   >
                     <FaCoins />
