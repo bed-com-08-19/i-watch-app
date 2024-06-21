@@ -1,3 +1,4 @@
+// /components/RegularUser.tsx
 "use client";
 import React, { useEffect, useState, useRef } from "react";
 import axios from "axios";
@@ -39,9 +40,9 @@ const RegularUser: React.FC = () => {
   const [selectedVideo, setSelectedVideo] = useState<string | null>(null);
   const [selectedCreator, setSelectedCreator] = useState<string | null>(null);
   const [coinAmount, setCoinAmount] = useState<number>(0);
-  const [moneyValue, setMoneyValue] = useState<number>(0); // State for money value
+  const [moneyValue, setMoneyValue] = useState<number>(0);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
-  const conversionRate = 45; // Assuming 1 coin = 45 dollars
+  const conversionRate = 45;
 
   const getUserDetails = async () => {
     try {
@@ -95,7 +96,7 @@ const RegularUser: React.FC = () => {
   const handleGiftCoins = async (videoId: string, amount: number) => {
     if (!data) return;
     try {
-      const response = await axios.post("/api/icoins/gift", { videoId, userId: data._id, amount });
+      const response = await axios.post("/api/icoins/gift", { videoId, phoneNumber: data._id, amount });
       toast.success("Coins gifted successfully!");
       fetchVideos();
     } catch (error) {
@@ -104,10 +105,10 @@ const RegularUser: React.FC = () => {
     }
   };
 
-  const handleMouseDown = (videoId: string, creatorId: string) => {
+  const handleMouseDown = (videoId: string, creator: string) => {
     timerRef.current = setTimeout(async () => {
       try {
-        const response = await axios.get(`/api/users/${creatorId}`);
+        const response = await axios.get(`/api/videos/user/${creator}`);
         setSelectedCreator(response.data.data.username);
       } catch (error) {
         console.error("Error fetching creator details:", error);
@@ -115,7 +116,7 @@ const RegularUser: React.FC = () => {
       }
       setSelectedVideo(videoId);
       setShowPopup(true);
-    }, 1000); // 1 second delay for long press
+    }, 1000);
   };
 
   const handleMouseUp = () => {
@@ -125,11 +126,11 @@ const RegularUser: React.FC = () => {
     }
   };
 
-  const handleGiftCoinTap = async (videoId: string, creatorId: string) => {
+  const handleGiftCoinTap = async (videoId: string, creator: string) => {
     if (!data) return;
     try {
-      const response = await axios.post("/api/icoins/gift", { videoId, userId: data._id, amount: 1 });
-      const creatorResponse = await axios.get(`/api/users/${creatorId}`);
+      const response = await axios.post("/api/icoins/gift", { videoId, phoneNumber: data._id, amount: 1 });
+      const creatorResponse = await axios.get(`/api/videos/user/${creator}`);
       const creatorName = creatorResponse.data.data.username;
       toast.success(`You have gifted an iCoin to ${creatorName}`);
       fetchVideos();
@@ -257,7 +258,7 @@ const RegularUser: React.FC = () => {
         {showPopup && (
           <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-75">
             <div className="bg-black p-4 rounded-lg border border-white">
-              <h2 className="text-lg font-semibold mb-2 text-white">Gift Coins</h2>
+              <h2 className="text-lg font-semibold mb-2 text-white">Gift Coins to {selectedCreator}</h2>
               <input
                 type="number"
                 value={coinAmount}
@@ -265,7 +266,7 @@ const RegularUser: React.FC = () => {
                 className="border border-gray-300 rounded-lg p-2 mb-4 w-full text-black"
                 placeholder="Enter amount"
               />
-              <p className="text-white mb-4">Equivalent Money Value:K{moneyValue}</p>
+              <p className="text-white mb-4">Equivalent Money Value: K{moneyValue}</p>
               <div className="flex justify-end">
                 <button
                   onClick={handlePopupSubmit}

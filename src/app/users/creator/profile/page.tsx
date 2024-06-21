@@ -179,7 +179,7 @@ const Dashboard: React.FC = () => {
             </div>
           </div>
           <div className="flex justify-around py-4">
-            <button className="flex items-center bg-red-600 px-4 py-2 rounded text-white hover:bg-red-700">
+            <button className="flex items-center bg-white px-4 py-2 rounded text- hoveblackr:bg-gray-400">
               <FaUserEdit className="mr-2" />
               <span className="hidden lg:block">Edit profile</span>
             </button>
