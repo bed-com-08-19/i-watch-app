@@ -8,7 +8,7 @@ import React, { useState, useEffect } from "react";
 import { cn } from "../../../../lib/utils";
 import axios from "axios";
 import { toast } from "react-hot-toast";
-import { PayPalButtons, PayPalScriptProvider } from "@paypal/react-paypal-js";
+import { PayPalButtons, PayPalScriptProvider, OnApproveData, OnApproveActions } from "@paypal/react-paypal-js";
 import { FiHome } from "react-icons/fi";
 import { BiArrowBack } from "react-icons/bi";
 
@@ -53,7 +53,10 @@ const PricingCard = ({ user, handleCheckout, title, monthlyPrice, description, f
             });
           }}
           onApprove={(data, actions) => {
-            handleCheckout(data.subscriptionID);
+            return new Promise<void>((resolve, reject) => {
+              handleCheckout(data.subscriptionID);
+              resolve(); // Resolve the promise once handling is done
+            });
           }}
           style={{ layout: 'vertical' }}
         />
