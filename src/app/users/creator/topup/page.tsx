@@ -10,10 +10,11 @@ import { FiHome } from 'react-icons/fi';
 const TopUpIcoinsForm: React.FC = () => {
   const [icoinsAmount, setIcoinsAmount] = useState<number>(0);
   const [depositAmount, setDepositAmount] = useState<number | null>(null);
+  const [paypalReady, setPaypalReady] = useState<boolean>(false);
 
   const initialOptions: ReactPayPalScriptOptions = {
-    "client-id": "Afpa-QQFIDP9sfkCURYtRGXCYGTFTkt9Pg2A9N5yugo2FYf-RTqOOp_beQ8FsT5iuSAslm0DNy_jU-7t",
-    currency: "USD"
+    clientId: "Afpa-QQFIDP9sfkCURYtRGXCYGTFTkt9Pg2A9N5yugo2FYf-RTqOOp_beQ8FsT5iuSAslm0DNy_jU-7t",
+    currency: "USD" // Set your desired currency code here
   };
 
   useEffect(() => {
@@ -61,6 +62,16 @@ const TopUpIcoinsForm: React.FC = () => {
     }
   };
 
+  useEffect(() => {
+    const checkPaypalReady = () => {
+      if (window.paypal && window.paypal.Buttons) {
+        setPaypalReady(true);
+      }
+    };
+
+    checkPaypalReady();
+  }, []);
+
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-black text-white">
       <div className="absolute top-4 left-4 flex space-x-4">
@@ -88,22 +99,29 @@ const TopUpIcoinsForm: React.FC = () => {
           </p>
         )}
       </div>
-      {depositAmount !== null && (
+      {depositAmount !== null && paypalReady && (
         <PayPalScriptProvider options={initialOptions}>
           <div className="mt-4 w-full max-w-md">
             <PayPalButtons
               style={{ layout: 'vertical' }}
               createOrder={(data, actions) => {
                 return actions.order.create({
+                  intent: 'CAPTURE', // Specify the intent here (CAPTURE or AUTHORIZE)
                   purchase_units: [{
                     amount: {
+                      currency_code: 'USD', // Ensure to set the correct currency code
                       value: depositAmount.toString(),
                     },
                   }],
                 });
               }}
               onApprove={(data, actions) => {
-                return actions.order.capture().then((details) => handlePaymentSuccess(details, data));
+                if (actions.order) {
+                  return actions.order.capture().then((details) => handlePaymentSuccess(details, data));
+                } else {
+                  console.error('Actions order is undefined');
+                  return Promise.resolve(); // Return a resolved promise in case of error
+                }
               }}
             />
           </div>
