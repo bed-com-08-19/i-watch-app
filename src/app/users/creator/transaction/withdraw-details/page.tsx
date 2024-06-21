@@ -1,4 +1,3 @@
-// WithdrawPage Component
 "use client";
 
 import router from 'next/router';
@@ -36,7 +35,7 @@ function WithdrawPage() {
     fetchUserBalance();
   }, []);
 
-  const handleIcoinsChange = (e) => {
+  const handleIcoinsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const enteredIcoins = parseFloat(e.target.value);
     if (enteredIcoins <= userBalance) {
       setIcoins(enteredIcoins);
