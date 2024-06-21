@@ -1,4 +1,5 @@
 "use client";
+
 import React, { useEffect, useState, ChangeEvent, FormEvent } from 'react';
 import axios from 'axios';
 import { toast } from 'react-hot-toast';
@@ -63,6 +64,7 @@ const Dashboard: React.FC = () => {
       setIcoinsAmount(res.data.data.icoins);
       setBio(res.data.data.bio);
       setViews(res.data.data.views);
+      setUserDetails(res.data.data); // Set userDetails here
     } catch (error) {
       toast.error('Failed to fetch user details');
     }
@@ -302,8 +304,8 @@ const Dashboard: React.FC = () => {
             <div className="bg-gray-800 p-6 rounded-lg w-full max-w-md">
               <h2 className="text-xl font-semibold text-white mb-4">Edit Bio</h2>
               <textarea
-                value={userDetails.bio}
-                onChange={(e) => setUserDetails({ ...userDetails, bio: e.target.value })}
+                value={userDetails?.bio || ''}
+                onChange={(e) => setUserDetails({ ...userDetails, bio: e.target.value } as UserDetails)}
                 className="w-full px-3 py-2 border border-gray-400 rounded-lg bg-black text-white mb-4"
               ></textarea>
               <div className="flex justify-between">
@@ -311,7 +313,7 @@ const Dashboard: React.FC = () => {
                   className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700"
                   onClick={async () => {
                     try {
-                      await axios.put('/api/users/update-bio', { bio: userDetails.bio });
+                      await axios.put('/api/users/update-bio', { bio: userDetails?.bio });
                       toast.success('Bio updated successfully');
                       toggleBioForm();
                     } catch (error) {
@@ -331,25 +333,6 @@ const Dashboard: React.FC = () => {
             </div>
           </div>
         )}
-
-        {/* {showPopup && (
-          <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50">
-            <div className="bg-gray-800 p-6 rounded-lg w-full max-w-md">
-              <h2 className="text-xl font-semibold text-white mb-4">Choose an Option</h2>
-              <ul className="text-white">
-                <li className="mb-2 cursor-pointer" onClick={handleWithdraw}>Withdraw</li>
-                <li className="mb-2 cursor-pointer" onClick={handleSubscribe}>Subscribe</li>
-                <li className="mb-2 cursor-pointer" onClick={handleTopUpCoins}>Top up coins</li>
-              </ul>
-              <button
-                className="mt-4 bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700"
-                onClick={togglePopup}
-              >
-                Close
-              </button>
-            </div>
-          </div>
-        )} */}
 
         <ScrollToTopButton />
       </div>
