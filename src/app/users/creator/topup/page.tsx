@@ -6,13 +6,15 @@ import { PayPalButtons, PayPalScriptProvider, ReactPayPalScriptOptions } from '@
 import { BiArrowBack } from 'react-icons/bi';
 import { FiHome } from 'react-icons/fi';
 
+// Import statements remain unchanged
+
 const TopUpIcoinsForm: React.FC = () => {
   const [icoinsAmount, setIcoinsAmount] = useState<number>(0);
   const [depositAmount, setDepositAmount] = useState<number | null>(null);
 
   const initialOptions: ReactPayPalScriptOptions = {
     clientId: "Afpa-QQFIDP9sfkCURYtRGXCYGTFTkt9Pg2A9N5yugo2FYf-RTqOOp_beQ8FsT5iuSAslm0DNy_jU-7t",
-    currency: "USD"
+    currency: "USD" // Set your desired currency code here
   };
 
   const handleIcoinsAmountChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -85,6 +87,7 @@ const TopUpIcoinsForm: React.FC = () => {
                 return actions.order.create({
                   purchase_units: [{
                     amount: {
+                      currency_code: 'USD', // Ensure to set the correct currency code
                       value: depositAmount.toString(),
                     },
                   }],
