@@ -17,14 +17,12 @@ interface Video {
   url: string;
   playCount: number;
   awardedViewers: string[];
-  owner: string; // Assuming each video has an owner field
 }
 
 interface UserData {
   _id: string;
   username: string;
   creditedVideos: string[];
-  coins: number; // Assuming user has a coins field
 }
 
 const RegularUser: React.FC = () => {
@@ -39,7 +37,9 @@ const RegularUser: React.FC = () => {
   const [showPopup, setShowPopup] = useState<boolean>(false);
   const [selectedVideo, setSelectedVideo] = useState<string | null>(null);
   const [coinAmount, setCoinAmount] = useState<number>(0);
+  const [moneyValue, setMoneyValue] = useState<number>(0); // State for money value
   const timerRef = useRef<NodeJS.Timeout | null>(null);
+  const conversionRate = 45; // Assuming 1 coin = 45 dollars
 
   const getUserDetails = async () => {
     try {
@@ -90,20 +90,10 @@ const RegularUser: React.FC = () => {
     setSortBy(event.target.value);
   };
 
-  const handleCoinClick = async (videoId: string) => {
+  const handleGiftCoins = async (videoId: string, amount: number) => {
     if (!data) return;
-    
     try {
-      // Deduct coins from current user
-      // await axios.post("/api/users/coins/gift", { userId: data._id, amount });
-      await axios.post("/api/users/icoins/gift", { userId: data._id});
-
-      // Find video owner and add coins to their balance
-      // const video = videos.find((video) => video._id === videoId);
-      // if (video) {
-      //   await axios.post("/api/users/coins/add", { userId: video.owner});
-      // }
-
+      await axios.post("/api/icoins/gift", { videoId, userId: data._id, amount });
       toast.success("Coins gifted successfully!");
       fetchVideos();
     } catch (error) {
@@ -112,26 +102,39 @@ const RegularUser: React.FC = () => {
     }
   };
 
+  const handleMouseDown = (videoId: string) => {
+    timerRef.current = setTimeout(() => {
+      setSelectedVideo(videoId);
+      setShowPopup(true);
+    }, 1000); // 1 second delay for long press
+  };
 
+  const handleMouseUp = () => {
+    if (timerRef.current) {
+      clearTimeout(timerRef.current);
+      timerRef.current = null;
+    }
+  };
 
-  // const handleCoinClick = () => {
-  //   if (timerRef.current) {
-  //     clearTimeout(timerRef.current);
-  //     timerRef.current = null;
-  //   }
-  // };
-
-  // const handlePopupSubmit = () => {
-  //   if (selectedVideo) {
-  //     handleGiftCoins(selectedVideo, coinAmount);
-  //     setShowPopup(false);
-  //     setCoinAmount(0);
-  //   }
-  // };
+  const handlePopupSubmit = () => {
+    if (selectedVideo) {
+      handleGiftCoins(selectedVideo, coinAmount);
+      setShowPopup(false);
+      setCoinAmount(0);
+      setMoneyValue(0);
+    }
+  };
 
   const handlePopupCancel = () => {
     setShowPopup(false);
     setCoinAmount(0);
+    setMoneyValue(0);
+  };
+
+  const handleCoinAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const amount = Number(e.target.value);
+    setCoinAmount(amount);
+    setMoneyValue(amount * conversionRate);
   };
 
   useEffect(() => {
@@ -214,7 +217,8 @@ const RegularUser: React.FC = () => {
                   <p className="text-gray-400">{video.description}</p>
                   <p className="text-gray-400 flex items-center"><FiEye className="mr-1" />{video.playCount}</p>
                   <button
-                    onClick={() => handleCoinClick(video._id)}
+                    onMouseDown={() => handleMouseDown(video._id)}
+                    onMouseUp={handleMouseUp}
                     className="absolute bottom-2 right-2 bg-red-600 text-white p-2 rounded-full hover:bg-red-700"
                   >
                     <FaCoins />
@@ -231,10 +235,11 @@ const RegularUser: React.FC = () => {
               <input
                 type="number"
                 value={coinAmount}
-                onChange={(e) => setCoinAmount(Number(e.target.value))}
+                onChange={handleCoinAmountChange}
                 className="border border-gray-300 rounded-lg p-2 mb-4 w-full text-black"
                 placeholder="Enter amount"
               />
+              <p className="text-white mb-4">Equivalent Money Value:K{moneyValue}</p>
               <div className="flex justify-end">
                 <button
                   onClick={handlePopupSubmit}

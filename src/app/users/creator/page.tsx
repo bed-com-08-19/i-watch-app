@@ -37,7 +37,9 @@ const RegularUser: React.FC = () => {
   const [showPopup, setShowPopup] = useState<boolean>(false);
   const [selectedVideo, setSelectedVideo] = useState<string | null>(null);
   const [coinAmount, setCoinAmount] = useState<number>(0);
+  const [moneyValue, setMoneyValue] = useState<number>(0); // State for money value
   const timerRef = useRef<NodeJS.Timeout | null>(null);
+  const conversionRate = 45; // Assuming 1 coin = 45 dollars
 
   const getUserDetails = async () => {
     try {
@@ -119,12 +121,20 @@ const RegularUser: React.FC = () => {
       handleGiftCoins(selectedVideo, coinAmount);
       setShowPopup(false);
       setCoinAmount(0);
+      setMoneyValue(0);
     }
   };
 
   const handlePopupCancel = () => {
     setShowPopup(false);
     setCoinAmount(0);
+    setMoneyValue(0);
+  };
+
+  const handleCoinAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const amount = Number(e.target.value);
+    setCoinAmount(amount);
+    setMoneyValue(amount * conversionRate);
   };
 
   useEffect(() => {
@@ -225,10 +235,11 @@ const RegularUser: React.FC = () => {
               <input
                 type="number"
                 value={coinAmount}
-                onChange={(e) => setCoinAmount(Number(e.target.value))}
+                onChange={handleCoinAmountChange}
                 className="border border-gray-300 rounded-lg p-2 mb-4 w-full text-black"
                 placeholder="Enter amount"
               />
+              <p className="text-white mb-4">Equivalent Money Value: ${moneyValue}</p>
               <div className="flex justify-end">
                 <button
                   onClick={handlePopupSubmit}

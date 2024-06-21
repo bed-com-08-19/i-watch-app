@@ -7,7 +7,6 @@ import jwt from 'jsonwebtoken';
 import twilio from 'twilio';
 import { parsePhoneNumberFromString } from 'libphonenumber-js';
 
-// Twilio configuration
 const accountSid = process.env.TWILIO_ACCOUNT_SID!;
 const authToken = process.env.TWILIO_AUTH_TOKEN!;
 const twilioPhoneNumber = process.env.TWILIO_PHONE_NUMBER!;
@@ -15,7 +14,7 @@ const client = twilio(accountSid, authToken);
 
 async function sendSMSNotification(phoneNumber: string, message: string) {
   try {
-    const phoneNumberObj = parsePhoneNumberFromString(phoneNumber, 'US'); // Replace 'US' with your default country code if necessary
+    const phoneNumberObj = parsePhoneNumberFromString(phoneNumber, 'US');
     if (!phoneNumberObj || !phoneNumberObj.isValid()) {
       throw new Error('Invalid phone number');
     }
@@ -62,20 +61,17 @@ export async function POST(request: NextRequest) {
 
     await connect();
 
-    // Validate the userId
     if (!mongoose.Types.ObjectId.isValid(userId)) {
       console.error('Invalid user ID:', userId);
       return NextResponse.json({ success: false, message: 'Invalid user ID' }, { status: 400 });
     }
 
-    // Fetch user by ID
     const user = await User.findById(userId);
     if (!user) {
       console.error('User not found:', userId);
       return NextResponse.json({ success: false, message: 'User not found' }, { status: 404 });
     }
 
-    // Subtract the amount from the user's balance and admin's balance
     let userBalance = user.balance;
     if (userBalance < amount) {
       console.error('Insufficient balance:', { userBalance, amount });
