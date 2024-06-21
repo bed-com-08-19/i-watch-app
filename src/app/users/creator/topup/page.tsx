@@ -10,9 +10,12 @@ import { FiHome } from 'react-icons/fi';
 
 // Import statements remain unchanged
 
+// Import statements remain unchanged
+
 const TopUpIcoinsForm: React.FC = () => {
   const [icoinsAmount, setIcoinsAmount] = useState<number>(0);
   const [depositAmount, setDepositAmount] = useState<number | null>(null);
+  const [paypalReady, setPaypalReady] = useState<boolean>(false);
 
   const initialOptions: ReactPayPalScriptOptions = {
     clientId: "Afpa-QQFIDP9sfkCURYtRGXCYGTFTkt9Pg2A9N5yugo2FYf-RTqOOp_beQ8FsT5iuSAslm0DNy_jU-7t",
@@ -53,6 +56,16 @@ const TopUpIcoinsForm: React.FC = () => {
     }
   };
 
+  useEffect(() => {
+    const checkPaypalReady = () => {
+      if (window.paypal && window.paypal.Buttons) {
+        setPaypalReady(true);
+      }
+    };
+
+    checkPaypalReady();
+  }, []);
+
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-black text-white">
       <div className="absolute top-4 left-4 flex space-x-4">
@@ -80,7 +93,7 @@ const TopUpIcoinsForm: React.FC = () => {
           </p>
         )}
       </div>
-      {depositAmount !== null && (
+      {depositAmount !== null && paypalReady && (
         <PayPalScriptProvider options={initialOptions}>
           <div className="mt-4 w-full max-w-md">
             <PayPalButtons
@@ -97,7 +110,12 @@ const TopUpIcoinsForm: React.FC = () => {
                 });
               }}
               onApprove={(data, actions) => {
-                return actions.order.capture().then((details) => handlePaymentSuccess(details, data));
+                if (actions.order) {
+                  return actions.order.capture().then((details) => handlePaymentSuccess(details, data));
+                } else {
+                  console.error('Actions order is undefined');
+                  // Handle error or return appropriate action
+                }
               }}
             />
           </div>
@@ -108,4 +126,3 @@ const TopUpIcoinsForm: React.FC = () => {
 };
 
 export default TopUpIcoinsForm;
-
