@@ -1,9 +1,10 @@
 // File path: /pages/users/regular/subscribe.js
-"use client"
+"use client";
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { toast } from 'react-hot-toast';
 import { PayPalButtons, PayPalScriptProvider } from '@paypal/react-paypal-js';
+import {FiHome, BiArrowBack} from 'react-icons/fi';
 
 const SubscribePage = () => {
   const [subscription, setSubscription] = useState(null);
