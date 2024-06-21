@@ -62,9 +62,11 @@ const Header = () => {
             className="mt-4 focus:outline-none"
           >
             <Image
-              src=""
+              src="/noavatar.png"
               alt={username}
               className="w-10 h-10 rounded-full cursor-pointer"
+              width={40}
+              height={40}
             />
           </button>
           {/* {dropdownOpen && (
