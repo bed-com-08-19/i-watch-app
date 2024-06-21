@@ -46,8 +46,8 @@ const Help = () => {
           </p>
           <ul className="list-disc list-inside pl-4">
             <li>Email: iwatch@gmail.com</li>
-            <li>Phone: +265996540072</li>
-            <li>Address: Unima Help St, Suite 100, Helpville, HE 56789</li>
+            <li>Phone: +265996540072 / +265881115705</li>
+            <li>Address: Unima Campus, Zomba</li>
           </ul>
         </section>
       </div>
