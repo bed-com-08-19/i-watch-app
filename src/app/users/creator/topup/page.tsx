@@ -1,18 +1,9 @@
-"use client";
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { toast } from 'react-hot-toast';
-import { PayPalButtons, PayPalScriptProvider, ReactPayPalScriptOptions } from '@paypal/react-paypal-js';
+import { PayPalButtons, PayPalScriptProvider, ReactPayPalScriptOptions, OnApproveData, OnApproveActions } from '@paypal/react-paypal-js';
 import { BiArrowBack } from 'react-icons/bi';
 import { FiHome } from 'react-icons/fi';
-
-// Import statements remain unchanged
-
-// Import statements remain unchanged
-
-// Import statements remain unchanged
-
-// Import statements remain unchanged
 
 const TopUpIcoinsForm: React.FC = () => {
   const [icoinsAmount, setIcoinsAmount] = useState<number>(0);
@@ -116,7 +107,7 @@ const TopUpIcoinsForm: React.FC = () => {
                   return actions.order.capture().then((details) => handlePaymentSuccess(details, data));
                 } else {
                   console.error('Actions order is undefined');
-                  // Handle error or return appropriate action
+                  return Promise.resolve(); // Return a resolved promise in case of error
                 }
               }}
             />
