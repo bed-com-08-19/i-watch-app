@@ -8,36 +8,44 @@ export async function POST(req: NextRequest) {
   try {
     const userId = await getDataFromToken(req);
 
-    const user: IUser | null = await User.findById(userId);
+    const user = await User.findById(userId);
     if (!user) {
       return NextResponse.json({ success: false, message: 'User not found' }, { status: 404 });
     }
 
-    const { videoId, phoneNumber } = await req.json();
+    const { videoId, amount } = await req.json();
 
-    const video: IVideo | null = await Video.findById(videoId);
+    const video = await Video.findById(videoId);
     if (!video) {
       return NextResponse.json({ success: false, message: 'Video not found' }, { status: 404 });
     }
 
-    const creator: IUser | null = await User.findById(video.creator);
+    const creator = await User.findById(video.creator);
     if (!creator) {
       return NextResponse.json({ success: false, message: 'Creator not found' }, { status: 404 });
     }
 
-    if (user.icoins < 1) {
+    if (user.icoins < amount) {
       return NextResponse.json({ success: false, message: 'Insufficient coins' }, { status: 400 });
     }
 
-    user.icoins -= 1;
+    user.icoins -= amount;
     await user.save();
 
-    creator.icoins += 1;
+    creator.icoins += amount;
     await creator.save();
 
-    await sendSMSNotification(phoneNumber, `Successfully gifted 1 coin to the video creator`);
-    return NextResponse.json({ success: true, message: 'Successfully gifted 1 coin to the video creator' });
-  } catch (error: any) {
+    await sendSMSNotification(user.phoneNumber, `${amount} coins have been deducted from your account`);
+    await sendSMSNotification(creator.phoneNumber, `${amount} coins have been added to your account from ${user.username}`);
+
+    return NextResponse.json({
+      success: true,
+      message: `Successfully gifted ${amount} coins to ${creator.username}`,
+      creatorName: creator.username,
+      userCoins: user.icoins,
+      creatorCoins: creator.icoins,
+    });
+  } catch (error:any) {
     return NextResponse.json({ success: false, error: error.message }, { status: 500 });
   }
 }
