@@ -100,7 +100,7 @@ export const SideBar = () => {
             await axios.get("/api/users/logout");
             window.location.href = "/auth/signin";
         } catch (error) {
-            console.error(error.message);
+            console.error("Failed to logout");
         }
     };
 
