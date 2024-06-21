@@ -99,7 +99,7 @@ const Header = ({ setSearchTerm }) => {
           </button>
           {dropdownOpen && (
             <div className="absolute right-0 mt-2 w-48 bg-black rounded-md shadow-lg z-20">
-              <a href="/users/regular/subscribe" className="block px-4 py-2 text-sm text-white hover:bg-gray-800">Subscribe</a>
+              <a href="/users/regular/subscription" className="block px-4 py-2 text-sm text-white hover:bg-gray-800">Subscribe</a>
               <a href="#" className="block px-4 py-2 text-sm text-white hover:bg-gray-800">Be a Creator</a>
               <a href="/users/regular/profile" className="block px-4 py-2 text-sm text-white hover:bg-gray-800">Profile</a>
               <button
