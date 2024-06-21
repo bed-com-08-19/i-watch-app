@@ -1,22 +1,23 @@
 import { NextRequest, NextResponse } from 'next/server';
-import User from '@/models/userModel'; // Adjust the path to your User model
-import Transaction from '@/models/transaction'; // Adjust the path to your Transaction model
-import { connect } from '@/dbConfig/dbConfig'; // Ensure this path is correct
-import { getDataFromToken } from '@/helper/getDataFromToken'; // Adjust the path to your getDataFromToken function
+import User from '@/models/userModel';
+import Transaction from '@/models/transaction';
+import { connect } from '@/dbConfig/dbConfig';
+import { getDataFromToken } from '@/helper/getDataFromToken';
+import { sendSMSNotification } from '@/lib/twilio';
 
 export async function POST(req: NextRequest) {
   try {
     await connect();
-    
+
     const userId = getDataFromToken(req);
 
     if (!userId) {
       return NextResponse.json({ success: false, message: 'Unauthorized' }, { status: 401 });
     }
 
-    const { orderID, icoinsAmount } = await req.json();
+    const { orderID, icoinsAmount, phoneNumber } = await req.json();
 
-    if (!orderID || !icoinsAmount) {
+    if (!orderID || !icoinsAmount || !phoneNumber) {
       return NextResponse.json({ success: false, message: 'Missing required fields' }, { status: 400 });
     }
 
@@ -39,6 +40,9 @@ export async function POST(req: NextRequest) {
     });
 
     await transaction.save();
+
+    const smsMessage = `Transaction complete: ${icoinsAmount} iCoins have been added to your account.`;
+    await sendSMSNotification(phoneNumber, smsMessage);
 
     return NextResponse.json({ success: true, message: 'Transaction complete and iCoins updated' });
   } catch (error: any) {

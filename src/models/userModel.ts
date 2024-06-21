@@ -5,6 +5,7 @@ import mongoose, { Schema, Document } from 'mongoose';
 export interface IUser extends Document {
   username: string;
   email: string;
+  phoneNumber: string; // Added phoneNumber field
   password: string;
   role: 'user' | 'admin' | 'creator';
   isVerified: boolean;
@@ -29,6 +30,12 @@ const UserSchema: Schema<IUser> = new Schema({
     required: [true, 'Please provide an email'],
     unique: true,
     match: [/.+\@.+\..+/, 'Please provide a valid email address'],
+  },
+  phoneNumber: {
+    type: String,
+    required: [true, 'Please provide a phone number'],
+    minlength: [10, 'Phone number must be at least 10 characters long'],
+    match: [/^\+?[1-9]\d{1,14}$/, 'Please provide a valid phone number'],
   },
   imgUrl: { type: String, required: false, default: '' },
   password: { type: String, required: [true, 'Please provide a password'] },

@@ -10,6 +10,7 @@ interface User {
   username: string;
   email: string;
   password: string;
+  phoneNumber: string;  // Added phoneNumber field
 }
 
 export default function RegisterPage() {
@@ -18,6 +19,7 @@ export default function RegisterPage() {
     username: "",
     email: "",
     password: "",
+    phoneNumber: "",  // Initialized phoneNumber field
   });
   const [buttonDisabled, setButtonDisabled] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -26,14 +28,15 @@ export default function RegisterPage() {
     return (
       user.email.length > 0 &&
       user.password.length > 6 &&
-      user.username.length > 0
+      user.username.length > 0 &&
+      user.phoneNumber.length >= 10 // Check phoneNumber is at least 10 characters long
     );
   };
 
   const onSignup = async (e: FormEvent) => {
     e.preventDefault();
     if (!validateForm()) {
-      toast.error("Please fill out all fields and ensure the password is at least 7 characters long.");
+      toast.error("Please fill out all fields, ensure the password is at least 7 characters long, and the phone number is at least 10 characters long.");
       return;
     }
 
@@ -95,6 +98,20 @@ export default function RegisterPage() {
               placeholder="Full Name"
               value={user.username}
               onChange={(e) => setUser({ ...user, username: e.target.value })}
+              className="px-4 py-2 rounded-md bg-gray-800 border border-gray-700 focus:outline-none focus:border-red-600"
+              required
+            />
+          </div>
+          <div className="flex flex-col">
+            <label htmlFor="phoneNumber" className="text-sm mb-1">
+              Phone Number (+265)
+            </label>
+            <input
+              type="text"
+              id="phoneNumber"
+              placeholder="Phone Number"
+              value={user.phoneNumber}
+              onChange={(e) => setUser({ ...user, phoneNumber: e.target.value })}
               className="px-4 py-2 rounded-md bg-gray-800 border border-gray-700 focus:outline-none focus:border-red-600"
               required
             />

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { toast } from 'react-hot-toast';
 import { PayPalButtons, PayPalScriptProvider, ReactPayPalScriptOptions } from '@paypal/react-paypal-js';
@@ -16,21 +16,19 @@ const TopUpIcoinsForm: React.FC = () => {
     currency: "USD"
   };
 
-  const handleIcoinsAmountChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleIcoinsAmountChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const amount = parseInt(event.target.value, 10);
     if (!isNaN(amount) && amount >= 0) {
       setIcoinsAmount(amount);
+      try {
+        const response = await axios.post('/api/icoins/topup', { icoinsAmount: amount });
+        setDepositAmount(response.data.depositAmount);
+      } catch (error) {
+        toast.error('Failed to calculate deposit amount');
+      }
     } else {
       setIcoinsAmount(0);
-    }
-  };
-
-  const handleCalculateDeposit = async () => {
-    try {
-      const response = await axios.post('/api/icoins/topup', { icoinsAmount });
-      setDepositAmount(response.data.depositAmount);
-    } catch (error) {
-      toast.error('Failed to calculate deposit amount');
+      setDepositAmount(null);
     }
   };
 
@@ -73,13 +71,6 @@ const TopUpIcoinsForm: React.FC = () => {
             min="0"
           />
         </div>
-        <button
-          onClick={handleCalculateDeposit}
-          className={`w-full bg-white text-black py-2 rounded-md hover:bg-gray-400 ${icoinsAmount <= 0 ? 'opacity-50 cursor-not-allowed' : ''}`}
-          disabled={icoinsAmount <= 0}
-        >
-          Calculate Deposit Amount
-        </button>
         {depositAmount !== null && (
           <p className="mt-4 text-lg">
             Deposit Amount: <span className="font-semibold">{depositAmount} Kwacha</span>

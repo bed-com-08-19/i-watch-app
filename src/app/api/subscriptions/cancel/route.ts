@@ -2,7 +2,29 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getSession } from 'next-auth/react';
 import axios from 'axios';
 import Subscription from '@/models/Subscription';
-import { connect } from '@/dbConfig/dbConfig'; // Ensure this path is correct based on your project structure
+import User from '@/models/userModel'; // Import User model
+import { connect } from '@/dbConfig/dbConfig';
+import twilio from 'twilio';
+
+// Twilio configuration
+const accountSid = process.env.TWILIO_ACCOUNT_SID!;
+const authToken = process.env.TWILIO_AUTH_TOKEN!;
+const twilioPhoneNumber = process.env.TWILIO_PHONE_NUMBER!;
+const client = twilio(accountSid, authToken);
+
+async function sendSMSNotification(phoneNumber: string, message: string) {
+  try {
+    const response = await client.messages.create({
+      body: message,
+      from: twilioPhoneNumber,
+      to: phoneNumber,
+    });
+    return response;
+  } catch (error) {
+    console.error('Failed to send SMS:', error);
+    throw new Error('Failed to send SMS');
+  }
+}
 
 export async function POST(req: NextRequest) {
   await connect();
@@ -14,24 +36,39 @@ export async function POST(req: NextRequest) {
     }
 
     const { subscriptionId } = await req.json();
-    
+
+    // Fetch subscription details
+    const subscription = await Subscription.findById(subscriptionId);
+    if (!subscription) {
+      return NextResponse.json({ message: 'Subscription not found' }, { status: 404 });
+    }
+
     // Cancel the subscription in PayPal
     await axios.post(
-      `https://api-m.sandbox.paypal.com/v1/billing/subscriptions/${subscriptionId}/cancel`,
+      `https://api-m.sandbox.paypal.com/v1/billing/subscriptions/${subscription.subscription_id}/cancel`,
       {},
       {
         auth: {
-          username: process.env.PAYPAL_CLIENT_ID,
-          password: process.env.PAYPAL_SECRET,
+          username: process.env.PAYPAL_CLIENT_ID!,
+          password: process.env.PAYPAL_SECRET!,
         },
       }
     );
 
     // Update the subscription status in MongoDB
-    await Subscription.updateOne(
-      { _id: subscriptionId },
-      { $set: { status: 'cancelled' } }
-    );
+    subscription.status = 'cancelled';
+    await subscription.save();
+
+    // Update the user's subscription status in MongoDB
+    const user = await User.findById(subscription.user_id);
+    if (user) {
+      user.isSubscribed = false;
+      await user.save();
+
+      // Send SMS using Twilio
+      const smsMessage = `Your subscription has been cancelled. We hope to see you back soon!`;
+      await sendSMSNotification(user.phoneNumber, smsMessage);
+    }
 
     return NextResponse.json({ message: 'Subscription cancelled' }, { status: 200 });
   } catch (error: any) {

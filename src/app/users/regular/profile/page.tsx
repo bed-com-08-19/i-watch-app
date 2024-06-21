@@ -5,12 +5,11 @@ import axios from "axios";
 import { toast } from "react-hot-toast";
 import { FaUserEdit, FaShareAlt, FaPlusCircle } from 'react-icons/fa';
 import { RiCoinLine } from 'react-icons/ri';
-import { icons } from 'lucide-react';
 import ScrollToTopButton from '../_components/scrollToTop';
 
 const UserProfile = () => {
 
-  const [username, setUsername] = useState("null");
+  const [phoneNumber, setPhoneNumber] = useState("null");
   const [icoins, setIcoinsAmount] = useState("null");
   const [image, setProfileImage] = useState("/path-to-your-image.jpg");
   const [bio, setBio] = useState("null");
@@ -26,7 +25,7 @@ const UserProfile = () => {
   const getUserDetails = async () => {
     try {
       const res = await axios.get("/api/users/me");
-      setUsername(res.data.data.username);
+      setPhoneNumber(res.data.data.phoneNumber);
       setIcoinsAmount(res.data.data.icoins);
       setProfileImage(res.data.data.image);
       setBio(res.data.data.bio);
@@ -63,7 +62,7 @@ const UserProfile = () => {
                 />
               </div>
             </div>
-            <h1 className="text-xl font-semibold">{username}</h1>
+            <h1 className="text-xl font-semibold">{phoneNumber}</h1>
           </div>
           <div className="flex justify-around text-center py-4">
             <div className="flex flex-col items-center cursor-pointer" onClick={togglePopup}>

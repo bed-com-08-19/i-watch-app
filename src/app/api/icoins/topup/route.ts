@@ -1,13 +1,16 @@
-//\api\icoins\topup\route.ts
-
 import { NextRequest, NextResponse } from 'next/server';
+import { sendSMSNotification } from '@/lib/twilio';
 
-// POST: Calculate top-up amount
 export async function POST(req: NextRequest) {
-  const { icoinsAmount } = await req.json();
+  try {
+    const { icoinsAmount, phoneNumber } = await req.json();
 
-  // Assuming 1 icoin = 45 dollars
-  const depositAmount = icoinsAmount * 45;
+    const depositAmount = icoinsAmount * 45;
 
-  return NextResponse.json({ success: true, depositAmount });
+    await sendSMSNotification(phoneNumber, `Top-up successful: ${icoinsAmount} icoins for ${depositAmount} dollars`);
+    return NextResponse.json({ success: true, depositAmount });
+  } catch (error) {
+    console.error('Error during top-up:', error);
+    return NextResponse.json({ success: false, error: 'Failed to process top-up' }, { status: 500 });
+  }
 }
