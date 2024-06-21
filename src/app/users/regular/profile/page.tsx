@@ -1,20 +1,26 @@
 "use client";
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
-import axios from "axios";
-import { toast } from "react-hot-toast";
+import axios from 'axios';
+import { toast } from 'react-hot-toast';
 import { FaUserEdit, FaShareAlt, FaPlusCircle } from 'react-icons/fa';
 import { RiCoinLine } from 'react-icons/ri';
 import ScrollToTopButton from '../_components/scrollToTop';
 
-const UserProfile = () => {
+interface Video {
+  id: string;
+  title: string;
+  description: string;
+  watchDate: string;
+}
 
-  const [username, setUsername] = useState("null");
-  const [icoins, setIcoinsAmount] = useState("null");
-  const [image, setProfileImage] = useState("/path-to-your-image.jpg");
-  const [bio, setBio] = useState("null");
-  const [views, setViews] = useState("null");
-  const [watchedVideos, setWatchedVideos] = useState([]);
+const UserProfile: React.FC = () => {
+  const [username, setUsername] = useState<string>("null");
+  const [icoins, setIcoinsAmount] = useState<string>("null");
+  const [image, setProfileImage] = useState<string>("/path-to-your-image.jpg");
+  const [bio, setBio] = useState<string>("null");
+  const [views, setViews] = useState<string>("null");
+  const [watchedVideos, setWatchedVideos] = useState<Video[]>([]);
   const [showPopup, setShowPopup] = useState<boolean>(false);
 
   useEffect(() => {
