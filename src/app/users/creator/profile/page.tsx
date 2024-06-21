@@ -1,5 +1,3 @@
-"use client";
-
 import React, { useEffect, useState, ChangeEvent, FormEvent } from 'react';
 import axios from 'axios';
 import { toast } from 'react-hot-toast';
@@ -7,7 +5,7 @@ import Image from 'next/image';
 import { FaUserEdit, FaShareAlt, FaPlusCircle } from 'react-icons/fa';
 import { RiCoinLine } from 'react-icons/ri';
 import VideoCard from '@/components/VideoCard';
-import Select, { MultiValue } from 'react-select';
+import Select, { MultiValue, ActionMeta } from 'react-select';
 import ScrollToTopButton from '../_components/scrollToTop';
 
 interface UserDetails {
@@ -101,8 +99,14 @@ const Dashboard: React.FC = () => {
     }
   };
 
-  const handleCategoryChange = (selectedOptions: MultiValue<CategoryOption>) => {
-    const selectedCategories = selectedOptions.map(option => option as CategoryOption);
+  const handleCategoryChange = (
+    newValue: MultiValue<{ value: string; label: string; }>,
+    actionMeta: ActionMeta<{ value: string; label: string; }>
+  ) => {
+    const selectedCategories = newValue.map(option => ({
+      _id: option.value,
+      name: option.label,
+    }));
     setSelectedCategories(selectedCategories);
   };
 
