@@ -5,6 +5,10 @@ export async function POST(req: NextRequest) {
   try {
     const { icoinsAmount, phoneNumber } = await req.json();
 
+    if (typeof phoneNumber !== 'string' || !phoneNumber.trim()) {
+      throw new Error('Invalid phone number');
+    }
+
     const depositAmount = icoinsAmount * 45;
 
     await sendSMSNotification(phoneNumber, `Top-up successful: ${icoinsAmount} icoins for ${depositAmount} dollars`);

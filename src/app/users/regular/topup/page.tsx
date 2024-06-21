@@ -12,20 +12,31 @@ const TopUpIcoinsForm: React.FC = () => {
   const [depositAmount, setDepositAmount] = useState<number | null>(null);
 
   const initialOptions: ReactPayPalScriptOptions = {
-    "client-id": "Afpa-QQFIDP9sfkCURYtRGXCYGTFTkt9Pg2A9N5yugo2FYf-RTqOOp_beQ8FsT5iuSAslm0DNy_jU-7t",
-    currency: "USD"
+    "client-id": process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID!,
+    currency: "USD",
   };
 
-  const handleIcoinsAmountChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+  useEffect(() => {
+    const calculateDepositAmount = async () => {
+      if (icoinsAmount > 0) {
+        try {
+          const response = await axios.post('/api/icoins/topup', { icoinsAmount });
+          setDepositAmount(response.data.depositAmount);
+        } catch (error) {
+          toast.error('Failed to calculate deposit amount');
+        }
+      } else {
+        setDepositAmount(null);
+      }
+    };
+
+    calculateDepositAmount();
+  }, [icoinsAmount]);
+
+  const handleIcoinsAmountChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const amount = parseInt(event.target.value, 10);
     if (!isNaN(amount) && amount >= 0) {
       setIcoinsAmount(amount);
-      try {
-        const response = await axios.post('/api/icoins/topup', { icoinsAmount: amount });
-        setDepositAmount(response.data.depositAmount);
-      } catch (error) {
-        toast.error('Failed to calculate deposit amount');
-      }
     } else {
       setIcoinsAmount(0);
       setDepositAmount(null);
@@ -36,7 +47,7 @@ const TopUpIcoinsForm: React.FC = () => {
     toast.success(`Transaction completed by ${details.payer.name.given_name}`);
     try {
       await fetch("/api/paypal/transaction-complete", {
-        method: "post",
+        method: "POST",
         body: JSON.stringify({
           orderID: data.orderID,
           icoinsAmount,
@@ -47,14 +58,15 @@ const TopUpIcoinsForm: React.FC = () => {
       });
     } catch (error) {
       console.error("Error saving transaction:", error);
+      toast.error("Failed to save transaction");
     }
   };
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-black text-white">
       <div className="absolute top-4 left-4 flex space-x-4">
-        <a href="/users/regular" aria-label="Home"><FiHome className="text-white text-2xl" /></a>
-        <a href="/users/regular/profile" aria-label="Back"><BiArrowBack className="text-white text-2xl" /></a>
+        <a href="/users/creator" aria-label="Home"><FiHome className="text-white text-2xl" /></a>
+        <a href="/users/creator/profile" aria-label="Back"><BiArrowBack className="text-white text-2xl" /></a>
       </div>
       <div className="bg-gray-800 p-6 rounded-lg shadow-md w-full max-w-md">
         <h2 className="text-2xl font-semibold mb-4">Top-Up Icoins</h2>
@@ -86,7 +98,7 @@ const TopUpIcoinsForm: React.FC = () => {
                 return actions.order.create({
                   purchase_units: [{
                     amount: {
-                      value: depositAmount.toString(),
+                      value: depositAmount.toFixed(2),
                     },
                   }],
                 });

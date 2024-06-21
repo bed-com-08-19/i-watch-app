@@ -1,4 +1,5 @@
 "use client";
+
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { toast } from 'react-hot-toast';
@@ -11,20 +12,31 @@ const TopUpIcoinsForm: React.FC = () => {
   const [depositAmount, setDepositAmount] = useState<number | null>(null);
 
   const initialOptions: ReactPayPalScriptOptions = {
-    clientId: "Afpa-QQFIDP9sfkCURYtRGXCYGTFTkt9Pg2A9N5yugo2FYf-RTqOOp_beQ8FsT5iuSAslm0DNy_jU-7t",
+    "client-id": "Afpa-QQFIDP9sfkCURYtRGXCYGTFTkt9Pg2A9N5yugo2FYf-RTqOOp_beQ8FsT5iuSAslm0DNy_jU-7t",
     currency: "USD"
   };
 
-  const handleIcoinsAmountChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+  useEffect(() => {
+    const calculateDepositAmount = async () => {
+      if (icoinsAmount > 0) {
+        try {
+          const response = await axios.post('/api/icoins/topup', { icoinsAmount });
+          setDepositAmount(response.data.depositAmount);
+        } catch (error) {
+          toast.error('Failed to calculate deposit amount');
+        }
+      } else {
+        setDepositAmount(null);
+      }
+    };
+
+    calculateDepositAmount();
+  }, [icoinsAmount]);
+
+  const handleIcoinsAmountChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const amount = parseInt(event.target.value, 10);
     if (!isNaN(amount) && amount >= 0) {
       setIcoinsAmount(amount);
-      try {
-        const response = await axios.post('/api/icoins/topup', { icoinsAmount: amount });
-        setDepositAmount(response.data.depositAmount);
-      } catch (error) {
-        toast.error('Failed to calculate deposit amount');
-      }
     } else {
       setIcoinsAmount(0);
       setDepositAmount(null);
